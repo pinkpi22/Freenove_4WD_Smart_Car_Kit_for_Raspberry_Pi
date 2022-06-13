@@ -35,6 +35,9 @@ class Boundary:
                 
                 PWM.setMotorModel(-1500,-1500,2500,2500)
                 #TURN LEFT
+            elif self.LMR==0:
+                PWM.setMotorModel(4000,4000,4000,4000)
+                # Forward
             elif self.LMR==3:
                
                 PWM.setMotorModel(-2000,-2000,4000,4000)
