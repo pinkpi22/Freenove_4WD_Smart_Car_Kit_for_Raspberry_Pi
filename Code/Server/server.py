@@ -19,6 +19,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -33,6 +34,7 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        self.box = boundary()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False

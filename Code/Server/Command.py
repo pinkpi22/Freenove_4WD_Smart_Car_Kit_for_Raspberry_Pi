@@ -6,6 +6,7 @@ class COMMAND:
     CMD_BUZZER = "CMD_BUZZER"
     CMD_SONIC = "CMD_SONIC"
     CMD_LIGHT = "CMD_LIGHT"
+    CMD_BOUND = "CMD_BOUND"
     CMD_POWER = "CMD_POWER" 
     CMD_MODE ="CMD_MODE"
     def __init__(self):

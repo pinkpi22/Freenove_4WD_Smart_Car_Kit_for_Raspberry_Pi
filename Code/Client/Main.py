@@ -117,6 +117,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
         
+        self.boundary.clicked.connect(self.on_btn_Boundary)
+
         self.Btn_ForWard.pressed.connect(self.on_btn_ForWard)
         self.Btn_ForWard.released.connect(self.on_btn_Stop)
 
@@ -374,6 +376,13 @@ class mywindow(QMainWindow,Ui_Client):
         else:
             self.TCP.sendData(cmd.CMD_LIGHT+self.intervalChar+'0'+self.endChar)
             self.Light.setText("Light")
+    
+    def on_btn_Boundary(self):
+         if self.boundary.text() == 'Boundary':
+             self.TCP.sendData(cmd.CMD_BOUND+self.intervalChar+'1'+self.endChar)
+         else:
+            self.TCP.sendData(cmd.CMD_BOUND+self.intervalChar+'0'+self.endChar)
+            self.Light.setText("Boundary")
 
         
     def Change_Left_Right(self):#Left or Right
@@ -504,6 +513,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "M-Boundary":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
