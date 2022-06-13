@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Client(object):
     def setupUi(self, Client):
         Client.setObjectName("Client")
-        Client.resize(760, 610)
+        Client.resize(760, 810)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(72, 72, 72))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -525,23 +525,23 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
         self.Ultrasonic = QtWidgets.QPushButton(Client)
 
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Bottle
-        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
-        font = QtGui.QFont()
-        font.setFamily("3ds")
-        font.setPointSize(10)
-        self.Btn_Tracking_Faces.setFont(font)
-        self.Btn_Tracking_Faces.setStyleSheet("")
-        self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+        # self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Bottle
+        # self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        # font = QtGui.QFont()
+        # font.setFamily("3ds")
+        # font.setPointSize(10)
+        # self.Btn_Tracking_Faces.setFont(font)
+        # self.Btn_Tracking_Faces.setStyleSheet("")
+        # self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
 
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Ball
-        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
-        font = QtGui.QFont()
-        font.setFamily("3ds")
-        font.setPointSize(10)
-        self.Btn_Tracking_Faces.setFont(font)
-        self.Btn_Tracking_Faces.setStyleSheet("")
-        self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+        # self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Ball
+        # self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        # font = QtGui.QFont()
+        # font.setFamily("3ds")
+        # font.setPointSize(10)
+        # self.Btn_Tracking_Faces.setFont(font)
+        # self.Btn_Tracking_Faces.setStyleSheet("")
+        # self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
 
 
         self.Ultrasonic.setGeometry(QtCore.QRect(400, 41, 180, 30))
