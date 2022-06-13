@@ -113,6 +113,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        self.Btn_Mode5.setChecked(False)
+        self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -454,6 +456,7 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
         if b.text() == "Led_Mode1":
            if b.isChecked() == True:
+               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode2.setChecked(False)
                self.checkBox_Led_Mode3.setChecked(False)
                self.checkBox_Led_Mode4.setChecked(False)
@@ -462,7 +465,7 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
         if b.text() == "Led_Mode2":
            if b.isChecked() == True:
-
+               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode1.setChecked(False)
                self.checkBox_Led_Mode3.setChecked(False)
                self.checkBox_Led_Mode4.setChecked(False)
@@ -471,6 +474,7 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
         if b.text() == "Led_Mode3":
            if b.isChecked() == True:
+               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode2.setChecked(False)
                self.checkBox_Led_Mode1.setChecked(False)
                self.checkBox_Led_Mode4.setChecked(False)
@@ -479,14 +483,14 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
         if b.text() == "Led_Mode4":
            if b.isChecked() == True:
+               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode2.setChecked(False)
                self.checkBox_Led_Mode3.setChecked(False)
                self.checkBox_Led_Mode1.setChecked(False)
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
-
- 
+    
     def on_btn_Mode(self,Mode):
         if Mode.text() == "M-Free":
             if Mode.isChecked() == True:
@@ -504,6 +508,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "M-Bound":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
