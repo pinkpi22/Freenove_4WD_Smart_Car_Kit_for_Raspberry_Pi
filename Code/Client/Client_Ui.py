@@ -514,7 +514,8 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode4.setFont(font)
         self.Btn_Mode4.setObjectName("Btn_Mode4")
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
+
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client) #Face
         self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -523,6 +524,26 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
         self.Ultrasonic = QtWidgets.QPushButton(Client)
+
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Bottle
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Faces.setFont(font)
+        self.Btn_Tracking_Faces.setStyleSheet("")
+        self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Ball
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Faces.setFont(font)
+        self.Btn_Tracking_Faces.setStyleSheet("")
+        self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+
+
         self.Ultrasonic.setGeometry(QtCore.QRect(400, 41, 180, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -536,6 +557,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Light.setFont(font)
         self.Light.setObjectName("Light")
+        
 
         self.retranslateUi(Client)
         QtCore.QMetaObject.connectSlotsByName(Client)
