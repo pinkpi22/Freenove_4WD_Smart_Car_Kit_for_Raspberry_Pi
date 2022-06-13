@@ -635,7 +635,6 @@ class mywindow(QMainWindow,Ui_Client):
                 # hard coding to correct
                 # turn_angle += 20
                 print(turn_angle)
-                # TODO investigate this more for driving towards face
                 # Was here before, might try this instead
                 
                 # if(math.fabs(turn_angle) >= 30):
