@@ -49,8 +49,8 @@ class VideoStreaming:
     def find_bottle(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
-        #   gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-        #    faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray,1.3,5)
 
             MODEL_NAME = 'Sample_TFLite_model'
             GRAPH_NAME = 'detect.tflite'
@@ -77,7 +77,11 @@ class VideoStreaming:
             if labels[0] == '???':
                 del(labels[0])
 
+            # Use tensorflow library
             interpreter = tf.lite.Interpreter(model_path=PATH_TO_CKPT)
+
+            # Uncomment to use tflite library
+            #interpreter = Interpreter(model_path=PATH_TO_CKPT)
 
             interpreter.allocate_tensors()
 
@@ -157,33 +161,38 @@ class VideoStreaming:
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
                 self.face_x = float(xmin+xmax/2)
                 self.face_y = float(ymin+ymax/2)
-                ForWard = '#300#300#300#300\n'
-                BackWard = '#-1500#-1500#-1500#-1500\n'
-                Left = '#-1500#-1500#1500#1500\n'
-                Right = '#1500#1500#-1500#-1500\n'
-                self.sendData(cmd.CMD_MOTOR+ForWard)
+                #ForWard = '#300#300#300#300\n'
+                #BackWard = '#-1500#-1500#-1500#-1500\n'
+                #Left = '#-1500#-1500#1500#1500\n'
+                #Right = '#1500#1500#-1500#-1500\n'
+#                self.sendData(cmd.CMD_MOTOR+ForWard)
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
                 self.face_y = 0
                 Stop = '#0#0#0#0\n'
-                self.sendData(cmd.CMD_MOTOR+Stop)
+                #self.sendData(cmd.CMD_MOTOR+Stop)
 
 
             # Draw framerate in corner of frame
             cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
 
-        cv2.imwrite('video.jpg', frame)
+        # Frame in this case is just the image with the frame rate in the corner
+        # cv2.imwrite('video.jpg', frame)
 
-        #    if len(faces)>0 :
-        #        for (x,y,w,h) in faces:
-        #            self.face_x=float(x+w/2.0)
-        #            self.face_y=float(y+h/2.0)
-        #            img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
-        #    else:
-        #        self.face_x=0
-        #        self.face_y=0
-        #cv2.imwrite('video.jpg',img)
+        # Face detection
+        if len(faces)>0 :
+            for (x,y,w,h) in faces:
+                self.face_x=float(x+w/2.0)
+                self.face_y=float(y+h/2.0)
+                # draws circle around face
+                frame= cv2.circle(frame, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+                # print(f"x of face: {self.face_x}")
+                # self.face_x is lower when left, higher when right
+        else:
+            self.face_x=0
+            self.face_y=0
+        cv2.imwrite('video.jpg',frame)
         
     def streaming(self,ip):
         stream_bytes = b' '

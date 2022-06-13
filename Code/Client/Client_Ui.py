@@ -555,7 +555,7 @@ class Ui_Client(object):
         self.Btn_Up.setText(_translate("Client", "Up"))
         self.Btn_Right.setText(_translate("Client", "Right"))
         self.Window_Close.setText(_translate("Client", "×"))
-        self.IP.setText(_translate("Client", "IP Address"))
+        self.IP.setText(_translate("Client", "172.20.1.6"))
         self.Btn_Connect.setText(_translate("Client", "Connect"))
         self.checkBox_Led1.setText(_translate("Client", "Led1"))
         self.label_Servo2.setText(_translate("Client", "0"))
@@ -588,7 +588,7 @@ class Ui_Client(object):
         self.Btn_Mode2.setText(_translate("Client", "M-Light"))
         self.Btn_Mode3.setText(_translate("Client", "M-Sonic"))
         self.Btn_Mode4.setText(_translate("Client", "M-Line"))
-        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Bottle"))
+        self.Btn_Tracking_Faces.setText(_translate("Client", "Drive to Face"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
 
