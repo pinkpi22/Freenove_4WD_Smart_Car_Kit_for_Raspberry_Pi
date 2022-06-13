@@ -126,6 +126,7 @@ class VideoStreaming:
             max_score = 0
             max_index = 0
 
+
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
@@ -175,15 +176,15 @@ class VideoStreaming:
 
         cv2.imwrite('video.jpg', frame)
 
-        if len(faces)>0 :
-            for (x,y,w,h) in faces:
-                self.face_x=float(x+w/2.0)
-                self.face_y=float(y+h/2.0)
-                img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
-        else:
-            self.face_x=0
-            self.face_y=0
-        cv2.imwrite('video.jpg',img)
+        # if len(faces)>0 :
+        #     for (x,y,w,h) in faces:
+        #         self.face_x=float(x+w/2.0)
+        #         self.face_y=float(y+h/2.0)
+        #         img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+        # else:
+        #     self.face_x=0
+        #     self.face_y=0
+        # cv2.imwrite('video.jpg',img)
         
     def streaming(self,ip):
         stream_bytes = b' '

@@ -514,8 +514,14 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode4.setFont(font)
         self.Btn_Mode4.setObjectName("Btn_Mode4")
-
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client) #Face
+        self.Btn_Mode5 = QtWidgets.QRadioButton(Client)
+        self.Btn_Mode5.setGeometry(QtCore.QRect(335, 610, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Mode5.setFont(font)
+        self.Btn_Mode5.setObjectName("Btn_Mode5") # BOUNDARY
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
         self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -524,26 +530,6 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
         self.Ultrasonic = QtWidgets.QPushButton(Client)
-
-        # self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Bottle
-        # self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
-        # font = QtGui.QFont()
-        # font.setFamily("3ds")
-        # font.setPointSize(10)
-        # self.Btn_Tracking_Faces.setFont(font)
-        # self.Btn_Tracking_Faces.setStyleSheet("")
-        # self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
-
-        # self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Ball
-        # self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
-        # font = QtGui.QFont()
-        # font.setFamily("3ds")
-        # font.setPointSize(10)
-        # self.Btn_Tracking_Faces.setFont(font)
-        # self.Btn_Tracking_Faces.setStyleSheet("")
-        # self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
-
-
         self.Ultrasonic.setGeometry(QtCore.QRect(400, 41, 180, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -577,7 +563,7 @@ class Ui_Client(object):
         self.Btn_Up.setText(_translate("Client", "Up"))
         self.Btn_Right.setText(_translate("Client", "Right"))
         self.Window_Close.setText(_translate("Client", "×"))
-        self.IP.setText(_translate("Client", "IP Address"))
+        self.IP.setText(_translate("Client", "172.20.0.126"))   #IP box
         self.Btn_Connect.setText(_translate("Client", "Connect"))
         self.checkBox_Led1.setText(_translate("Client", "Led1"))
         self.label_Servo2.setText(_translate("Client", "0"))
@@ -610,7 +596,8 @@ class Ui_Client(object):
         self.Btn_Mode2.setText(_translate("Client", "M-Light"))
         self.Btn_Mode3.setText(_translate("Client", "M-Sonic"))
         self.Btn_Mode4.setText(_translate("Client", "M-Line"))
-        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Bottle"))
+        self.Btn_Mode5.setText(_translate("Client", "M-Bound"))
+        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Face"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
 
