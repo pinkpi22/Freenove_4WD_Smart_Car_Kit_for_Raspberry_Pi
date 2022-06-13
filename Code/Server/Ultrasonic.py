@@ -89,9 +89,9 @@ class Ultrasonic:
                 else:
                     R = self.get_distance()
                 self.run_motor(L,M,R)
-        
-            
-        
+
+
+                
 ultrasonic=Ultrasonic()              
 # Main program logic follows:
 if __name__ == '__main__':
@@ -101,4 +101,3 @@ if __name__ == '__main__':
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
         PWM.setMotorModel(0,0,0,0)
         ultrasonic.pwm_S.setServoPwm('0',90)
-
