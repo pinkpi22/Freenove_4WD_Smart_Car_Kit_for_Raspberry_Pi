@@ -113,6 +113,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        self.Btn_Mode5.setChecked(False)
+        self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -137,7 +139,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
-        
+        self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda)
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
@@ -504,6 +506,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "M-Bound":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
@@ -607,6 +613,15 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Faces.setText("Stop Looking")
         else:
             self.Btn_Tracking_Faces.setText("Find Face")
+    def Tracking_Soda(self):            #!!!!!
+        if self.Btn_Tracking_Sodas.text()=="Find Bottle":
+            self.Btn_Tracking_Sodas.setText("Stop Looking")
+        else:
+            self.Btn_Tracking_Sodas.setText("Find Bottle")
+
+
+
+
     def find_bottle(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -641,6 +656,8 @@ class mywindow(QMainWindow,Ui_Client):
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Faces.text()=="Stop Looking":
+                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Sodas.text()=="Stop Looking":      #!!!!!
                         self.find_bottle(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)

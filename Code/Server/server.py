@@ -19,6 +19,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from Boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -33,6 +34,7 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        self.bound = Boundary()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
@@ -183,6 +185,11 @@ class Server:
                         elif data[1]=='four' or data[1]=="2":
                             self.stopMode()
                             self.Mode='four'
+                            self.infraredRun=threading.Thread(target=self.infrared.run)
+                            self.infraredRun.start()
+                        elif data[1]=='five' or data[1]=="2":
+                            self.stopMode()
+                            self.Mode='five'
                             self.infraredRun=threading.Thread(target=self.infrared.run)
                             self.infraredRun.start()
                             
