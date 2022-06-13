@@ -514,7 +514,8 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode4.setFont(font)
         self.Btn_Mode4.setObjectName("Btn_Mode4")
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
+
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Faces
         self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -522,6 +523,28 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setFont(font)
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Bottle
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Faces.setFont(font)
+        self.Btn_Tracking_Faces.setStyleSheet("")
+        self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)     #Ball
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Faces.setFont(font)
+        self.Btn_Tracking_Faces.setStyleSheet("")
+        self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+
+
+
+
         self.Ultrasonic = QtWidgets.QPushButton(Client)
         self.Ultrasonic.setGeometry(QtCore.QRect(400, 41, 180, 30))
         font = QtGui.QFont()
@@ -588,7 +611,7 @@ class Ui_Client(object):
         self.Btn_Mode2.setText(_translate("Client", "M-Light"))
         self.Btn_Mode3.setText(_translate("Client", "M-Sonic"))
         self.Btn_Mode4.setText(_translate("Client", "M-Line"))
-        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Bottle"))
+        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Person"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
 
