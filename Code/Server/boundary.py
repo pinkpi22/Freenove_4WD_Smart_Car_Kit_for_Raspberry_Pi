@@ -11,11 +11,7 @@ class boundary:
         GPIO.setup(self.IR02,GPIO.IN)
         GPIO.setup(self.IR03,GPIO.IN)
 
-    def send_trigger_pulse(self):
-            GPIO.output(self.trigger_pin,True)
-            time.sleep(0.00015)
-            GPIO.output(self.trigger_pin,False)
-
+    
     def run(self):
         while True:
             self.LMR=0x00
@@ -44,6 +40,6 @@ box=boundary()
 if __name__ == '__main__':
     print ('Program is starting ... ')
     try:
-        infrared.run()
+        box.run()
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program  will be  executed.
         PWM.setMotorModel(0,0,0,0)

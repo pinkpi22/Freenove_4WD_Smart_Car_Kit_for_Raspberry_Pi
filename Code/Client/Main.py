@@ -379,10 +379,10 @@ class mywindow(QMainWindow,Ui_Client):
     
     def on_btn_Boundary(self):
          if self.boundary.text() == 'Boundary':
-             self.TCP.sendData(cmd.CMD_BOUND+self.intervalChar+'1'+self.endChar)
+             self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'1'+self.endChar)
          else:
-            self.TCP.sendData(cmd.CMD_BOUND+self.intervalChar+'0'+self.endChar)
-            self.Light.setText("Boundary")
+            self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'0'+self.endChar)
+            self.boundary.setText("Boundary")
 
         
     def Change_Left_Right(self):#Left or Right
