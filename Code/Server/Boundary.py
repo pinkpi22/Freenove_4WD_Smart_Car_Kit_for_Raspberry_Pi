@@ -23,23 +23,19 @@ class Boundary:
                 PWM.setMotorModel(0,0,0,0)
                 #FORWARD
                 #-------------- SHOULD NOT DO THIS
-            elif self.LMR==4:
-                
+            elif self.LMR==4:  
                 PWM.setMotorModel(2500,2500,-1500,-1500)
                 #TURN RIGHT
             elif self.LMR==6:
-                
                 PWM.setMotorModel(4000,4000,-2000,-2000)
                 #TURN RIGHT HARDER
             elif self.LMR==1:
-                
                 PWM.setMotorModel(-1500,-1500,2500,2500)
                 #TURN LEFT
             elif self.LMR==0:
-                PWM.setMotorModel(4000,4000,4000,4000)
+                PWM.setMotorModel(500,500,500,500)
                 # Forward
             elif self.LMR==3:
-               
                 PWM.setMotorModel(-2000,-2000,4000,4000)
                 #TURN LEFT HARDER
             elif self.LMR==7:

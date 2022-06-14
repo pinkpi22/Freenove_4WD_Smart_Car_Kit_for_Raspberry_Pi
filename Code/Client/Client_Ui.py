@@ -521,8 +521,8 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode5.setFont(font)
         self.Btn_Mode5.setObjectName("Btn_Mode5") # BOUNDARY
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
-        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(120, 700, 90, 30))#face track
+        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)#face track
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(120, 700, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
         font.setPointSize(10)

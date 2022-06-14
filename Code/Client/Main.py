@@ -15,12 +15,11 @@ from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
 from Client_Ui import Ui_Client
-from Video import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-
+from Video import *
 
 
 class mywindow(QMainWindow,Ui_Client):
@@ -610,23 +609,31 @@ class mywindow(QMainWindow,Ui_Client):
         except:
             pass
         return bValid
-    
-    def Tracking_Face(self):
+    val = 0
+    def Tracking_Face(self):        ###QUESTIONABLE
         if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
+            if self.Btn_Tracking_Faces.text()=="Stop Looking":
+                val = 1
         else:
             self.Btn_Tracking_Faces.setText("Find Face")
+            val = 0
     def Tracking_Soda(self):            #!!!!!
         if self.Btn_Tracking_Sodas.text()=="Find Bottle":
             self.Btn_Tracking_Sodas.setText("Stop Looking")
+            if self.Btn_Tracking_Sodas.text()=="Stop Looking":
+                val = 2
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
-    def Tracking_Ball(self):
-        global chooseObj            #!!!!!
+            val = 0
+    def Tracking_Ball(self):            #!!!!!
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
+            if self.Btn_Tracking_Ball.text()=="Stop Looking":
+                val = 3
         else:
             self.Btn_Tracking_Ball.setText("Find Ball")
+            val = 0
 
 
 

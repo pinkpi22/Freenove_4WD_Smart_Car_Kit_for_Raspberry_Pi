@@ -1,5 +1,5 @@
 #!/usr/bin/python 
-# -*- coding: utf-8 -*-
+ #-*- coding: utf-8 -*-
 import io
 import socket
 import struct
@@ -8,7 +8,7 @@ import picamera
 import fcntl
 import  sys
 import threading
-import VideoStream
+#import VideoStream
 import cv2
 from Motor import *
 from servo import *
