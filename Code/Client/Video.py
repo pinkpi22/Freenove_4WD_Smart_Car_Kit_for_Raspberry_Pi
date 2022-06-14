@@ -14,6 +14,9 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
+from Main import *
+
+
 
 class VideoStreaming:
     def __init__(self):
@@ -482,9 +485,12 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                self.find_person(image)
-                                self.find_soda(image)
-                                self.find_ball(image)
+                                if Ui_Client.Btn_Tracking_Faces.text()=="Stop Looking":
+                                    self.find_person(image)
+                                elif Ui_Client.Btn_Tracking_Sodas.text()=="Stop Looking":
+                                    self.find_soda(image)
+                                elif Ui_Client.Btn_Tracking_Ball.text()=="Stop Looking":
+                                    self.find_ball(image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)

@@ -21,6 +21,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+
+
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
         global timer
@@ -140,7 +142,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
         self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda)
-        self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Ball)
+        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball)
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
@@ -608,7 +610,7 @@ class mywindow(QMainWindow,Ui_Client):
         except:
             pass
         return bValid
-
+    
     def Tracking_Face(self):
         if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
@@ -619,7 +621,8 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Sodas.setText("Stop Looking")
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
-    def Tracking_Ball(self):            #!!!!!
+    def Tracking_Ball(self):
+        global chooseObj            #!!!!!
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
         else:
