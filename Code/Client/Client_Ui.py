@@ -455,14 +455,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Servo2.setFont(font)
         self.Servo2.setObjectName("Servo2")
-        #boundary button here
-        self.boundary = QtWidgets.QRadioButton(Client)
-        self.boundary.setGeometry(QtCore.QRect(350, 380, 54, 30))
-        font = QtGui.QFont()
-        font.setFamily("3ds")
-        font.setPointSize(10)
-        self.boundary.setFont(font)
-        self.boundary.setObjectName("Boundary")
+        
 
         self.progress_Power = QtWidgets.QProgressBar(Client)
         self.progress_Power.setGeometry(QtCore.QRect(20, 560, 70, 30))
@@ -528,6 +521,14 @@ class Ui_Client(object):
         font = QtGui.QFont()
         font.setFamily("3ds")
         font.setPointSize(10)
+        #boundary button
+        self.Btn_Mode5 = QtWidgets.QRadioButton(Client)
+        self.Btn_Mode4.setGeometry(QtCore.QRect(350, 560, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Mode5.setFont(font)
+        self.Btn_Mode5.setObjectName("Btn_Mode5")
         self.Btn_Tracking_Faces.setFont(font)
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
@@ -600,5 +601,5 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setText(_translate("Client", "Find Bottle"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
-        self.boundary.setText(_translate("Client", "M-Boundary"))
+        self.Btn_Mode5.setText(_translate("Client", "M-Boundary"))
 

@@ -113,11 +113,14 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        #new change
+        self.Btn_Mode5.setChecked(False)
+        self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
         
-        self.boundary.clicked.connect(self.on_btn_Boundary)
+      #  self.boundary.clicked.connect(self.on_btn_Boundary)
 
         self.Btn_ForWard.pressed.connect(self.on_btn_ForWard)
         self.Btn_ForWard.released.connect(self.on_btn_Stop)
@@ -186,8 +189,10 @@ class mywindow(QMainWindow,Ui_Client):
             elif self.Btn_Mode3.isChecked() == True:
                 self.Btn_Mode4.setChecked(True)
             elif self.Btn_Mode4.isChecked() == True:
+                self.Btn_Mode5.setChecked(True)
+            #new change
+            elif self.Btn_Mode5.isChecked() == True:
                 self.Btn_Mode1.setChecked(True)
-
         if(event.key() == Qt.Key_L):
             count=0
             if  self.checkBox_Led_Mode1.isChecked() == True:
@@ -377,12 +382,12 @@ class mywindow(QMainWindow,Ui_Client):
             self.TCP.sendData(cmd.CMD_LIGHT+self.intervalChar+'0'+self.endChar)
             self.Light.setText("Light")
     
-    def on_btn_Boundary(self):
-         if self.boundary.text() == 'Boundary':
-             self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'1'+self.endChar)
-         else:
-            self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'0'+self.endChar)
-            self.boundary.setText("Boundary")
+   # def on_btn_Boundary(self):
+    #     if self.boundary.text() == 'Boundary':
+     #        self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'1'+self.endChar)
+      #   else:
+       #     self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'0'+self.endChar)
+        #    self.boundary.setText("Boundary")
 
         
     def Change_Left_Right(self):#Left or Right
