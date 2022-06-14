@@ -35,13 +35,16 @@ class Boundary:
                 
                 PWM.setMotorModel(-1500,-1500,2500,2500)
                 #TURN LEFT
+            elif self.LMR==0:
+                PWM.setMotorModel(4000,4000,4000,4000)
+                
             elif self.LMR==3:
                
                 PWM.setMotorModel(-2000,-2000,4000,4000)
                 #TURN LEFT HARDER
             elif self.LMR==7:
                 #Turn Away from wall to the right slightly
-                PWM.setMotorModel(1250,1250,-750,-750)
+                PWM.setMotorModel(1250,1250,-1250,-1250)
             
 infrared=Boundary()
 # Main program logic follows:
