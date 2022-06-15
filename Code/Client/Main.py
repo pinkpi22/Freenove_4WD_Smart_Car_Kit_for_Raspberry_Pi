@@ -342,7 +342,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.VSlider_Servo2.setValue(self.servo2)
         
     def on_btn_Left(self):
-        self.servo1=self.servo1-10
+        self.servo1=self.servo1+10
         if self.servo1<=0:
             self.servo1=0
         self.HSlider_Servo1.setValue(self.servo1)
@@ -352,7 +352,7 @@ class mywindow(QMainWindow,Ui_Client):
             self.servo2=80
         self.VSlider_Servo2.setValue(self.servo2)
     def on_btn_Right(self):
-        self.servo1=self.servo1+10
+        self.servo1=self.servo1-10
         if self.servo1>=180:
             self.servo1=180
         self.HSlider_Servo1.setValue(self.servo1)
