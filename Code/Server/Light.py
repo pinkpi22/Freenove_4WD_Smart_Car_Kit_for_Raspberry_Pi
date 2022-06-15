@@ -10,13 +10,11 @@ class Light:
             while True:
                 L = self.adc.recvADC(0)
                 R = self.adc.recvADC(1)
-                if L < 2.99 and R < 2.99 :
-                    self.PWM.setMotorModel(600,600,600,600)
-                    
-                elif abs(L-R)<0.15:
+                if abs(L-R)<0.15:
                     self.PWM.setMotorModel(0,0,0,0)
-                    
-                elif L > 3 or R > 3:
+                elif L < 2.75 and R < 2.75 :
+                    self.PWM.setMotorModel(100,100,100,100) 
+                elif L > 2.76 or R > 2.76:
                     if L > R :
                         self.PWM.setMotorModel(-1200,-1200,1400,1400)
                         
