@@ -634,7 +634,7 @@ class mywindow(QMainWindow,Ui_Client):
         try:
             if  self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
-                if self.Btn_Tracking_Faces.text()=="Face-Off":
+                if self.Btn_Tracking_Faces.text()=="Face-On":
                         self.find_Face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
