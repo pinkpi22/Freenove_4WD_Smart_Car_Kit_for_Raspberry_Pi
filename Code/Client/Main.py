@@ -113,7 +113,9 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
         self.Btn_Mode5.setChecked(False)
         self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
-        
+        self.Btn_Mode6.setChecked(False)
+        self.Btn_Mode6.clicked.connect(lambda:self.on_btn_Mode(self.Btn_Mode6))
+
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
         
@@ -506,7 +508,7 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
-        if Mode.text() == "M-Bound":
+        if Mode.text() == "M-Box":
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
@@ -609,10 +611,10 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Facetrack-Off":
-            self.Btn_Tracking_Faces.setText("Facetrack-On")
+        if self.Btn_Tracking_Faces.text()=="Face-Off":
+            self.Btn_Tracking_Faces.setText("Face-On")
         else:
-            self.Btn_Tracking_Faces.setText("Facetrack-Off")
+            self.Btn_Tracking_Faces.setText("Face-Off")
     def find_Face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -623,6 +625,7 @@ class mywindow(QMainWindow,Ui_Client):
             self.servo2=self.servo2+delta_degree_y
             if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
                 pass
+            
             else:
                 self.HSlider_Servo1.setValue(self.servo1)
                 self.VSlider_Servo2.setValue(self.servo2)
