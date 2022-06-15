@@ -514,6 +514,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode4.setFont(font)
         self.Btn_Mode4.setObjectName("Btn_Mode4")
+        # ----- BUTTON 5 HERE -----
         self.Btn_Mode5 = QtWidgets.QRadioButton(Client)
         self.Btn_Mode5.setGeometry(QtCore.QRect(230, 560, 90, 30))
         font = QtGui.QFont()
