@@ -208,12 +208,16 @@ class VideoStreaming:
     #notepoint1.3
     def find_face(self, img):
         # Face detection
+<<<<<<< Updated upstream
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+=======
+>>>>>>> Stashed changes
         if len(faces)>0 :
             for (x,y,w,h) in faces:
                 self.face_x=float(x+w/2.0)
                 self.face_y=float(y+h/2.0)
+<<<<<<< Updated upstream
                 # draws circle around face
                 frame= cv2.circle(frame, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
                 # print(f"x of face: {self.face_x}")
@@ -222,6 +226,13 @@ class VideoStreaming:
             self.face_x=0
             self.face_y=0
         cv2.imwrite('video.jpg',frame)
+=======
+                img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+        else:
+            self.face_x=0
+            self.face_y=0
+        cv2.imwrite('video.jpg',img)
+>>>>>>> Stashed changes
         
     def streaming(self,ip):
         stream_bytes = b' '
