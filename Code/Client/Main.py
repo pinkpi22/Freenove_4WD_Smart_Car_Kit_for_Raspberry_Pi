@@ -611,10 +611,10 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Face-Off":
-            self.Btn_Tracking_Faces.setText("Face-On")
-        else:
+        if self.Btn_Tracking_Faces.text()=="Face-On":
             self.Btn_Tracking_Faces.setText("Face-Off")
+        else:
+            self.Btn_Tracking_Faces.setText("Face-On")
     def find_Face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -634,7 +634,7 @@ class mywindow(QMainWindow,Ui_Client):
         try:
             if  self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
-                if self.Btn_Tracking_Faces.text()=="Face-Off":
+                if self.Btn_Tracking_Faces.text()=="Face-On":
                         self.find_Face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
