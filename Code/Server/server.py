@@ -132,6 +132,11 @@ class Server:
             self.servo.setServoPwm('1',90)
         except:
             pass
+        try:
+            stop_thread(self.boxRun)
+            self.PWM.setMotorModel(0,0,0,0)
+        except:
+            pass
         
     def readdata(self):
         try:

@@ -33,7 +33,7 @@ class boundary:
                 PWM.setMotorModel(2000,2000,-4000,-4000)
             elif self.LMR==7:
                 #pass
-                PWM.setMotorModel(-1000,-1000,-1000,-1000)
+                PWM.setMotorModel(0,0,0,0)
 
 
 box=boundary()

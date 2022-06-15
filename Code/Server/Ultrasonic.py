@@ -5,7 +5,7 @@ from servo import *
 from PCA9685 import PCA9685
 class Ultrasonic:
     def __init__(self):
-        GPIO.setwarnings(False)
+        GPIO.setwarnings(False)     
         self.trigger_pin = 27
         self.echo_pin = 22
         GPIO.setmode(GPIO.BCM)
