@@ -20,15 +20,25 @@ class Line_Tracking:
             if GPIO.input(self.IR03)==True:
                 self.LMR=(self.LMR | 1)
             if self.LMR==2:
-                PWM.setMotorModel(800,800,800,800) # L: Low, M: High, R: Low
+                PWM.setMotorModel(-1500,-1500,2500,2500) # L: Low, M: High, R: Low
+                PWM.setMotorModel(-4000,-4000,-4000,-4000)
+                PWM.setMotorModel(2500,2500,-1500,-1500)
             elif self.LMR==4:
-                PWM.setMotorModel(-1500,-1500,2500,2500) # L: High, M: Low, R: Low
+                PWM.setMotorModel(-1500,-1500,2500,2500)
+                PWM.setMotorModel(-4000,-4000,-4000,-4000)
+                PWM.setMotorModel(2500,2500,-1500,-1500)  # L: High, M: Low, R: Low
             elif self.LMR==6:
-                PWM.setMotorModel(-2000,-2000,4000,4000) # L: High, M: High, R: Low
+                PWM.setMotorModel(-2000,-2000,4000,4000)
+                PWM.setMotorModel(-4000,-4000,-4000,-4000)
+                PWM.setMotorModel(2000,2000,-4000,-4000) # L: High, M: High, R: Low
             elif self.LMR==1:
-                PWM.setMotorModel(2500,2500,-1500,-1500) # L: Low, M: Low, R: High
+                PWM.setMotorModel(2500,2500,-1500,-1500)
+                PWM.setMotorModel(-4000,-4000,-4000,-4000)
+                PWM.setMotorModel(-1500,-1500,2500,2500) # L: Low, M: Low, R: High
             elif self.LMR==3:
-                PWM.setMotorModel(4000,4000,-2000,-2000) # L: Low, M: High, R: High
+                PWM.setMotorModel(4000,4000,-2000,-2000)
+                PWM.setMotorModel(4000,4000,-4000,-4000)
+                PWM.setMotorModel(-2000,-2000,4000,4000) # L: Low, M: High, R: High
             elif self.LMR==7: # All High
                 #pass
-                PWM.setMotorModel(0,0,0,0)
+                PWM.setMotorModel(-4000,-4000,-4000,-4000)
