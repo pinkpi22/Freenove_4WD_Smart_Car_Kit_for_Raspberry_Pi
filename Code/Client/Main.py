@@ -111,6 +111,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        self.Btn_Mode5.setChecked(False)
+        self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -183,6 +185,8 @@ class mywindow(QMainWindow,Ui_Client):
                 self.Btn_Mode4.setChecked(True)
             elif self.Btn_Mode4.isChecked() == True:
                 self.Btn_Mode1.setChecked(True)
+            elif self.Btn_Mode5.isChecked() == True:
+                self.Btn_Mode5.setChecked(True)
 
         if(event.key() == Qt.Key_L):
             count=0
@@ -502,6 +506,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "M-Bound":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
@@ -601,10 +609,10 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Tracing-On":
-            self.Btn_Tracking_Faces.setText("Tracing-Off")
+        if self.Btn_Tracking_Faces.text()=="Facetrack-Off":
+            self.Btn_Tracking_Faces.setText("Facetrack-On")
         else:
-            self.Btn_Tracking_Faces.setText("Tracing-On")
+            self.Btn_Tracking_Faces.setText("Facetrack-Off")
     def find_Face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -623,7 +631,7 @@ class mywindow(QMainWindow,Ui_Client):
         try:
             if  self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
-                if self.Btn_Tracking_Faces.text()=="Tracing-Off":
+                if self.Btn_Tracking_Faces.text()=="Face-Off":
                         self.find_Face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)

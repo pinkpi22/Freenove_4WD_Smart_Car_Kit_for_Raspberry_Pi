@@ -17,6 +17,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from Line_Bound import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -31,6 +32,7 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        self.infr=Line_Bound()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
@@ -127,6 +129,11 @@ class Server:
             self.servo.setServoPwm('1',90)
         except:
             pass
+        try:
+            stop_thread(self.infrRun)
+            self.PWM.setMotorModel(0,0,0,0)
+        except:
+            pass
         
     def readdata(self):
         try:
@@ -182,6 +189,11 @@ class Server:
                             self.Mode='four'
                             self.infraredRun=threading.Thread(target=self.infrared.run)
                             self.infraredRun.start()
+                        elif data[1]=='five' or data[1]=="5":
+                            self.stopMode()
+                            self.Mode='five'
+                            self.infrRun=threading.Thread(target=self.infr.run)
+                            self.infrRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:

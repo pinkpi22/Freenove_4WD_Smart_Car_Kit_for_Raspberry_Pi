@@ -70,6 +70,20 @@ def test_Infrared():
     except KeyboardInterrupt:
         print ("\nEnd of program")
 
+from Line_Bound import *
+lin=Line_Bound()
+def test_Infr():
+    try:
+        while True:
+            if GPIO.input(lin.IR04)!=True and GPIO.input(lin.IR05)==True and GPIO.input(lin.IR06)!=True:
+                print ('Middle')
+            elif GPIO.input(lin.IR04)!=True and GPIO.input(lin.IR05)!=True and GPIO.input(lin.IR06)==True:
+                print ('Right')
+            elif GPIO.input(lin.IR04)==True and GPIO.input(lin.IR05)!=True and GPIO.input(lin.IR06)!=True:
+                print ('Left')
+    except KeyboardInterrupt:
+        print ("\nEnd of program")
+
 
 from servo import *
 pwm=Servo()
@@ -149,6 +163,8 @@ if __name__ == '__main__':
         test_Adc()  
     elif sys.argv[1] == 'Buzzer':   
         test_Buzzer()  
+    elif sys.argv[1] == 'Infr':
+        test_Infr()
 
         
         
