@@ -1,5 +1,6 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from email.mime import image
 import numpy as np
 import cv2
 import socket
@@ -15,11 +16,13 @@ from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
 from Client_Ui import Ui_Client
-from Video import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from Video import *
+from mediator import mediator
+
 
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
@@ -138,9 +141,11 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Down.clicked.connect(self.on_btn_Down)
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
-        self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
-        
 
+        self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face) ####
+        self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda) ####
+        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball) ####
+    
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
         
@@ -456,7 +461,6 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
         if b.text() == "Led_Mode1":
            if b.isChecked() == True:
-               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode2.setChecked(False)
                self.checkBox_Led_Mode3.setChecked(False)
                self.checkBox_Led_Mode4.setChecked(False)
@@ -465,7 +469,7 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
         if b.text() == "Led_Mode2":
            if b.isChecked() == True:
-               self.checkBox_Led_Mode5.setChecked(False)
+
                self.checkBox_Led_Mode1.setChecked(False)
                self.checkBox_Led_Mode3.setChecked(False)
                self.checkBox_Led_Mode4.setChecked(False)
@@ -474,7 +478,6 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
         if b.text() == "Led_Mode3":
            if b.isChecked() == True:
-               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode2.setChecked(False)
                self.checkBox_Led_Mode1.setChecked(False)
                self.checkBox_Led_Mode4.setChecked(False)
@@ -483,14 +486,14 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
         if b.text() == "Led_Mode4":
            if b.isChecked() == True:
-               self.checkBox_Led_Mode5.setChecked(False)
                self.checkBox_Led_Mode2.setChecked(False)
                self.checkBox_Led_Mode3.setChecked(False)
                self.checkBox_Led_Mode1.setChecked(False)
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
-    
+
+ 
     def on_btn_Mode(self,Mode):
         if Mode.text() == "M-Free":
             if Mode.isChecked() == True:
@@ -609,12 +612,46 @@ class mywindow(QMainWindow,Ui_Client):
         except:
             pass
         return bValid
-
-    def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Find Bottle":
+    
+    def Tracking_Face(self):        ###QUESTIONABLE
+        if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
+            meditite.setLabel("person")
+            print(meditite.getLabel())
+
+            self.Btn_Tracking_Sodas.setText("Find Bottle")
+            self.Btn_Tracking_Ball.setText("Find Ball")
         else:
-            self.Btn_Tracking_Faces.setText("Find Bottle")
+            self.Btn_Tracking_Faces.setText("Find Face")
+            meditite.setLabel("")
+            
+    def Tracking_Soda(self):            #!!!!!
+        if self.Btn_Tracking_Sodas.text()=="Find Bottle":
+            self.Btn_Tracking_Sodas.setText("Stop Looking")
+            meditite.setLabel("bottle")
+            self.Btn_Tracking_Faces.setText("Find Face")
+            
+            self.Btn_Tracking_Ball.setText("Find Ball")
+        else:
+            self.Btn_Tracking_Sodas.setText("Find Bottle")
+            meditite.setLabel("")
+            
+    def Tracking_Ball(self):            #!!!!
+        if self.Btn_Tracking_Ball.text()=="Find Ball":
+            self.Btn_Tracking_Ball.setText("Stop Looking")
+            self.checkBox_Led_Mode3.setChecked(True)
+            meditite.setLabel("sports ball")
+            self.Btn_Tracking_Faces.setText("Find Face")
+            self.Btn_Tracking_Sodas.setText("Find Bottle")
+            
+        else:
+            self.Btn_Tracking_Ball.setText("Find Ball")
+            meditite.setLabel("")
+            
+
+
+
+
     def find_bottle(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -635,24 +672,33 @@ class mywindow(QMainWindow,Ui_Client):
                 # Set direction that wheels need to turn to face object
                 turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
                 print(turn_angle)
-                #if(math.fabs(turn_angle) >= 20):
+                if(math.fabs(turn_angle) >= 20):
                 #    # Object is on our left, turn left
-                #    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                #elif(math.fabs(turn_angle) < 20):
+                    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                elif(math.fabs(turn_angle) < 20):
                 #    # Object is on our right, turn right
-                #    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                #self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                self.TCP.sendData(cmd.CMD_MOTOR+direction)
+
+   
 
     def time(self):
+        
         self.TCP.video_Flag=False
         try:
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Faces.text()=="Stop Looking":
-                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                    self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Sodas.text()=="Stop Looking":      #!!!!
+                    self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Ball.text()=="Stop Looking":      #!!!!!
+                    self.find_bottle(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
+            
         self.TCP.video_Flag=True
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
