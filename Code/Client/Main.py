@@ -614,6 +614,7 @@ class mywindow(QMainWindow,Ui_Client):
         if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
             if self.Btn_Tracking_Faces.text()=="Stop Looking":
+                global val
                 val = 1
         else:
             self.Btn_Tracking_Faces.setText("Find Face")
@@ -622,6 +623,7 @@ class mywindow(QMainWindow,Ui_Client):
         if self.Btn_Tracking_Sodas.text()=="Find Bottle":
             self.Btn_Tracking_Sodas.setText("Stop Looking")
             if self.Btn_Tracking_Sodas.text()=="Stop Looking":
+                global val
                 val = 2
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
@@ -630,6 +632,7 @@ class mywindow(QMainWindow,Ui_Client):
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
             if self.Btn_Tracking_Ball.text()=="Stop Looking":
+                global val
                 val = 3
         else:
             self.Btn_Tracking_Ball.setText("Find Ball")
