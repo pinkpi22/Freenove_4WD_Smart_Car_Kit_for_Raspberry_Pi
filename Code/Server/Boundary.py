@@ -12,6 +12,7 @@ class Boundary:
         GPIO.setup(self.IR03,GPIO.IN)
     def run(self):
         while True:
+            
             self.LMR=0x00
             if GPIO.input(self.IR01)==True:
                 self.LMR=(self.LMR | 4)
@@ -19,25 +20,20 @@ class Boundary:
                 self.LMR=(self.LMR | 2)
             if GPIO.input(self.IR03)==True:
                 self.LMR=(self.LMR | 1)
-            if self.LMR==2:
+            if self.LMR == 0:
                 PWM.setMotorModel(800,800,800,800)
-            elif self.LMR==4:
-                PWM.setMotorModel(-1500,-1500,2500,2500)
-            elif self.LMR==6:
-                PWM.setMotorModel(-2000,-2000,4000,4000)
-            elif self.LMR==1:
-                PWM.setMotorModel(2500,2500,-1500,-1500)
-            elif self.LMR==3:
-                PWM.setMotorModel(4000,4000,-2000,-2000)
-            elif self.LMR==7:
-                #pass
-                PWM.setMotorModel(0,0,0,0)
+            elif self.LMR!=0:
+                print("All triggers hit")
+                PWM.setMotorModel(-800,-800,-800,-800)
+                time.sleep(1)
+                PWM.setMotorModel(1500,1500,-1500,-1500)
+                time.sleep(2)
             
-infrared=Boundary()
+box=Boundary()
 # Main program logic follows:
 if __name__ == '__main__':
     print ('Program is starting ... ')
     try:
-        infrared.run()
+        Boundary.run()
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program  will be  executed.
         PWM.setMotorModel(0,0,0,0)

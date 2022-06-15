@@ -19,6 +19,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from Boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -33,6 +34,8 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        #added for the Boundary
+        self.box=Boundary()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
@@ -118,6 +121,12 @@ class Server:
             self.PWM.setMotorModel(0,0,0,0)
         except:
             pass
+        #Boundary stop function
+        try:
+            stop_thread(self.BoundaryRun)
+            self.PWM.setMotorModel(0,0,0,0)
+        except:
+            pass
         try:
             stop_thread(self.lightRun)
             self.PWM.setMotorModel(0,0,0,0)
@@ -185,6 +194,12 @@ class Server:
                             self.Mode='four'
                             self.infraredRun=threading.Thread(target=self.infrared.run)
                             self.infraredRun.start()
+                        #added code to call the boundary function
+                        elif data[1]=='five' or data[1]=="2":
+                            self.stopMode()
+                            self.Mode='five'
+                            self.BoundaryRun=threading.Thread(target=self.box.run)
+                            self.BoundaryRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:
