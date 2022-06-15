@@ -113,6 +113,10 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        #Added Boundary Changes
+        self.Btn_Boundary.setChecked(False)
+        self.Btn_Boundary.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Boundary))
+        self.Btn_Boundary.clicked.connect(self.on_btn_Boundary)
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -144,6 +148,7 @@ class mywindow(QMainWindow,Ui_Client):
         
         self.Btn_Connect.clicked.connect(self.on_btn_Connect)
         
+
         
         self.Window_Min.clicked.connect(self.windowMinimumed)
         self.Window_Close.clicked.connect(self.close)
@@ -367,6 +372,14 @@ class mywindow(QMainWindow,Ui_Client):
         else:
             self.TCP.sendData(cmd.CMD_SONIC+self.intervalChar+'0'+self.endChar)
             self.Ultrasonic.setText("Ultrasonic")
+
+        #Boundary
+    def on_btn_Boundary(self):
+        if self.Btn_Boundary.text()=="Boundary":
+            self.TCP.sendData(cmd.CMD_BOUNDARY+self.intervalChar+'1'+self.endChar)
+        else:
+            self.TCP.sendData(cmd.CMD_BOUNDARY+self.intervalChar+'0'+self.endChar)
+            self.Btn_Boundary.setText("Boundary")
  
     def on_btn_Light(self):
         if self.Light.text() == "Light":
@@ -504,6 +517,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "Boundary":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
@@ -627,13 +644,13 @@ class mywindow(QMainWindow,Ui_Client):
                 # Set direction that wheels need to turn to face object
                 turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
                 print(turn_angle)
-                #if(math.fabs(turn_angle) >= 20):
-                #    # Object is on our left, turn left
-                #    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                #elif(math.fabs(turn_angle) < 20):
-                #    # Object is on our right, turn right
-                #    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                #self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                if(math.fabs(turn_angle) >= 20):
+                    # Object is on our left, turn left
+                    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                elif(math.fabs(turn_angle) < 20):
+                    # Object is on our right, turn right
+                    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
     def time(self):
         self.TCP.video_Flag=False

@@ -507,6 +507,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode3.setFont(font)
         self.Btn_Mode3.setObjectName("Btn_Mode3")
+
         self.Btn_Mode4 = QtWidgets.QRadioButton(Client)
         self.Btn_Mode4.setGeometry(QtCore.QRect(335, 560, 90, 30))
         font = QtGui.QFont()
@@ -514,8 +515,18 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode4.setFont(font)
         self.Btn_Mode4.setObjectName("Btn_Mode4")
+
+        #Boundary Button Setup
+        self.Btn_Boundary = QtWidgets.QRadioButton(Client)
+        self.Btn_Boundary.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Boundary.setFont(font)
+        self.Btn_Boundary.setObjectName("Btn_Boundary")
+
         self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
-        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 460, 90, 30))
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 560, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
         font.setPointSize(10)
@@ -548,6 +559,8 @@ class Ui_Client(object):
         self.Btn_Turn_Left.setText(_translate("Client", "Turn Left"))
         self.Btn_BackWard.setText(_translate("Client", "BackWard"))
         self.Btn_Turn_Right.setText(_translate("Client", "Turn Right"))
+        #Boundary Text
+        self.Btn_Boundary.setText(_translate("Client", "Boundary"))
         self.Btn_Video.setText(_translate("Client", "Open Video"))
         self.Btn_Down.setText(_translate("Client", "Down"))
         self.Btn_Left.setText(_translate("Client", "Left"))
