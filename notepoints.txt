@@ -1,0 +1,56 @@
+#Notepoint1.1
+video.py
+change search to button
+
+#notepoint1.2
+client_ui.py
+3 buttons instead of 1
+Btn_Tracking_*
+
+#notepoint1.3
+video.py
+making finding a face separate
+
+#notepoint1.4
+video.py
+added find_face to streaming()
+
+#notepoint1.5
+main.py
+check this out, this is where streaming happens
+
+#notepoint1.6
+video.py
+trying to add mywindow so that we can communicate with the ui
+
+#notepoint1.7
+main.py
+adding tracking_* methods
+
+#notepoint1.8
+main.py
+IMPORTANT - where find_bottle is run
+
+#notepoint1.9
+video.py
+router to send info through pipe
+
+#notepoint1.10
+main.py
+creating pipe
+
+#notepoint2.1
+client_ui
+button for boundary mode
+
+#notepoint2.2
+main.py
+adding m-bound to ability
+
+
+
+
+
+
+
+

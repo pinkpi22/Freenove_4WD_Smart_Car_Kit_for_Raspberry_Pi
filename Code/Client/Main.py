@@ -23,10 +23,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *    
 from PyQt5.QtGui import *
+# from multiprocessing import Process,Queue,Pipe
+from Video import VideoStreaming
 
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
         global timer
+        #what the heck is this doing?
         super(mywindow,self).__init__()
         self.setupUi(self)
         self.endChar='\n'
@@ -140,6 +143,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
+        self.Btn_Tracking_Bottle.clicked.connect(self.Tracking_Bottle)
+        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball)
         
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
@@ -507,6 +512,11 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        #notepoint2.2
+        if Mode.text() == "M-Bound":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
@@ -514,6 +524,7 @@ class mywindow(QMainWindow,Ui_Client):
             self.h=self.IP.text()
             self.TCP.StartTcpClient(self.h,)
             try:
+                #notepoint1.5
                 self.streaming=Thread(target=self.TCP.streaming,args=(self.h,))
                 self.streaming.start()
             except:
@@ -606,10 +617,29 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Find Bottle":
+        if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
+            VideoStreaming.router("face", True)
         else:
-            self.Btn_Tracking_Faces.setText("Find Bottle")
+            self.Btn_Tracking_Faces.setText("Find Face")
+            VideoStreaming.router("face", False)
+    #notepoint1.7
+    def Tracking_Bottle(self):
+        if self.Btn_Tracking_Bottle.text()=="Find Bottle":
+            self.Btn_Tracking_Bottle.setText("Stop Looking")
+            VideoStreaming.router("bottle", True)
+        else:
+            self.Btn_Tracking_Bottle.setText("Find Bottle")
+            VideoStreaming.router("bottle", False)
+    def Tracking_Ball(self):
+        if self.Btn_Tracking_Ball.text()=="Find Ball":
+            self.Btn_Tracking_Ball.setText("Stop Looking")
+            VideoStreaming.router("ball", True)
+        else:
+            self.Btn_Tracking_Ball.setText("Find Ball")
+            VideoStreaming.router("ball", False)
+
+
     def find_bottle(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -656,6 +686,7 @@ class mywindow(QMainWindow,Ui_Client):
         try:
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
+                #notepoint1.8
                 if self.Btn_Tracking_Faces.text()=="Stop Looking":
                     self.find_bottle(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
@@ -663,6 +694,12 @@ class mywindow(QMainWindow,Ui_Client):
         self.TCP.video_Flag=True
 
 if __name__ == '__main__':
+    #notepoint1.10
+    # parent_conn, child_conn = Pipe()
+    # p = Process(target=VideoStreaming.router, args=(child_conn,))
+    # p.start()
+    # t = Thread(target=VideoStreaming.router, args=(child_conn,))
+    # t.start()
     app = QApplication(sys.argv)
     myshow=mywindow()
     myshow.show();   

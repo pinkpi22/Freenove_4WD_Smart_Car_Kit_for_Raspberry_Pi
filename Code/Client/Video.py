@@ -7,13 +7,16 @@ import io
 import sys
 import struct
 from PIL import Image
-from multiprocessing import Process
+from multiprocessing import Process, Queue, Pipe
 from Command import COMMAND as cmd
 import os
 #from tflite_runtime.interpreter import Interpreter
 import tensorflow as tf
 import importlib.util
 import time
+#from Main import mywindow
+
+whatFind = ["","",""]
 
 class VideoStreaming:
     def __init__(self):
@@ -22,6 +25,9 @@ class VideoStreaming:
         self.connect_Flag=False
         self.face_x=0
         self.face_y=0
+        #notepoint1.6
+        # causes infinite loop
+        # self.window = mywindow()
     def StartTcpClient(self,IP):
         self.client_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,7 +52,7 @@ class VideoStreaming:
                 bValid = False
         return bValid
 
-    def find_bottle(self,img):
+    def find_bottle(self,img, which):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -131,9 +137,12 @@ class VideoStreaming:
             max_index = 0
 
             # Loop over all detections and draw detection box if confidence is above minimum threshold
+
+            #Notepoint1.1
+
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'bottle') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if (whatFind[which] != "" and (labels[int(classes[i])] == whatFind[which]) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -165,7 +174,7 @@ class VideoStreaming:
                 #BackWard = '#-1500#-1500#-1500#-1500\n'
                 #Left = '#-1500#-1500#1500#1500\n'
                 #Right = '#1500#1500#-1500#-1500\n'
-#                self.sendData(cmd.CMD_MOTOR+ForWard)
+                #self.sendData(cmd.CMD_MOTOR+ForWard)
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
@@ -180,7 +189,27 @@ class VideoStreaming:
         # Frame in this case is just the image with the frame rate in the corner
         # cv2.imwrite('video.jpg', frame)
 
+    #notepoint1.9
+    def router(f, t):
+        if f == "bottle" and t == True:
+            whatFind[0] = f
+        elif f == "face" and t == True:
+            whatFind[1] = f
+        elif f == "ball" and t == True:
+            whatFind[2] = f
+        elif f == "bottle" and t == False:
+            whatFind[0] = ""
+        elif f == "face" and t == False:
+            whatFind[1] = ""
+        elif f == "ball" and t == False:
+            whatFind[2] = ""
+        print(f"Looking for: {whatFind}")
+
+    #notepoint1.3
+    def find_face(self, img):
         # Face detection
+        gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+        faces = self.face_cascade.detectMultiScale(gray,1.3,5)
         if len(faces)>0 :
             for (x,y,w,h) in faces:
                 self.face_x=float(x+w/2.0)
@@ -210,7 +239,10 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                self.find_bottle(image)
+                                self.find_bottle(image, 0)
+                                self.find_bottle(image, 2)
+                                #notepoint1.4
+                                self.find_face(image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)
