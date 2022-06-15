@@ -139,10 +139,11 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Down.clicked.connect(self.on_btn_Down)
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
-        self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
-        self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda)
-        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball)
 
+        self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face) ####
+        self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda) ####
+        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball) ####
+    
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
         
@@ -609,34 +610,28 @@ class mywindow(QMainWindow,Ui_Client):
         except:
             pass
         return bValid
-    val = 0
+    
     def Tracking_Face(self):        ###QUESTIONABLE
         if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
-            if self.Btn_Tracking_Faces.text()=="Stop Looking":
-                global val
-                val = 1
+            
         else:
             self.Btn_Tracking_Faces.setText("Find Face")
-            val = 0
+            
     def Tracking_Soda(self):            #!!!!!
         if self.Btn_Tracking_Sodas.text()=="Find Bottle":
             self.Btn_Tracking_Sodas.setText("Stop Looking")
-            if self.Btn_Tracking_Sodas.text()=="Stop Looking":
-                global val
-                val = 2
+            
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
-            val = 0
-    def Tracking_Ball(self):            #!!!!!
+            
+    def Tracking_Ball(self):            #!!!!
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
-            if self.Btn_Tracking_Ball.text()=="Stop Looking":
-                global val
-                val = 3
+            
         else:
             self.Btn_Tracking_Ball.setText("Find Ball")
-            val = 0
+            
 
 
 
@@ -669,20 +664,25 @@ class mywindow(QMainWindow,Ui_Client):
                     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
                 self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
+   
+
     def time(self):
+        
         self.TCP.video_Flag=False
         try:
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Faces.text()=="Stop Looking":
-                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)
-                if self.Btn_Tracking_Sodas.text()=="Stop Looking":      #!!!!!
-                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                    self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Sodas.text()=="Stop Looking":      #!!!!
+                    self.find_bottle(self.TCP.face_x,self.TCP.face_y)
                 if self.Btn_Tracking_Ball.text()=="Stop Looking":      #!!!!!
-                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                    self.find_bottle(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
+            
         self.TCP.video_Flag=True
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

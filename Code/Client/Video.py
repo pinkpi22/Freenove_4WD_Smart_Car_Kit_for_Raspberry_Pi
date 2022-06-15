@@ -49,7 +49,7 @@ class VideoStreaming:
                 bValid = False
         return bValid
 
-    def find_person(self,img):
+    def find_person(self,img,v):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -133,7 +133,7 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'person') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == v) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -625,16 +625,24 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                if mywindow.val == 1:
-                                    self.find_person(image)
-                                elif mywindow.val == 2:
-                                    self.find_soda(image)
-                                elif mywindow.val == 3: 
-                                    self.find_ball(image)
-                                else:
-                                    self.find_null(image)
-                                print(mywindow.val)
-                                self.video_Flag=False
+                                if self.Btn_Tracking_Faces.text()=="Stop Looking":
+                                    self.find_person(image,"person")
+                                    self.video_Flag=False
+                                    print("person")
+                                elif self.Btn_Tracking_Sodas.text()=="Stop Looking":
+                                    self.find_person(image,"bottle")
+                                    self.video_Flag=False
+                                    print("bottle")
+                                elif self.Btn_Tracking_Ball.text()=="Stop Looking":
+                                    self.find_person(image,"sports ball")
+                                    self.video_Flag=False
+                                    print("ball")
+
+        
+
+                                
+                                
+                                
             except Exception as e:
                 print (e)
                 break
