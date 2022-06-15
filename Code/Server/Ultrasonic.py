@@ -34,27 +34,28 @@ class Ultrasonic:
         distance_cm=sorted(distance_cm)
         return int(distance_cm[2])
     def run_motor(self,L,M,R):
-        if (L < 30 and M < 30 and R <30) or M < 30 :
-            self.PWM.setMotorModel(-1450,-1450,-1450,-1450) 
-            time.sleep(0.1)   
-            if L < R:
-                self.PWM.setMotorModel(1450,1450,-1450,-1450)
-            else :
-                self.PWM.setMotorModel(-1450,-1450,1450,1450)
-        elif L < 30 and M < 30:
-            PWM.setMotorModel(1500,1500,-1500,-1500)
-        elif R < 30 and M < 30:
-            PWM.setMotorModel(-1500,-1500,1500,1500)
-        elif L < 20 :
-            PWM.setMotorModel(2000,2000,-500,-500)
-            if L < 10 :
-                PWM.setMotorModel(1500,1500,-1000,-1000)
-        elif R < 20 :
-            PWM.setMotorModel(-500,-500,2000,2000)
-            if R < 10 :
+        if L != 0 and M != 0 and R !=0:    
+            if (L < 20 and M < 20 and R < 20) or M < 20 :
+                self.PWM.setMotorModel(-1450,-1450,-1450,-1450) 
+                time.sleep(0.1)   
+                if L < R:
+                    self.PWM.setMotorModel(1450,1450,-1450,-1450)
+                else :
+                    self.PWM.setMotorModel(-1450,-1450,1450,1450)
+            elif L < 20 and M < 20:
+                PWM.setMotorModel(1500,1500,-1500,-1500)
+            elif R < 20 and M < 20:
                 PWM.setMotorModel(-1500,-1500,1500,1500)
-        else :
-            self.PWM.setMotorModel(600,600,600,600)
+            elif L < 15 :
+                PWM.setMotorModel(2000,2000,-500,-500)
+                if L < 10 :
+                    PWM.setMotorModel(1500,1500,-1000,-1000)
+            elif R < 15 :
+                PWM.setMotorModel(-500,-500,2000,2000)
+                if R < 10 :
+                    PWM.setMotorModel(-1500,-1500,1500,1500)
+            else :
+                self.PWM.setMotorModel(600,600,600,600)
                 
     def run(self):
         self.PWM=Motor()
