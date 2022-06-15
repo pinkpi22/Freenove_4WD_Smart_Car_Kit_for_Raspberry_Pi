@@ -208,6 +208,7 @@ class VideoStreaming:
     #notepoint1.3
     def find_face(self, img):
         # Face detection
+        frame = img.copy()
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         faces = self.face_cascade.detectMultiScale(gray,1.3,5)
         if len(faces)>0 :
@@ -215,7 +216,7 @@ class VideoStreaming:
                 self.face_x=float(x+w/2.0)
                 self.face_y=float(y+h/2.0)
                 # draws circle around face
-                frame= cv2.circle(frame, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+                frame= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
                 # print(f"x of face: {self.face_x}")
                 # self.face_x is lower when left, higher when right
         else:
