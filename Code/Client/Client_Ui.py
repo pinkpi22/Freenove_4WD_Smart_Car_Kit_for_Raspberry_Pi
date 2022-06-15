@@ -523,7 +523,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         #boundary button
         self.Btn_Mode5 = QtWidgets.QRadioButton(Client)
-        self.Btn_Mode4.setGeometry(QtCore.QRect(350, 560, 90, 30))
+        self.Btn_Mode5.setGeometry(QtCore.QRect(320, 345, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
         font.setPointSize(10)
