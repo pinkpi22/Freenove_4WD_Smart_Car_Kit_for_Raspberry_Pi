@@ -75,11 +75,11 @@ lin=Line_Bound()
 def test_Infr():
     try:
         while True:
-            if GPIO.input(lin.IR04)!=True and GPIO.input(lin.IR05)==True and GPIO.input(lin.IR06)!=True:
+            if GPIO.input(lin.IR01)!=True and GPIO.input(lin.IR02)==True and GPIO.input(lin.IR03)!=True:
                 print ('Middle')
-            elif GPIO.input(lin.IR04)!=True and GPIO.input(lin.IR05)!=True and GPIO.input(lin.IR06)==True:
+            elif GPIO.input(lin.IR01)!=True and GPIO.input(lin.IR02)!=True and GPIO.input(lin.IR03)==True:
                 print ('Right')
-            elif GPIO.input(lin.IR04)==True and GPIO.input(lin.IR05)!=True and GPIO.input(lin.IR06)!=True:
+            elif GPIO.input(lin.IR01)==True and GPIO.input(lin.IR02)!=True and GPIO.input(lin.IR03)!=True:
                 print ('Left')
     except KeyboardInterrupt:
         print ("\nEnd of program")

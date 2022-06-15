@@ -3,9 +3,9 @@ from Motor import *
 import RPi.GPIO as GPIO
 class Line_Bound:
     def __init__(self):
-        self.IR04 = 50
-        self.IR05 = 51
-        self.IR06 = 52
+        self.IR01 = 14
+        self.IR02 = 15
+        self.IR03 = 23
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.IR01,GPIO.IN)
         GPIO.setup(self.IR02,GPIO.IN)
