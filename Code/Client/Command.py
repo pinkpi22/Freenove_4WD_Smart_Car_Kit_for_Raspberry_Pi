@@ -14,5 +14,5 @@ class COMMAND:
     CMD_MODE ="CMD_MODE"
     def __init__(self):
         pass
-        self.intervalChar
-        self.endChar
+        #self.intervalChar
+        #self.endChar

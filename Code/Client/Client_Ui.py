@@ -493,6 +493,16 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Mode1.setFont(font)
         self.Btn_Mode1.setObjectName("Btn_Mode1")
+
+        # NEW BUTTON
+        self.Boundary = QtWidgets.QRadioButton(Client)
+        self.Boundary.setGeometry(QtCore.QRect(335, 360, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Boundary.setFont(font)
+        self.Boundary.setObjectName("Boundary")
+
         self.Btn_Mode2 = QtWidgets.QRadioButton(Client)
         self.Btn_Mode2.setGeometry(QtCore.QRect(335, 460, 90, 30))
         font = QtGui.QFont()
@@ -545,6 +555,7 @@ class Ui_Client(object):
         Client.setWindowTitle(_translate("Client", "freenove"))
         self.Btn_ForWard.setText(_translate("Client", "ForWard"))
         self.name.setText(_translate("Client", "Freenove"))
+        self.Boundary.setText(_translate("Client", "Boundary"))
         self.Btn_Turn_Left.setText(_translate("Client", "Turn Left"))
         self.Btn_BackWard.setText(_translate("Client", "BackWard"))
         self.Btn_Turn_Right.setText(_translate("Client", "Turn Right"))
