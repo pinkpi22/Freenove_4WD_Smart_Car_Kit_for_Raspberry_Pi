@@ -352,8 +352,8 @@ class mywindow(QMainWindow,Ui_Client):
             self.servo1=180
         self.HSlider_Servo1.setValue(self.servo1)
     def on_btn_Home(self):
-        self.servo1=90
-        self.servo2=90
+        self.servo1=68
+        self.servo2=120
         self.HSlider_Servo1.setValue(self.servo1)
         self.VSlider_Servo2.setValue(self.servo2)
     def on_btn_Buzzer(self):
