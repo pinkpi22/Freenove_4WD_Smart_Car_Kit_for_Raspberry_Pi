@@ -19,7 +19,19 @@ class Line_Bound:
                 self.LMR=(self.LMR | 2)
             if GPIO.input(self.IR03)==True:
                 self.LMR=(self.LMR | 1)
-            if self.LMR==2:
+            if self.LMR ==0:
+                #pass
+                PWM.setMotorModel(800,800,800,800)
+            
+            elif self.LMR > 0:
+                PWM.setMotorModel(2500,2500,-1500,-1500)
+                time.sleep(3)
+                PWM.setMotorModel(2500,2500,-1500,-1500)
+                time.sleep(0.82)
+            
+            
+            
+            """if self.LMR==2:
                 PWM.setMotorModel(800,800,800,800)
             elif self.LMR==4:
                 PWM.setMotorModel(-800,-800,-800,-800)
@@ -29,9 +41,10 @@ class Line_Bound:
                 PWM.setMotorModel(-800,-800,-800,-800)
             elif self.LMR==3:
                 PWM.setMotorModel(-800,-800,-800,-800)
-            elif self.LMR==7:
+            elif self.LMR==7: 
                 #pass
                 PWM.setMotorModel(0,0,0,0)
+                """
             
 Infr=Line_Bound()
 # Main program logic follows:
