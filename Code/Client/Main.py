@@ -639,7 +639,7 @@ class mywindow(QMainWindow,Ui_Client):
     def Tracking_Ball(self):            #!!!!
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
-            self.checkBox_Led_Mode3.setChecked(True)
+            
             meditite.setLabel("sports ball")
             self.Btn_Tracking_Faces.setText("Find Face")
             self.Btn_Tracking_Sodas.setText("Find Bottle")
