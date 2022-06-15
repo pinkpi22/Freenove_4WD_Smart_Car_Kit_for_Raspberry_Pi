@@ -177,7 +177,7 @@ class VideoStreaming:
 
         if len(faces)>0 :
             for (x,y,w,h) in faces:
-                self.face_x=float(-(x+w/2.0))
+                self.face_x=float(x-w/2.0)
                 self.face_y=float(y+h/2.0)
                 img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
         else:
