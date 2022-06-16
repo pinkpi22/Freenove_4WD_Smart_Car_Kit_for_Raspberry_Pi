@@ -8,11 +8,21 @@ class colors:
     def run(img,xwid,ywid):
         cx = int(xwid / 2)
         cy = int(ywid / 2)
-        pixel_center = img[cy - 10, cx]
-        b, g, r = int(pixel_center[0]), int(pixel_center[1]), int(pixel_center[2])
+        pixel_center = img[cy, cx]
+        rSum = 0
+        gSum = 0
+        bSum = 0
+        for i in range(10):
+            for j in range(10):
+                rSum += img[cy-5+i][cx-5+j][0]
+                gSum += img[cy-5+i][cx-5+j][1]
+                bSum += img[cy-5+i][cx-5+j][2]
+
+        b, g, r = int(rSum/100), int(gSum/100), int(bSum/100)
         colo = [r,g,b]
+        print("r: " + r + " | "+"g: " + g + " | "+"b: " + b + " | ")
         if r < 10 and g > 90:
-            colo = [0,150,0]
+            colo = [0,255,0]
         return colo
 
 
