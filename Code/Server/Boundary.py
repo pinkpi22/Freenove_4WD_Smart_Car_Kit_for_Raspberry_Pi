@@ -44,3 +44,5 @@ class Boundary:
                 PWM.setMotorModel(-2000,-2000,-2000,-2000)
             elif self.LMR==0:
                 PWM.setMotorModel(2000,2000,2000,2000)
+
+boundary = Boundary()
