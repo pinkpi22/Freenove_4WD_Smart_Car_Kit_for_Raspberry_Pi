@@ -8,7 +8,7 @@ import picamera
 import fcntl
 import  sys
 import threading
-import VideoStream
+#import VideoStream
 import cv2
 from Motor import *
 from servo import *
@@ -19,6 +19,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from Boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -33,6 +34,7 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        self.bound = Boundary()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
@@ -119,6 +121,11 @@ class Server:
         except:
             pass
         try:
+            stop_thread(self.boundRun)
+            self.PWM.setMotorModel(0,0,0,0)
+        except:
+            pass
+        try:
             stop_thread(self.lightRun)
             self.PWM.setMotorModel(0,0,0,0)
         except:
@@ -185,6 +192,11 @@ class Server:
                             self.Mode='four'
                             self.infraredRun=threading.Thread(target=self.infrared.run)
                             self.infraredRun.start()
+                        elif data[1]=='five' or data[1]=="2":
+                            self.stopMode()
+                            self.Mode='five'
+                            self.boundRun=threading.Thread(target=self.bound.run)
+                            self.boundRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:

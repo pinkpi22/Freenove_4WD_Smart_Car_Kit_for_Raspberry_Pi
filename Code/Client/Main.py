@@ -1,5 +1,8 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from colorsys import rgb_to_hsv
+from concurrent.futures import thread
+from ctypes.wintypes import RGB
 from email.mime import image
 import numpy as np
 import cv2
@@ -12,6 +15,7 @@ import sys
 import math
 from threading import Timer
 from threading import Thread
+from threading import *
 from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
@@ -24,7 +28,9 @@ from Video import *
 from mediator import mediator
 
 
+
 class mywindow(QMainWindow,Ui_Client):
+    
     def __init__(self):
         global timer
         super(mywindow,self).__init__()
@@ -492,7 +498,44 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
-
+    def RGBChange(self,array):
+        color=self.intervalChar+str(self.Color_R.text())+self.intervalChar+str(self.Color_G.text())+self.intervalChar+str(self.Color_B.text())+self.endChar
+        self.led_Index=str(0x01)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x02)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x04)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x08)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x10)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x20)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x40)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x80)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+    
+    def RGBoff(self):
+        color=0
+        led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+        self.led_Index=str(0x01)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x02)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x04)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x08)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x10)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x20)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x40)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        self.led_Index=str(0x80)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
  
     def on_btn_Mode(self,Mode):
         if Mode.text() == "M-Free":
@@ -635,18 +678,24 @@ class mywindow(QMainWindow,Ui_Client):
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
             meditite.setLabel("")
-            
+    
+
     def Tracking_Ball(self):            #!!!!
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
-            self.checkBox_Led_Mode3.setChecked(True)
+            
             meditite.setLabel("sports ball")
             self.Btn_Tracking_Faces.setText("Find Face")
             self.Btn_Tracking_Sodas.setText("Find Bottle")
             
+
         else:
             self.Btn_Tracking_Ball.setText("Find Ball")
             meditite.setLabel("")
+            self.RGBoff()
+            
+            
+            
             
 
 
@@ -671,14 +720,14 @@ class mywindow(QMainWindow,Ui_Client):
 
                 # Set direction that wheels need to turn to face object
                 turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                print(turn_angle)
-                if(math.fabs(turn_angle) >= 20):
-                #    # Object is on our left, turn left
-                    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                elif(math.fabs(turn_angle) < 20):
-                #    # Object is on our right, turn right
-                    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                #print(turn_angle)
+                # if(math.fabs(turn_angle) >= 20):
+                # #    # Object is on our left, turn left
+                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                # elif(math.fabs(turn_angle) < 20):
+                # #    # Object is on our right, turn right
+                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
    
 

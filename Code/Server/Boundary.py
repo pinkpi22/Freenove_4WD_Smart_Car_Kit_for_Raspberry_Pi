@@ -19,32 +19,16 @@ class Boundary:
                 self.LMR=(self.LMR | 2)
             if GPIO.input(self.IR03)==True:
                 self.LMR=(self.LMR | 1)
-            if self.LMR==2:
-                PWM.setMotorModel(0,0,0,0)
-                #FORWARD
-                #-------------- SHOULD NOT DO THIS
-            elif self.LMR==4:
+
+            
+            if self.LMR==0:
+                PWM.setMotorModel(600,600,600,600)
+            else:
                 
-                PWM.setMotorModel(2500,2500,-1500,-1500)
-                #TURN RIGHT
-            elif self.LMR==6:
-                
-                PWM.setMotorModel(4000,4000,-2000,-2000)
-                #TURN RIGHT HARDER
-            elif self.LMR==1:
-                
-                PWM.setMotorModel(-1500,-1500,2500,2500)
-                #TURN LEFT
-            elif self.LMR==0:
-                PWM.setMotorModel(4000,4000,4000,4000)
-                
-            elif self.LMR==3:
-               
-                PWM.setMotorModel(-2000,-2000,4000,4000)
-                #TURN LEFT HARDER
-            elif self.LMR==7:
-                #Turn Away from wall to the right slightly
-                PWM.setMotorModel(1250,1250,-1250,-1250)
+                PWM.setMotorModel(-600,-600,-600,-600)
+                time.sleep(1)
+                PWM.setMotorModel(4500,4500,-2500,-2500)
+                time.sleep(0.5)
             
 infrared=Boundary()
 # Main program logic follows:

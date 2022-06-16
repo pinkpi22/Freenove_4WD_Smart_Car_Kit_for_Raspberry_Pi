@@ -65,11 +65,11 @@ def loop():
     adc=Adc()
     while True:
         Left_IDR=adc.recvADC(0)
-        print (Left_IDR)
+        #print (Left_IDR)
         Right_IDR=adc.recvADC(1)
-        print (Right_IDR)
+        #print (Right_IDR)
         Power=adc.recvADC(2)*3
-        print (Power)
+        #print (Power)
         time.sleep(1)
         print ('----')
 def destroy():
