@@ -19,6 +19,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import * 
+
+from Video import *
+from mediator import mediator
+
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
         global timer
@@ -628,6 +632,7 @@ class mywindow(QMainWindow,Ui_Client):
     def Tracking_Ball(self):
         if self.Btn_Tracking_Ball.text()=="Ball-On":
             self.Btn_Tracking_Ball.setText("Ball-Off")
+            meditite.setLabel("sports ball")
         else:
             self.Btn_Tracking_Ball.setText("Ball-On")
     def find_Ball(self,Ball_x,Ball_y):
