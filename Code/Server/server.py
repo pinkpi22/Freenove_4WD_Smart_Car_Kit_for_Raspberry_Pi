@@ -33,6 +33,7 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        self.boundary=Boundary()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
@@ -130,6 +131,11 @@ class Server:
             self.servo.setServoPwm('1',90)
         except:
             pass
+        try:
+            stop_thread(self.boundaryRun)
+            self.PWM.setMotorModel(0,0,0,0)
+        except:
+            pass
         
     def readdata(self):
         try:
@@ -185,6 +191,11 @@ class Server:
                             self.Mode='four'
                             self.infraredRun=threading.Thread(target=self.infrared.run)
                             self.infraredRun.start()
+                        elif data[1]=='five' or data[1]=="5":
+                            self.stopMode()
+                            self.Mode='five'
+                            self.boundaryRun=threading.Thread(target=self.boundary.run)
+                            self.boundaryRun=start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:
