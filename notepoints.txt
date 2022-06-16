@@ -39,6 +39,10 @@ router to send info through pipe
 main.py
 creating pipe
 
+#notepoint1.11
+server.py
+framerate
+
 
 #---------------2
 Boundary
@@ -53,11 +57,13 @@ button for boundary mode
 main.py
 adding m-bound to ability
 
-#notepoin2.3
+#notepoint2.3
 boundary.py
 created file
 
-
+#notepoint2.4
+server.py
+adding boundary()
 
 
 

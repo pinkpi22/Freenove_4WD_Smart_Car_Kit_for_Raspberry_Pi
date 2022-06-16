@@ -19,6 +19,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from Boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -33,6 +34,8 @@ class Server:
         self.adc=Adc()
         self.light=Light()
         self.infrared=Line_Tracking()
+        #notepoint2.4
+        self.bound=Boundary()
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
@@ -85,7 +88,8 @@ class Server:
             #VideoStream.process(self.server_socket)
             with picamera.PiCamera() as camera:
                 camera.resolution = (400,300)      # pi camera resolution
-                camera.framerate = 15               # 15 frames/sec
+                #notepoint1.11
+                camera.framerate = 30               # 15 frames/sec
                 time.sleep(2)                       # give 2 secs for camera to initilize
                 start = time.time()
                 stream = io.BytesIO()
