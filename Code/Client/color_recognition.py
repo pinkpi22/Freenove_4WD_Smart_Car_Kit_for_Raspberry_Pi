@@ -21,6 +21,7 @@ class colors:
         b, g, r = int(rSum/400), int(gSum/400), int(bSum/400)
         colo = [r,g,b]
         print("r: " + str(r) + " | "+"g: " + str(g) + " | "+"b: " + str(b) + " | ")
+        
         return colo
 
 
