@@ -43,4 +43,12 @@ class Boundary:
                 #pass
                 PWM.setMotorModel(-2000,-2000,-2000,-2000)
             elif self.LMR==0:
-                PWM.setMotorModel(2000,2000,2000,2000)
+                PWM.setMotorModel(500,500,500,500)
+
+boundary = Boundary()
+if __name__ == '__main__':
+    print ('Program is starting ... ')
+    try:
+        boundary.run()
+    except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program  will be  executed.
+        PWM.setMotorModel(0,0,0,0)
