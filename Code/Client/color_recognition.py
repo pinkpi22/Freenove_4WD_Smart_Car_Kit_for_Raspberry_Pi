@@ -18,7 +18,7 @@ class colors:
                 gSum += img[cy-10+i][cx-10+j][1]
                 bSum += img[cy-10+i][cx-10+j][2]
 
-        b, g, r = int(rSum/4000), int(gSum/4000), int(bSum/4000)
+        b, g, r = int(rSum/400), int(gSum/400), int(bSum/400)
         colo = [r,g,b]
         print("r: " + str(r) + " | "+"g: " + str(g) + " | "+"b: " + str(b) + " | ")
         
