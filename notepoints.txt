@@ -43,6 +43,10 @@ creating pipe
 server.py
 framerate
 
+#notepoint1.12
+video.py
+creating a method chooser
+
 
 #---------------2
 Boundary

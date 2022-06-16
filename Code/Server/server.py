@@ -134,6 +134,11 @@ class Server:
             self.servo.setServoPwm('1',90)
         except:
             pass
+        try:
+            stop_thread(self.boundRun)
+            self.PWM.setMotorModel(0,0,0,0)
+        except:
+            pass
         
     def readdata(self):
         try:
@@ -192,8 +197,8 @@ class Server:
                         elif data[1]=='five' or data[1]=="5":
                             self.stopMode()
                             self.Mode='five'
-                            self.infraredRun=threading.Thread(target=self.bound.run)
-                            self.infraredRun.start()
+                            self.boundRun=threading.Thread(target=self.bound.run)
+                            self.boundRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:

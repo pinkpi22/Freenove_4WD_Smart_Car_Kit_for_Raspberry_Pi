@@ -52,8 +52,9 @@ class VideoStreaming:
                 bValid = False
         return bValid
 
-    def find_bottle(self,img, which):
-        if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
+    def find_bottle(self,img):
+        frame = img.copy()
+        if (whatFind != "") and (sys.platform.startswith('win') or sys.platform.startswith('darwin')):
 
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
             faces = self.face_cascade.detectMultiScale(gray,1.3,5)
@@ -139,10 +140,10 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
 
             #Notepoint1.1
-
+            
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((whatFind[which] != "") and (labels[int(classes[i])] == whatFind[which]) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == whatFind) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -183,9 +184,9 @@ class VideoStreaming:
                 #self.sendData(cmd.CMD_MOTOR+Stop)
 
 
-            # Draw framerate in corner of frame
-            cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
-            cv2.imwrite('video.jpg',frame)
+        # Draw framerate in corner of frame
+        cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
+        cv2.imwrite('video.jpg',frame)
 
         # Frame in this case is just the image with the frame rate in the corner
         # cv2.imwrite('video.jpg', frame)
@@ -198,9 +199,11 @@ class VideoStreaming:
             whatFind = "face"
         elif ba == True:
             whatFind = "sports ball"
-        elif not (f or bo or ba):
+        else:
             whatFind = ""
         print(f"Looking for: {whatFind}")
+    
+    #notepoint1.12
 
     #notepoint1.3
     def find_face(self, img):
@@ -241,10 +244,21 @@ class VideoStreaming:
                                 # self.find_bottle(image, 2)
                                 #notepoint1.4
                                 # self.find_face(image)
+                                # if whatFind == "":
+                                #     pass
+                                # elif whatFind == "face":
+                                #     self.find_face(image)
+                                # elif whatFind == "bottle":
+                                #     self.find_bottle(image)
+                                # elif whatFind == "ball":
+                                #     self.find_bottle(image)
+                                # else: 
+                                #     cv2.imwrite('video.jpg', image)
+                                #     pass
                                 if whatFind == "face":
                                     self.find_face(image)
                                 else:
-                                    self.find_bottle(image, whatFind)
+                                    cv2.imwrite('video.jpg', image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)
