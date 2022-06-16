@@ -410,6 +410,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.showMinimized()
         
     def LedChange(self,b):
+    
         R=self.Color_R.text()
         G=self.Color_G.text()
         B=self.Color_B.text()
@@ -496,6 +497,9 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
+
+
+    
 
  
     def on_btn_Mode(self,Mode):
@@ -620,21 +624,25 @@ class mywindow(QMainWindow,Ui_Client):
     def Tracking_Bottle(self):
         if self.Btn_Tracking_Bottle.text()=="Find Bottle":
             self.Btn_Tracking_Bottle.setText("Stop Looking")
-            lebel.setlabel('bottle')
+            VideoStreaming.lebel = 'bottle'
         else:
             self.Btn_Tracking_Bottle.setText("Find Bottle")
+            VideoStreaming.lebel =''
 
     def Tracking_Ball(self):
         if self.Btn_Tracking_Ball.text()=="Find Ball":
             self.Btn_Tracking_Ball.setText("Stop Looking")
-            lebel.setlabel('sports ball')
+            VideoStreaming.lebel = 'sports ball'
         else:
             self.Btn_Tracking_Ball.setText("Find Ball")
+            VideoStreaming.lebel = ''
     def Tracking_Face(self):
         if self.Btn_Tracking_Face.text()=="Find Face":
             self.Btn_Tracking_Face.setText("Stop Looking")
+            VideoStreaming.lebel = 'face'
         else:
             self.Btn_Tracking_Face.setText("Find Face")
+            VideoStreaming.lebel = ''
 
     def find_bottle(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
@@ -653,18 +661,23 @@ class mywindow(QMainWindow,Ui_Client):
                 self.HSlider_Servo1.setValue(self.servo1)
                 self.VSlider_Servo2.setValue(self.servo2)
 
-              #  Set direction that wheels need to turn to face object
-                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                print(turn_angle)
-                if(math.fabs(turn_angle) >= 20):
-                    # Object is on our left, turn left
-                    direction = self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.endChar
-                elif(math.fabs(turn_angle) < 20):
-                     # Object is on our right, turn right
-                     direction = self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.endChar
-                self.TCP.sendData(cmd.CMD_MOTOR+direction)
+            #   #  Set direction that wheels need to turn to face object
+                #turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+            #     print(turn_angle)
+            #     if(math.fabs(turn_angle) >= 20):
+            #         # Object is on our left, turn left
+            #         direction = self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.endChar
+            #     elif(math.fabs(turn_angle) < 20):
+            #          # Object is on our right, turn right
+            #          direction = self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.endChar
+            #     self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
    
+
+    
+        
+
+
     def time(self):
         self.TCP.video_Flag=False
         try:
