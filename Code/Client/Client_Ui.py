@@ -530,6 +530,14 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setFont(font)
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+        self.Btn_Tracking_Faces2 = QtWidgets.QPushButton(Client)#face track 2
+        self.Btn_Tracking_Faces2.setGeometry(QtCore.QRect(120, 750, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Faces2.setFont(font)
+        self.Btn_Tracking_Faces2.setStyleSheet("")
+        self.Btn_Tracking_Faces2.setObjectName("Btn_Tracking_Faces2")
         self.Btn_Tracking_Sodas = QtWidgets.QPushButton(Client)#bottle track
         self.Btn_Tracking_Sodas.setGeometry(QtCore.QRect(230, 700, 90, 30))
         font = QtGui.QFont()
@@ -615,6 +623,7 @@ class Ui_Client(object):
         self.Btn_Mode4.setText(_translate("Client", "M-Line"))
         self.Btn_Mode5.setText(_translate("Client", "M-Bound"))
         self.Btn_Tracking_Faces.setText(_translate("Client", "Find Face"))
+        self.Btn_Tracking_Faces2.setText(_translate("Client", "Find Face 2"))
         self.Btn_Tracking_Sodas.setText(_translate("Client", "Find Bottle"))
         self.Btn_Tracking_Ball.setText(_translate("Client", "Find Ball"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
