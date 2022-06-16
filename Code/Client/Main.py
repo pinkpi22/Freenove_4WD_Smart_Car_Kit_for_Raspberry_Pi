@@ -28,8 +28,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.intervalChar='#'
         self.h=self.IP.text()
         self.TCP=VideoStreaming()
-        self.servo1=90
-        self.servo2=90
+        self.servo1=68
+        self.servo2=120
         self.label_FineServo2.setText("0")
         self.label_FineServo1.setText("0")
         self.m_DragPosition=self.pos()
