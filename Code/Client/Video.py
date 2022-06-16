@@ -9,6 +9,9 @@ import struct
 from PIL import Image
 from multiprocessing import Process
 from Command import COMMAND as cmd
+from mediator import mediator
+global meditite
+meditite = mediator()
 
 class VideoStreaming:
     def __init__(self):
@@ -127,7 +130,7 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'sports ball') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == meditite.getLabel()) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -160,6 +163,10 @@ class VideoStreaming:
                 #Left = '#-1500#-1500#1500#1500\n'
                 #Right = '#1500#1500#-1500#-1500\n'
 #                self.sendData(cmd.CMD_MOTOR+ForWard)
+                crop_img = img[ymin:ymax, xmin:xmax]
+                if meditite.getLabel() == "sports ball":
+                    xwid = xmax - xmin
+                    ywid = ymax - ymin
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
@@ -173,7 +180,7 @@ class VideoStreaming:
 
         cv2.imwrite('video.jpg', frame)
 
-    def face_detect(self,img):
+    """def face_detect(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
             faces = self.face_cascade.detectMultiScale(gray,1.3,5)
@@ -185,7 +192,7 @@ class VideoStreaming:
             else:
                 self.face_x=0
                 self.face_y=0
-        cv2.imwrite('video.jpg',img)
+        cv2.imwrite('video.jpg',img)"""
         
     def streaming(self,ip):
         stream_bytes = b' '
