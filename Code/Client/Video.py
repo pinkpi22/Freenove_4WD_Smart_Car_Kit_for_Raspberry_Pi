@@ -9,6 +9,10 @@ import struct
 from PIL import Image
 from multiprocessing import Process
 from Command import COMMAND as cmd
+import os
+import tensorflow as tf
+import importlib.util
+import time
 from mediator import mediator
 global meditite
 meditite = mediator()
@@ -163,10 +167,10 @@ class VideoStreaming:
                 #Left = '#-1500#-1500#1500#1500\n'
                 #Right = '#1500#1500#-1500#-1500\n'
 #                self.sendData(cmd.CMD_MOTOR+ForWard)
-                crop_img = img[ymin:ymax, xmin:xmax]
-                if meditite.getLabel() == "sports ball":
-                    xwid = xmax - xmin
-                    ywid = ymax - ymin
+                #crop_img = img[ymin:ymax, xmin:xmax]
+                #if meditite.getLabel() == "sports ball":
+                #    xwid = xmax - xmin
+               #     ywid = ymax - ymin
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
@@ -210,7 +214,7 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                               # self.face_detect(image)
+                                self.find_ball(image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)
