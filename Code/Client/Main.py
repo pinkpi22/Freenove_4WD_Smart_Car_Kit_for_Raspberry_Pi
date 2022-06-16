@@ -199,6 +199,8 @@ class mywindow(QMainWindow,Ui_Client):
             elif self.Btn_Mode3.isChecked() == True:
                 self.Btn_Mode4.setChecked(True)
             elif self.Btn_Mode4.isChecked() == True:
+                self.Btn_Mode5.setChecked(True)
+            elif self.Btn_Mode5.isChecked() == True:
                 self.Btn_Mode1.setChecked(True)
 
         if(event.key() == Qt.Key_L):

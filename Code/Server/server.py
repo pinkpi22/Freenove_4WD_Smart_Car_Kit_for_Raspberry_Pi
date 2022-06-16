@@ -197,7 +197,7 @@ class Server:
                             # self.boundRun=threading.Thread(target=self.bound.run)
                             # self.boundRun.start()
                             print("doing boundary now!!!")
-                        elif data[1]=='five' or data[1]=="5":
+                        elif data[1]=='five' or data[1]=="2":
                             self.stopMode()
                             self.Mode='five'
                             self.boundRun=threading.Thread(target=self.bound.run)
