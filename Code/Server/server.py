@@ -192,10 +192,10 @@ class Server:
                         elif data[1]=='four' or data[1]=="2":
                             self.stopMode()
                             self.Mode='four'
-                            # self.infraredRun=threading.Thread(target=self.infrared.run)
-                            # self.infraredRun.start()
-                            self.boundRun=threading.Thread(target=self.bound.run)
-                            self.boundRun.start()
+                            self.infraredRun=threading.Thread(target=self.infrared.run)
+                            self.infraredRun.start()
+                            # self.boundRun=threading.Thread(target=self.bound.run)
+                            # self.boundRun.start()
                             print("doing boundary now!!!")
                         elif data[1]=='five' or data[1]=="5":
                             self.stopMode()
