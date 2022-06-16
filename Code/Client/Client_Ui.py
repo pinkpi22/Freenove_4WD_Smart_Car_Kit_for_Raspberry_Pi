@@ -527,7 +527,7 @@ class Ui_Client(object):
 
         #notepoint1.2
         # ----- Tracking -----
-        self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
+        self.Btn_Tracking_Faces = QtWidgets.QRadioButton(Client)
         self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 700, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -536,7 +536,7 @@ class Ui_Client(object):
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
         # bottle
-        self.Btn_Tracking_Bottle = QtWidgets.QPushButton(Client)
+        self.Btn_Tracking_Bottle = QtWidgets.QRadioButton(Client)
         self.Btn_Tracking_Bottle.setGeometry(QtCore.QRect(330, 700, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -545,7 +545,7 @@ class Ui_Client(object):
         self.Btn_Tracking_Bottle.setStyleSheet("")
         self.Btn_Tracking_Bottle.setObjectName("Btn_Tracking_Bottle")
         # ball
-        self.Btn_Tracking_Ball = QtWidgets.QPushButton(Client)
+        self.Btn_Tracking_Ball = QtWidgets.QRadioButton(Client)
         self.Btn_Tracking_Ball.setGeometry(QtCore.QRect(130, 700, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
@@ -553,6 +553,15 @@ class Ui_Client(object):
         self.Btn_Tracking_Ball.setFont(font)
         self.Btn_Tracking_Ball.setStyleSheet("")
         self.Btn_Tracking_Ball.setObjectName("Btn_Tracking_Ball")
+        # nothing
+        self.Btn_Tracking_Nothing = QtWidgets.QRadioButton(Client)
+        self.Btn_Tracking_Nothing.setGeometry(QtCore.QRect(430, 700, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Nothing.setFont(font)
+        self.Btn_Tracking_Nothing.setStyleSheet("")
+        self.Btn_Tracking_Nothing.setObjectName("Btn_Tracking_Nothing")
 
         self.Ultrasonic = QtWidgets.QPushButton(Client)
         self.Ultrasonic.setGeometry(QtCore.QRect(400, 41, 180, 30))
@@ -624,6 +633,7 @@ class Ui_Client(object):
         self.Btn_Tracking_Bottle.setText(_translate("Client", "Find Bottle"))
         self.Btn_Tracking_Faces.setText(_translate("Client", "Find Face"))
         self.Btn_Tracking_Ball.setText(_translate("Client", "Find Ball"))
+        self.Btn_Tracking_Nothing.setText(_translate("Client", "Find Nothing"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
 

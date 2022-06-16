@@ -16,7 +16,7 @@ import importlib.util
 import time
 #from Main import mywindow
 
-whatFind = ["","",""]
+whatFind = ""
 
 class VideoStreaming:
     def __init__(self):
@@ -185,24 +185,21 @@ class VideoStreaming:
 
             # Draw framerate in corner of frame
             cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
+            cv2.imwrite('video.jpg',frame)
 
         # Frame in this case is just the image with the frame rate in the corner
         # cv2.imwrite('video.jpg', frame)
 
     #notepoint1.9
-    def router(f, t):
-        if f == "bottle" and t == True:
-            whatFind[0] = f
-        elif f == "face" and t == True:
-            whatFind[1] = f
-        elif f == "ball" and t == True:
-            whatFind[2] = f
-        elif f == "bottle" and t == False:
-            whatFind[0] = ""
-        elif f == "face" and t == False:
-            whatFind[1] = ""
-        elif f == "ball" and t == False:
-            whatFind[2] = ""
+    def router(f, bo, ba):
+        if bo == True:
+            whatFind = "bottle"
+        elif f == True:
+            whatFind = "face"
+        elif ba == True:
+            whatFind = "sports ball"
+        elif not (f or bo or ba):
+            whatFind = ""
         print(f"Looking for: {whatFind}")
 
     #notepoint1.3
@@ -240,10 +237,14 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                self.find_bottle(image, 0)
-                                self.find_bottle(image, 2)
+                                # self.find_bottle(image, 0)
+                                # self.find_bottle(image, 2)
                                 #notepoint1.4
-                                self.find_face(image)
+                                # self.find_face(image)
+                                if whatFind == "face":
+                                    self.find_face(image)
+                                else:
+                                    self.find_bottle(image, whatFind)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)

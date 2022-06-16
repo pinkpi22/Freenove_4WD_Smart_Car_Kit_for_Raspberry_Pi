@@ -142,9 +142,14 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Down.clicked.connect(self.on_btn_Down)
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
-        self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
-        self.Btn_Tracking_Bottle.clicked.connect(self.Tracking_Bottle)
-        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball)
+        self.Btn_Tracking_Faces.toggled.connect(self.Tracking_Face)
+        self.Btn_Tracking_Faces.setChecked(False)
+        self.Btn_Tracking_Bottle.toggled.connect(self.Tracking_Bottle)
+        self.Btn_Tracking_Bottle.setChecked(False)
+        self.Btn_Tracking_Ball.toggled.connect(self.Tracking_Ball)
+        self.Btn_Tracking_Ball.setChecked(False)
+        self.Btn_Tracking_Nothing.toggled.connect(self.Tracking_Nothing)
+        self.Btn_Tracking_Nothing.setChecked(True)
         
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
@@ -616,28 +621,21 @@ class mywindow(QMainWindow,Ui_Client):
             pass
         return bValid
 
+    # router(face, bottle, ball)
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Find Face":
-            self.Btn_Tracking_Faces.setText("Stop Looking")
-            VideoStreaming.router("face", True)
-        else:
-            self.Btn_Tracking_Faces.setText("Find Face")
-            VideoStreaming.router("face", False)
+        # if self.Btn_Tracking_Faces.text()=="Find Face":
+            # self.Btn_Tracking_Faces.setText("Stop Looking")
+            VideoStreaming.router(True, False, False)
+        # else:
+        #     self.Btn_Tracking_Faces.setText("Find Face")
+        #     VideoStreaming.router(True, False, False)
     #notepoint1.7
     def Tracking_Bottle(self):
-        if self.Btn_Tracking_Bottle.text()=="Find Bottle":
-            self.Btn_Tracking_Bottle.setText("Stop Looking")
-            VideoStreaming.router("bottle", True)
-        else:
-            self.Btn_Tracking_Bottle.setText("Find Bottle")
-            VideoStreaming.router("bottle", False)
+        VideoStreaming.router(False, True, False)
     def Tracking_Ball(self):
-        if self.Btn_Tracking_Ball.text()=="Find Ball":
-            self.Btn_Tracking_Ball.setText("Stop Looking")
-            VideoStreaming.router("ball", True)
-        else:
-            self.Btn_Tracking_Ball.setText("Find Ball")
-            VideoStreaming.router("ball", False)
+        VideoStreaming.router(False, False, True)
+    def Tracking_Nothing(self):
+        VideoStreaming.router(False, False, False)
 
 
     def find_bottle(self,face_x,face_y):
