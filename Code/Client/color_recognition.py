@@ -20,7 +20,7 @@ class colors:
 
         b, g, r = int(rSum/100), int(gSum/100), int(bSum/100)
         colo = [r,g,b]
-        print("r: " + r + " | "+"g: " + g + " | "+"b: " + b + " | ")
+        print("r: " + str(r) + " | "+"g: " + str(g) + " | "+"b: " + str(b) + " | ")
         if r < 10 and g > 90:
             colo = [0,255,0]
         return colo
