@@ -45,6 +45,21 @@ class VideoStreaming:
             except:  
                 bValid = False
         return bValid
+    
+    def find_face(self,img):
+        if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
+
+            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+        if len(faces)>0 :
+            for (x,y,w,h) in faces:
+                self.face_x=float(x+w/2.0)
+                self.face_y=float(y+h/2.0)
+                img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+        else:
+                self.face_x=0
+                self.face_y=0
+        cv2.imwrite('video.jpg',img)  
 
     def find_bottle(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
