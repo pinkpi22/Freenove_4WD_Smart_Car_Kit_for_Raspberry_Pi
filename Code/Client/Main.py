@@ -689,7 +689,7 @@ class mywindow(QMainWindow,Ui_Client):
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 #notepoint1.8
-                if self.Btn_Tracking_Faces.text()=="Stop Looking":
+                if self.Btn_Tracking_Faces.isChecked() == True:
                     self.find_bottle(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)

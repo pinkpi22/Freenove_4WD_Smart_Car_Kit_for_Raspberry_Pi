@@ -240,25 +240,11 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                # self.find_bottle(image, 0)
-                                # self.find_bottle(image, 2)
-                                #notepoint1.4
-                                # self.find_face(image)
-                                # if whatFind == "":
-                                #     pass
-                                # elif whatFind == "face":
+                                # if whatFind == "face":
                                 #     self.find_face(image)
-                                # elif whatFind == "bottle":
-                                #     self.find_bottle(image)
-                                # elif whatFind == "ball":
-                                #     self.find_bottle(image)
-                                # else: 
+                                # else:
                                 #     cv2.imwrite('video.jpg', image)
-                                #     pass
-                                if whatFind == "face":
-                                    self.find_face(image)
-                                else:
-                                    cv2.imwrite('video.jpg', image)
+                                self.find_face(image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)
