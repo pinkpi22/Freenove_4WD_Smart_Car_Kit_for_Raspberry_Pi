@@ -658,10 +658,10 @@ class mywindow(QMainWindow,Ui_Client):
                 print(turn_angle)
                 if(math.fabs(turn_angle) >= 20):
                     # Object is on our left, turn left
-                    direction = self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.endChar
+                    direction = self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.endChar
                 elif(math.fabs(turn_angle) < 20):
                      # Object is on our right, turn right
-                     direction = self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.endChar
+                     direction = self.intervalChar+str(-1000)+self.intervalChar+str(-1000)+self.intervalChar+str(1000)+self.intervalChar+str(1000)+self.endChar
                 self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
    
