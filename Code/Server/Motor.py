@@ -79,13 +79,13 @@ class Motor:
 PWM=Motor()          
 def loop(): 
     PWM.setMotorModel(2000,2000,2000,2000)       #Forward
-    time.sleep(3)
+    time.sleep(1)
     PWM.setMotorModel(-2000,-2000,-2000,-2000)   #Back
-    time.sleep(3)
+    time.sleep(1)
     PWM.setMotorModel(-500,-500,2000,2000)       #Left 
-    time.sleep(3)
+    time.sleep(1)
     PWM.setMotorModel(2000,2000,-500,-500)       #Right    
-    time.sleep(3)
+    time.sleep(1)
     PWM.setMotorModel(0,0,0,0)                   #Stop
     
 def destroy():
