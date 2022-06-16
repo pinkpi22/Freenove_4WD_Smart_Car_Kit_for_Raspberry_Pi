@@ -11,7 +11,7 @@ class colors:
         pixel_center = img[cy - 10, cx]
         b, g, r = int(pixel_center[0]), int(pixel_center[1]), int(pixel_center[2])
         colo = [r,g,b]
-        if r < 10 and g > 75 and b < 30:
+        if r < 10 and g > 130:
             colo = [0,255,0]
         return colo
 
