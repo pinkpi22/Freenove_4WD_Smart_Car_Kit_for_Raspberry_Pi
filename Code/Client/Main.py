@@ -1,5 +1,6 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from ast import keyword
 from email.mime import image
 import numpy as np
 import cv2
@@ -487,35 +488,37 @@ class mywindow(QMainWindow,Ui_Client):
         if b.text() == "Led_Mode4":
            if b.isChecked() == True:
                self.checkBox_Led_Mode2.setChecked(False)
-               self.checkBox_Led_Mode3.setChecked(False)
+               self._Mode3.setChecked(False)
                self.checkBox_Led_Mode1.setChecked(False)
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
 
- 
-    def on_btn_Mode(self,Mode):
-        if Mode.text() == "M-Free":
-            if Mode.isChecked() == True:
-                #self.timer.start(34)
-                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'one'+self.endChar)
-        if Mode.text() == "M-Light":
-            if Mode.isChecked() == True:
-                #self.timer.stop()
-                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'two'+self.endChar)
-        if Mode.text() == "M-Sonic":
-            if Mode.isChecked() == True:
-                #self.timer.stop()
-                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'three'+self.endChar)    
-        if Mode.text() == "M-Line":
-            if Mode.isChecked() == True:
-                #self.timer.stop()
-                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
-        if Mode.text() == "M-Bound":
-            if Mode.isChecked() == True:
-                #self.timer.stop()
-                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
-         
+
+    def RGBChange(self,array):
+        self.Color_R.setText(str(array[0]))
+        self.Color_G.setText(str(array[1]))
+        self.Color_B.setText(str(array[2]))
+        led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+        color=self.intervalChar+str(self.Color_R.text())+self.intervalChar+str(self.Color_G.text())+self.intervalChar+str(self.Color_B.text())+self.endChar
+        self.led_Index=str(0x01)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x02)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x04)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x08)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x10)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x20)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x40)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x80)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           
+        
                                   
     def on_btn_Connect(self):
         if self.Btn_Connect.text() == "Connect":

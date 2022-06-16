@@ -119,6 +119,72 @@ class Led:
             else:
                 self.colorWipe(self.strip, Color(0,0,0),10)
                 break
+
+
+
+
+
+
+
+    def LedChange(self,R,G,B):
+        R=self.Color_R.text()
+        G=self.Color_G.text()
+        B=self.Color_B.text()
+        led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+        color=self.intervalChar+str(R)+self.intervalChar+str(G)+self.intervalChar+str(B)+self.endChar
+        if b.text() == "Led1":
+           self.led_Index=str(0x01)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        if b.text() == "Led2":
+           self.led_Index=str(0x02)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)              
+        if b.text() == "Led3":
+           self.led_Index=str(0x04)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        if b.text() == "Led4":
+           self.led_Index=str(0x08)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        if b.text() == "Led5":
+           self.led_Index=str(0x10)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        if b.text() == "Led6":
+           self.led_Index=str(0x20)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        if b.text() == "Led7":
+           self.led_Index=str(0x40)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+        if b.text() == "Led8":
+           self.led_Index=str(0x80)
+           if b.isChecked() == True:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+           else:
+               self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+       
+
+
+
+
 led=Led()                 
 # Main program logic follows:
 if __name__ == '__main__':
