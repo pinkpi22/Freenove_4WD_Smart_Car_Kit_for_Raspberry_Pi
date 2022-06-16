@@ -619,8 +619,17 @@ class mywindow(QMainWindow,Ui_Client):
     def Tracking_Bottle(self):
         if self.Btn_Tracking_Bottle.text()=="Find Bottle":
             self.Btn_Tracking_Bottle.setText("Stop Looking")
+            mediator.getlabel('bottle')
         else:
             self.Btn_Tracking_Bottle.setText("Find Bottle")
+
+    def Tracking_Face(self):
+        if self.Btn_Tracking_Face.text()=="Find Face":
+            self.Btn_Tracking_Face.setText("Stop Looking")
+            mediator.getlabel('person')
+        else:
+            self.Btn_Tracking_Face.setText("Find Face")
+
     def find_bottle(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -648,40 +657,7 @@ class mywindow(QMainWindow,Ui_Client):
                 #     # Object is on our right, turn right
                 #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
                 # self.TCP.sendData(cmd.CMD_MOTOR+direction)
-    def Tracking_Face(self):
-        if self.Btn_Tracking_Face.text()=="Find Face":
-            self.Btn_Tracking_Face.setText("Stop Looking")
-        else:
-            self.Btn_Tracking_Face.setText("Find Face")
-    def find_face(self,face_x,face_y):
-        if face_x!=0 and face_y!=0:
-            offset_x=float(face_x/400-0.5)*2
-            offset_y=float(face_y/300-0.5)*2
-            delta_degree_x = -4* offset_x
-            delta_degree_y = -4 * offset_y
-
-            self.servo1=self.servo1+delta_degree_x
-            self.servo2=self.servo2+delta_degree_y
-
-            if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
-                pass
-            else:
-                # Turn head to object
-                self.HSlider_Servo1.setValue(self.servo1)
-                self.VSlider_Servo2.setValue(self.servo2)
-
-                # Set direction that wheels need to turn to face object
-                # turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                # print(turn_angle)
-                # if(math.fabs(turn_angle) >= 20):
-                #     # Object is on our left, turn left
-                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                # elif(math.fabs(turn_angle) < 20):
-                #     # Object is on our right, turn right
-                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
-
-
+    
     def time(self):
         self.TCP.video_Flag=False
         try:
@@ -689,7 +665,7 @@ class mywindow(QMainWindow,Ui_Client):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Bottle.text()=="Stop Looking":
                         self.find_bottle(self.TCP.face_x,self.TCP.face_y)
-                if self.Btn_Tracking_Face.text()=="Stop Looking":
+                elif self.Btn_Tracking_Face.text()=="Stop Looking":
                         self.find_face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
