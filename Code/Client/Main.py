@@ -665,20 +665,22 @@ class mywindow(QMainWindow,Ui_Client):
 
             self.Btn_Tracking_Sodas.setText("Find Bottle")
             self.Btn_Tracking_Ball.setText("Find Ball")
+            self.Btn_Tracking_Faces.setText("Find Face 2")
         else:
             self.Btn_Tracking_Faces.setText("Find Face")
             meditite.setLabel("")
-            
-    def Tracking_Face(self):        ###QUESTIONABLE
-        if self.Btn_Tracking_Faces.text()=="Find Face":
-            self.Btn_Tracking_Faces.setText("Stop Looking")
+
+    def Tracking_Face2(self):        ###QUESTIONABLE
+        if self.Btn_Tracking_Faces2.text()=="Find Face":
+            self.Btn_Tracking_Faces2.setText("Stop Looking")
             meditite.setLabel("person")
             print(meditite.getLabel())
 
             self.Btn_Tracking_Sodas.setText("Find Bottle")
             self.Btn_Tracking_Ball.setText("Find Ball")
-        else:
             self.Btn_Tracking_Faces.setText("Find Face")
+        else:
+            self.Btn_Tracking_Faces.setText("Find Face 2")
             meditite.setLabel("")
 
     def Tracking_Soda(self):            #!!!!!
@@ -686,7 +688,7 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Sodas.setText("Stop Looking")
             meditite.setLabel("bottle")
             self.Btn_Tracking_Faces.setText("Find Face")
-            
+            self.Btn_Tracking_Faces.setText("Find Face 2")
             self.Btn_Tracking_Ball.setText("Find Ball")
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
@@ -700,6 +702,7 @@ class mywindow(QMainWindow,Ui_Client):
             meditite.setLabel("sports ball")
             self.Btn_Tracking_Faces.setText("Find Face")
             self.Btn_Tracking_Sodas.setText("Find Bottle")
+            self.Btn_Tracking_Faces.setText("Find Face 2")
             
 
         else:
@@ -723,15 +726,17 @@ class mywindow(QMainWindow,Ui_Client):
             if self.Btn_Tracking_Faces2 != "stop looking":
                 self.servo1=self.servo1+delta_degree_x
                 self.servo2=self.servo2+delta_degree_y
-            if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
-                pass
             else:
+                if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
+                    pass
+                else:
                 # Turn head to object
-                self.HSlider_Servo1.setValue(self.servo1)
-                self.VSlider_Servo2.setValue(self.servo2)
+                    self.HSlider_Servo1.setValue(self.servo1)
+                    self.VSlider_Servo2.setValue(self.servo2)
 
                 # Set direction that wheels need to turn to face object
-                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                    turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                    print(turn_angle)
                 #print(turn_angle)
                 # if(math.fabs(turn_angle) >= 20):
                 # #    # Object is on our left, turn left
