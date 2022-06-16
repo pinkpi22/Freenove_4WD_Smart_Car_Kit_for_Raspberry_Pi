@@ -660,7 +660,7 @@ class mywindow(QMainWindow,Ui_Client):
             if  self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Ball.text()=="Ball-On":
-                        self.find_Ball(self.TCP.Ball_x,self.TCP.Ball_y)
+                        self.find_Ball(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
         self.TCP.video_Flag=True

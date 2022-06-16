@@ -599,7 +599,7 @@ class Ui_Client(object):
         self.Btn_Mode3.setText(_translate("Client", "M-Sonic"))
         self.Btn_Mode4.setText(_translate("Client", "M-Line"))
         self.Btn_Mode5.setText(_translate("Client", "M-Box"))
-        self.Btn_Tracking_Ball.setText(_translate("Client", "M-Ball"))
+        self.Btn_Tracking_Ball.setText(_translate("Client", "Ball-Off"))
         self.Btn_Tracking_Faces.setText(_translate("Client", "Face-Off"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
