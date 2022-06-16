@@ -210,7 +210,7 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                self.face_detect(image)
+                               # self.face_detect(image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)
