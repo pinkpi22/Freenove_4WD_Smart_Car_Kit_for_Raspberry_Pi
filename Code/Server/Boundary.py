@@ -66,7 +66,8 @@ class Boundary:
             elif self.LMR==7:
                 # print("LMR == 7")
                 #pass
-                PWM.setMotorModel(0,0,0,0)
+                PWM.setMotorModel(800,800,800,800)
+                # PWM.setMotorModel(0,0,0,0)
             
 infrared=Boundary()
 # Main program logic follows:
@@ -74,5 +75,6 @@ if __name__ == '__main__':
     print ('Program is starting ... ')
     try:
         infrared.run()
+        pass
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program  will be  executed.
         PWM.setMotorModel(0,0,0,0)
