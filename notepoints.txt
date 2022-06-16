@@ -39,6 +39,12 @@ router to send info through pipe
 main.py
 creating pipe
 
+
+#---------------2
+Boundary
+go back 3 seconds, 90 degree turn
+tear duct tape in half
+
 #notepoint2.1
 client_ui
 button for boundary mode
@@ -47,7 +53,9 @@ button for boundary mode
 main.py
 adding m-bound to ability
 
-
+#notepoin2.3
+boundary.py
+created file
 
 
 
