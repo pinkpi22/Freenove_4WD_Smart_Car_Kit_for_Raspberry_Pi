@@ -26,14 +26,14 @@ class boundary:
             if self.LMR > 0 and self.LMR <4:
                 #pass
                 PWM.setMotorModel(-1000,-1000,-1000,-1000)
-                time.sleep(3.0)
+                time.sleep(1.0)
                 PWM.setMotorModel(-2000, -2000, 1000, 1000)
                 time.sleep(0.8)
             
             elif self.LMR > 4 and self.LMR < 8:
                 #pass
                 PWM.setMotorModel(-1000,-1000,-1000,-1000)
-                time.sleep(3.0)
+                time.sleep(1.0)
                 PWM.setMotorModel(1000, 1000, -2000, -2000)
                 time.sleep(0.8)
 
