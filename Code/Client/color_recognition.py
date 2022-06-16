@@ -11,6 +11,7 @@ class colors:
         pixel_center = img[cy, cx]
         b, g, r = int(pixel_center[0]), int(pixel_center[1]), int(pixel_center[2])
         colo = [r,g,b]
+        print("R: " + str(r) + "G: " + str(g) + "B: " + str(b))
         return colo
 
 
