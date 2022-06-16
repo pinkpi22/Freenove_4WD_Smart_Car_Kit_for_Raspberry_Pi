@@ -19,6 +19,7 @@ from Thread import *
 from Light import *
 from Ultrasonic import *
 from Line_Tracking import *
+from Boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
@@ -195,7 +196,7 @@ class Server:
                             self.stopMode()
                             self.Mode='five'
                             self.boundaryRun=threading.Thread(target=self.boundary.run)
-                            self.boundaryRun=start()
+                            self.boundaryRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:
