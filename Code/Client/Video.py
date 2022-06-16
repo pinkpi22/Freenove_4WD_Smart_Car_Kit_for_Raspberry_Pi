@@ -14,7 +14,15 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
+class mediator:
+        label = ""
+        def setlabel(self, input):
+            self.label = input
+        def getlabel(self):
+            return self.label
 
+global lebel 
+lebel = mediator()
 class VideoStreaming:
     def __init__(self):
         self.face_cascade = cv2.CascadeClassifier(r'haarcascade_frontalface_default.xml')
@@ -46,26 +54,13 @@ class VideoStreaming:
                 bValid = False
         return bValid
     
-    def find_face(self,img):
-        if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
-
-            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-            faces = self.face_cascade.detectMultiScale(gray,1.3,5)
-        if len(faces)>0 :
-            for (x,y,w,h) in faces:
-                self.face_x=float(x+w/2.0)
-                self.face_y=float(y+h/2.0)
-                img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
-        else:
-                self.face_x=0
-                self.face_y=0
-        cv2.imwrite('video.jpg',img)  
+    
 
     def find_bottle(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
-            # gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-            # faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+            #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            #faces = self.face_cascade.detectMultiScale(gray,1.3,5)
 
             MODEL_NAME = 'Sample_TFLite_model'
             GRAPH_NAME = 'detect.tflite'
@@ -92,7 +87,11 @@ class VideoStreaming:
             if labels[0] == '???':
                 del(labels[0])
 
+            # Use tensorflow library
             interpreter = tf.lite.Interpreter(model_path=PATH_TO_CKPT)
+
+            # Uncomment to use tflite library
+            #interpreter = Interpreter(model_path=PATH_TO_CKPT)
 
             interpreter.allocate_tensors()
 
@@ -144,7 +143,7 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'bottle') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == lebel.getlabel()) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -188,18 +187,33 @@ class VideoStreaming:
             # Draw framerate in corner of frame
             cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
 
-        #cv2.imwrite('video.jpg', frame)
+        #
+        cv2.imwrite('video.jpg', frame)
 
+       # Face detection
         # if len(faces)>0 :
-        #     for (x,y,w,h) in faces:
-        #         self.face_x=float(x+w/2.0)
-        #         self.face_y=float(y+h/2.0)
-        #         img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+        #         for (x,y,w,h) in faces:
+        #            self.face_x=float(x+w/2.0)
+        #            self.face_y=float(y+h/2.0)
+        #            img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
         # else:
-        #         self.face_x=0
-        #         self.face_y=0
-        # cv2.imwrite('video.jpg',img)
-        
+        #        self.face_x=0
+        #        self.face_y=0
+        #cv2.imwrite('video.jpg',img)
+
+    def find_face (self, img):
+        gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+        faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+        if len(faces)>0 :
+                for (x,y,w,h) in faces:
+                   self.face_x=float(x+w/2.0)
+                   self.face_y=float(y+h/2.0)
+                   img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+        else:
+               self.face_x=0
+               self.face_y=0
+        cv2.imwrite('video.jpg',img)
+
     def streaming(self,ip):
         stream_bytes = b' '
         try:
@@ -218,6 +232,7 @@ class VideoStreaming:
                             if self.video_Flag:
                                 self.find_bottle(image)
                                 self.video_Flag=False
+                                self.find_face(image)
             except Exception as e:
                 print (e)
                 break
@@ -242,7 +257,7 @@ class VideoStreaming:
         except Exception as e:
             print ("Connect to server Faild!: Server IP is right? Server is opend?")
             self.connect_Flag=False
-
+    
 if __name__ == '__main__':
     pass
 
