@@ -682,27 +682,19 @@ class mywindow(QMainWindow,Ui_Client):
                 # self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
 
-    def timeb(self):
+    def time(self):
         self.TCP.video_Flag=False
         try:
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Bottle.text()=="Stop Looking":
                         self.find_bottle(self.TCP.face_x,self.TCP.face_y)
-        except Exception as e:
-            print(e)
-        self.TCP.video_Flag=True
-    def timef(self):
-        self.TCP.video_Flag=False
-        try:
-            if self.is_valid_jpg('video.jpg'):
-                self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Face.text()=="Stop Looking":
                         self.find_face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
         self.TCP.video_Flag=True
-
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     myshow=mywindow()
