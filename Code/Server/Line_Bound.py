@@ -24,10 +24,10 @@ class Line_Bound:
                 PWM.setMotorModel(800,800,800,800)
             
             elif self.LMR > 0:
-                PWM.setMotorModel(-800,-800,-800,-800)
+                PWM.setMotorModel(-150,-150,-150,-150)
                 time.sleep(3)
-                PWM.setMotorModel(2500,2500,-1500,-1500)
-                time.sleep(0.82)
+                PWM.setMotorModel(1500,1500-500-500)
+                time.sleep(0.70)
             
             
             
