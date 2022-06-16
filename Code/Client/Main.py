@@ -151,6 +151,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face) ####
         self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda) ####
         self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball) ####
+        self.Btn_TrackingFaces2.clicked.connect(self.Tracking_Face2)
     
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
@@ -668,6 +669,18 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Faces.setText("Find Face")
             meditite.setLabel("")
             
+    def Tracking_Face(self):        ###QUESTIONABLE
+        if self.Btn_Tracking_Faces.text()=="Find Face":
+            self.Btn_Tracking_Faces.setText("Stop Looking")
+            meditite.setLabel("person")
+            print(meditite.getLabel())
+
+            self.Btn_Tracking_Sodas.setText("Find Bottle")
+            self.Btn_Tracking_Ball.setText("Find Ball")
+        else:
+            self.Btn_Tracking_Faces.setText("Find Face")
+            meditite.setLabel("")
+
     def Tracking_Soda(self):            #!!!!!
         if self.Btn_Tracking_Sodas.text()=="Find Bottle":
             self.Btn_Tracking_Sodas.setText("Stop Looking")
@@ -707,10 +720,9 @@ class mywindow(QMainWindow,Ui_Client):
             offset_y=float(face_y/300-0.5)*2
             delta_degree_x = 4* offset_x
             delta_degree_y = -4 * offset_y
-
-            self.servo1=self.servo1+delta_degree_x
-            self.servo2=self.servo2+delta_degree_y
-
+            if self.Btn_Tracking_Faces2 != "stop looking":
+                self.servo1=self.servo1+delta_degree_x
+                self.servo2=self.servo2+delta_degree_y
             if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
                 pass
             else:
