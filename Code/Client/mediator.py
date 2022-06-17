@@ -37,7 +37,14 @@ from Command import COMMAND as cmd
 class mediator:
     label = ""
     colo = [255,0,0]
-    
+    rCenter = 0
+
+    def setRc(self, input):
+        self.rCenter = input
+
+    def getRc(self):
+        return self.rCenter
+
     def setColo(self,input):
         self.colo = input
 

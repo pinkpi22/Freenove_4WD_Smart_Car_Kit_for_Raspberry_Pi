@@ -188,7 +188,7 @@ class VideoStreaming:
                 xmin = int(max(1,(boxes[max_index][1] * imW)))
                 ymax = int(min(imH,(boxes[max_index][2] * imH)))
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
-                
+                meditite.setRc(xmin + ((xmax-xmin)/2))
                 crop_img = img[ymin:ymax, xmin:xmax]
                 if meditite.getLabel() == "sports ball":
                     xwid = xmax - xmin

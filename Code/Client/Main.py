@@ -151,7 +151,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face) ####
         self.Btn_Tracking_Sodas.clicked.connect(self.Tracking_Soda) ####
         self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball) ####
-        self.Btn_TrackingFaces2.clicked.connect(self.Tracking_Face2)
+        self.Btn_Tracking_Faces2.clicked.connect(self.Tracking_Face2)
     
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
@@ -665,13 +665,13 @@ class mywindow(QMainWindow,Ui_Client):
 
             self.Btn_Tracking_Sodas.setText("Find Bottle")
             self.Btn_Tracking_Ball.setText("Find Ball")
-            self.Btn_Tracking_Faces.setText("Find Face 2")
+            self.Btn_Tracking_Faces2.setText("Find Face 2")
         else:
             self.Btn_Tracking_Faces.setText("Find Face")
             meditite.setLabel("")
 
     def Tracking_Face2(self):        ###QUESTIONABLE
-        if self.Btn_Tracking_Faces2.text()=="Find Face":
+        if self.Btn_Tracking_Faces2.text()=="Find Face 2":
             self.Btn_Tracking_Faces2.setText("Stop Looking")
             meditite.setLabel("person")
             print(meditite.getLabel())
@@ -680,7 +680,7 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Ball.setText("Find Ball")
             self.Btn_Tracking_Faces.setText("Find Face")
         else:
-            self.Btn_Tracking_Faces.setText("Find Face 2")
+            self.Btn_Tracking_Faces2.setText("Find Face 2")
             meditite.setLabel("")
 
     def Tracking_Soda(self):            #!!!!!
@@ -688,7 +688,7 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Sodas.setText("Stop Looking")
             meditite.setLabel("bottle")
             self.Btn_Tracking_Faces.setText("Find Face")
-            self.Btn_Tracking_Faces.setText("Find Face 2")
+            self.Btn_Tracking_Faces2.setText("Find Face 2")
             self.Btn_Tracking_Ball.setText("Find Ball")
         else:
             self.Btn_Tracking_Sodas.setText("Find Bottle")
@@ -702,7 +702,7 @@ class mywindow(QMainWindow,Ui_Client):
             meditite.setLabel("sports ball")
             self.Btn_Tracking_Faces.setText("Find Face")
             self.Btn_Tracking_Sodas.setText("Find Bottle")
-            self.Btn_Tracking_Faces.setText("Find Face 2")
+            self.Btn_Tracking_Faces2.setText("Find Face 2")
             
 
         else:
@@ -718,33 +718,35 @@ class mywindow(QMainWindow,Ui_Client):
 
 
     def find_bottle(self,face_x,face_y):
-        if face_x!=0 and face_y!=0:
-            offset_x=float(face_x/400-0.5)*2
-            offset_y=float(face_y/300-0.5)*2
-            delta_degree_x = 4* offset_x
-            delta_degree_y = -4 * offset_y
-            if self.Btn_Tracking_Faces2 != "stop looking":
+        if self.Btn_Tracking_Faces2 != "stop looking":
+            if face_x!=0 and face_y!=0:
+                offset_x=float(face_x/400-0.5)*2
+                offset_y=float(face_y/300-0.5)*2
+                delta_degree_x = 4* offset_x
+                delta_degree_y = -4 * offset_y
                 self.servo1=self.servo1+delta_degree_x
                 self.servo2=self.servo2+delta_degree_y
-            else:
                 if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
-                    pass
+                        
+                        pass
                 else:
-                # Turn head to object
+                    # Turn head to object
                     self.HSlider_Servo1.setValue(self.servo1)
                     self.VSlider_Servo2.setValue(self.servo2)
+        else:
+            ## FACE MODE 2
+            if meditite.getRc() < 101:
+                direction = self.intervalChar+str(-5000)+self.intervalChar+str(-5000)+self.intervalChar+str(5000)+self.intervalChar+str(5000)+self.endChar
+                
+            elif meditite.getRc() < 301:
+                direction = self.intervalChar+str(5000)+self.intervalChar+str(5000)+self.intervalChar+str(5000)+self.intervalChar+str(5000)+self.endChar
+               
+            else:
+                direction = self.intervalChar+str(5000)+self.intervalChar+str(5000)+self.intervalChar+str(-5000)+self.intervalChar+str(-5000)+self.endChar
+                
+            self.TCP.sendData(cmd.CMD_MOTOR+direction)
+            time.sleep(1)
 
-                # Set direction that wheels need to turn to face object
-                    turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                    print(turn_angle)
-                #print(turn_angle)
-                # if(math.fabs(turn_angle) >= 20):
-                # #    # Object is on our left, turn left
-                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                # elif(math.fabs(turn_angle) < 20):
-                # #    # Object is on our right, turn right
-                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
    
 
