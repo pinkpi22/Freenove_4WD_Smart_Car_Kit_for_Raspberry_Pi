@@ -144,7 +144,7 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'sports ball') or (labels[i-nt(classes[i])] == 'apple') or (labels[int(classes[i])] == 'frisbee')):
+                if ((labels[int(classes[i])] == 'sports ball') or (labels[int(classes[i])] == 'apple') or (labels[int(classes[i])] == 'frisbee')):
                     if ((scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                         # Get bounding box coordinates and draw box
                         # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
