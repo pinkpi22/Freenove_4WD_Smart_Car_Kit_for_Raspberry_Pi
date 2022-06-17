@@ -25,7 +25,7 @@ class Boundary:
                 PWM.setMotorModel(-500,-500,-500,-500)
                 time.sleep(3)
                 PWM.setMotorModel(-1000,-1000,2000,2000)
-                time.sleep(1)
+                time.sleep(1.33)
             
 boundary = Boundary()
 if __name__ == '__main__':
