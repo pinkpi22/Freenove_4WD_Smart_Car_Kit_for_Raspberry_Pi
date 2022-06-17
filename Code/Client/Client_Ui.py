@@ -350,6 +350,15 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led_Mode2.setFont(font)
         self.checkBox_Led_Mode2.setObjectName("checkBox_Led_Mode2")
+        #################
+        self.checkBox_Led_Ball = QtWidgets.QPushButton(Client)
+        self.checkBox_Led_Ball.setGeometry(QtCore.QRect(10, 460, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.checkBox_Led_Ball.setFont(font)
+        self.checkBox_Led_Ball.setObjectName("checkBox_Led_Ball")
+        #################
         self.checkBox_Led_Mode3 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led_Mode3.setGeometry(QtCore.QRect(640, 220, 91, 31))
         font = QtGui.QFont()
@@ -579,6 +588,8 @@ class Ui_Client(object):
         self.checkBox_Led8.setText(_translate("Client", "Led8"))
         self.label_Servo1.setText(_translate("Client", "90"))
         self.checkBox_Led_Mode2.setText(_translate("Client", "Led_Mode2"))
+        #################
+        self.checkBox_Led_Ball.setText(_translate("Client", "Find Ball"))
         self.checkBox_Led_Mode3.setText(_translate("Client", "Led_Mode3"))
         self.checkBox_Led_Mode4.setText(_translate("Client", "Led_Mode4"))
         self.checkBox_Led_Mode1.setText(_translate("Client", "Led_Mode1"))
