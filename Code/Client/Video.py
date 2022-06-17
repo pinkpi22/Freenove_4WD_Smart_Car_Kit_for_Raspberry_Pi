@@ -1,5 +1,6 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from xml.dom import NoDataAllowedErr
 import numpy as np
 import cv2
 import socket
@@ -14,6 +15,12 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
+import colorsys
+from Client_Ui import *
+from mediatorrrr import *
+
+global mediate
+mediate = mediator()
 
 class VideoStreaming:
     def __init__(self):
@@ -22,6 +29,8 @@ class VideoStreaming:
         self.connect_Flag=False
         self.face_x=0
         self.face_y=0
+        self.endChar='\n'
+        self.intervalChar='#'
     def StartTcpClient(self,IP):
         self.client_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -51,6 +60,8 @@ class VideoStreaming:
 
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
             faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+
+            
 
             MODEL_NAME = 'Sample_TFLite_model'
             GRAPH_NAME = 'detect.tflite'
@@ -133,26 +144,33 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'bottle') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
-                    # Get bounding box coordinates and draw box
-                    # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
-                    ymin = int(max(1,(boxes[i][0] * imH)))
-                    xmin = int(max(1,(boxes[i][1] * imW)))
-                    ymax = int(min(imH,(boxes[i][2] * imH)))
-                    xmax = int(min(imW,(boxes[i][3] * imW)))
+                if ((labels[int(classes[i])] == 'sports ball') or (labels[i-nt(classes[i])] == 'apple') or (labels[int(classes[i])] == 'frisbee')):
+                    if ((scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                        # Get bounding box coordinates and draw box
+                        # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
+                        ymin = int(max(1,(boxes[i][0] * imH)))
+                        xmin = int(max(1,(boxes[i][1] * imW)))
+                        ymax = int(min(imH,(boxes[i][2] * imH)))
+                        xmax = int(min(imW,(boxes[i][3] * imW)))
 
-                    # Draw label
-                    object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
-                    label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
-                    labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
-                    label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
-                    cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
-                    cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
-                    cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
+                        # Draw label
+                        object_name = "ball" # labels[int(classes[i])] # Look up object name from "labels" array using class index
+                        label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
+                        labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
+                        label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
+                        cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
+                        cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
+                        cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
 
-                    # Record current max
-                    max_score = scores[i]
-                    max_index = i
+                        # Record current max
+                        max_score = scores[i]
+                        max_index = i
+
+                        # Import variables to mediator
+                        mediate.colorchoose(img, xmin, xmax, ymin, ymax)
+                        if mediate.button == "Stop Looking":
+                            self.LedChanging(mediate.color)
+                        
 
             if (max_index != 0):
                 ymin = int(max(1,(boxes[max_index][0] * imH)))
@@ -161,23 +179,23 @@ class VideoStreaming:
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
                 self.face_x = float(xmin+xmax/2)
                 self.face_y = float(ymin+ymax/2)
-                ForWard = '#300#300#300#300\n'
+                ForWard = '#500#500#500#500\n'
                 BackWard = '#-1500#-1500#-1500#-1500\n'
                 Left = '#-1500#-1500#1500#1500\n'
                 Right = '#1500#1500#-1500#-1500\n'
-                self.sendData(cmd.CMD_MOTOR+ForWard)
+                # self.sendData(cmd.CMD_MOTOR+ForWard)
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 # self.face_x = 0 
                 # self.face_y = 0
                 Stop = '#0#0#0#0\n'
-                self.sendData(cmd.CMD_MOTOR+Stop)
+                # self.sendData(cmd.CMD_MOTOR+Stop)
 
 
             # Draw framerate in corner of frame
             cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
 
-        cv2.imwrite('video.jpg', frame)
+        
 
         # Face detection
         if len(faces)>0 :
@@ -185,11 +203,32 @@ class VideoStreaming:
                 self.face_x=float(x+w/2.0)
                 self.face_y=float(y+h/2.0)
                 img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/3), (214, 132, 88), 2)
+                cv2.imwrite('video.jpg',img)
         else:
             self.face_x=0
             self.face_y=0
-        cv2.imwrite('video.jpg',img)
-        
+            cv2.imwrite('video.jpg', frame)
+            
+    
+    def LedChanging(self, color):
+        print(color)
+        self.led_Index=str(0x01)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x02)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x04)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x08)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x10)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x20)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x40)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x80)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+
     def streaming(self,ip):
         stream_bytes = b' '
         try:
@@ -205,7 +244,7 @@ class VideoStreaming:
                 jpg=self.connection.read(leng[0])
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
-                            if self.video_Flag:
+                            if self.video_Flag: #maybe comment out this for find face
                                 self.find_bottle(image)
                                 self.video_Flag=False
             except Exception as e:
@@ -236,3 +275,5 @@ class VideoStreaming:
 if __name__ == '__main__':
     pass
 
+global vid
+vid = VideoStreaming()
