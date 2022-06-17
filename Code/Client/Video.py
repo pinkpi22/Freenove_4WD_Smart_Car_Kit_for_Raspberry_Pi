@@ -14,10 +14,11 @@ import tensorflow as tf
 import importlib.util
 import time
 from mediator import mediator
-global meditite
-meditite = mediator()
+global searchType
+searchType = mediator()
 
 class VideoStreaming:
+    bob = ""
     def __init__(self):
         self.face_cascade = cv2.CascadeClassifier(r'haarcascade_frontalface_default.xml')
         self.video_Flag=True
@@ -50,8 +51,8 @@ class VideoStreaming:
     def find_ball(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
-            #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-            #faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray,1.3,5)
 
             MODEL_NAME = 'Sample_TFLite_model'
             GRAPH_NAME = 'detect.tflite'
@@ -134,7 +135,7 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == meditite.getLabel()) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == searchType.getType()) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -184,19 +185,20 @@ class VideoStreaming:
 
         cv2.imwrite('video.jpg', frame)
 
+
     # def face_detect(self,img):
     #     if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
     #         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     #         faces = self.face_cascade.detectMultiScale(gray,1.3,5)
-    #         if len(faces)>0 :
-    #             for (x,y,w,h) in faces:
-    #                 self.face_x=float(x+w/2.0)
-    #                 self.face_y=float(y+h/2.0)
-    #                 img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)   
-    #         else:
-    #             self.face_x=0
-    #             self.face_y=0
-    #     cv2.imwrite('video.jpg',img)
+        #if len(faces)>0 and bob=="face":
+        #    for (x,y,w,h) in faces:
+        #        self.face_x=float(x+w/2.0)
+        #        self.face_y=float(y+h/2.0)
+        #        img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)   
+        #    else:
+        #        self.face_x=0
+        #        self.face_y=0
+        #    cv2.imwrite('video.jpg',img)
         
     def streaming(self,ip):
         stream_bytes = b' '

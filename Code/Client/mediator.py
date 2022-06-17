@@ -4,6 +4,7 @@ from Command import COMMAND as cmd
 class mediator:
     label = ""
     colo = [255,0,0]
+    type = ""
     
     def setColo(self,input):
         self.colo = input
@@ -17,6 +18,13 @@ class mediator:
     def getLabel(self):
         
         return self.label
+
+    def setType(self,input):
+        self.type = input
+    
+    def getType(self):
+        
+        return self.type
 
     
     

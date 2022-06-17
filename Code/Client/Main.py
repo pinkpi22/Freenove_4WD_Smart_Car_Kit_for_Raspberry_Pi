@@ -616,8 +616,11 @@ class mywindow(QMainWindow,Ui_Client):
     def Tracking_Face(self):
         if self.Btn_Tracking_Faces.text()=="Face-On":
             self.Btn_Tracking_Faces.setText("Face-Off")
+            searchType.setType("person")
+
         else:
             self.Btn_Tracking_Faces.setText("Face-On")
+            searchType.setType("")
     def find_Face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -632,9 +635,11 @@ class mywindow(QMainWindow,Ui_Client):
     def Tracking_Ball(self):
         if self.Btn_Tracking_Ball.text()=="Ball-On":
             self.Btn_Tracking_Ball.setText("Ball-Off")
-            meditite.setLabel("sports ball")
+            searchType.setType("sports ball")
+           
         else:
             self.Btn_Tracking_Ball.setText("Ball-On")
+            searchType.setType("")
     def find_Ball(self,Ball_x,Ball_y):
         if Ball_x!=0 and Ball_y!=0:
             offset_x=float(Ball_x/400-0.5)*2
