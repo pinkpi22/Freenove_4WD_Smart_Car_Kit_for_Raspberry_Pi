@@ -44,6 +44,12 @@ class Wingull:
     def run(self):
         while True:
             self.LMR=0x00
+            self.distance = umbreon.get_distance()
+
+
+            print("Distance: " + str(self.distance))
+
+
             if GPIO.input(self.IR01)==True:
                 self.LMR=(self.LMR | 4)
             if GPIO.input(self.IR02)==True:
@@ -51,12 +57,21 @@ class Wingull:
             if GPIO.input(self.IR03)==True:
                 self.LMR=(self.LMR | 1)
 
-            
             if self.LMR==0:
+                if self.cp < 0:
+                    #When ball is not on screen
+                    pass
+                elif self.cp >= 175 and self.cp <= 225:
+                #When object is in middle of cam
+                    if self.distance > 20:
+                        while self.distance > 20:
+                            PWM.setMotorModel(600,600,600,600)
+                    else:
+                        #BEEP
+                        #Signal that object has been found
+                        pass
                
-               pass
             else:
-                
                 PWM.setMotorModel(-600,-600,-600,-600)
                 time.sleep(1)
                 PWM.setMotorModel(4500,4500,-2500,-2500)
