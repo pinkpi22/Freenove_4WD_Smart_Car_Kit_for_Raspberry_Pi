@@ -1,5 +1,6 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from operator import index
 import numpy as np
 import cv2
 import socket
@@ -20,6 +21,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from ColorDisplay import *
+
 
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
@@ -31,7 +34,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.h=self.IP.text()
         self.TCP=VideoStreaming()
         self.servo1=90
-        self.servo2=90
+        self.servo2=100
         self.label_FineServo2.setText("0")
         self.label_FineServo1.setText("0")
         self.m_DragPosition=self.pos()
@@ -103,7 +106,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.checkBox_Led_Mode3.setChecked(False)
         self.checkBox_Led_Mode3.stateChanged.connect(lambda:self.LedChange(self.checkBox_Led_Mode3))
         self.checkBox_Led_Mode4.setChecked(False)
-        self.checkBox_Led_Mode4.stateChanged.connect(lambda:self.LedChange(self.checkBox_Led_Mode4)) 
+        self.checkBox_Led_Mode4.stateChanged.connect(lambda:self.LedChange(self.checkBox_Led_Mode4))
+    
 
         self.Btn_Mode1.setChecked(True)
         self.Btn_Mode1.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode1))
@@ -113,6 +117,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        self.Btn_Mode5.setChecked(False)
+        self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -136,6 +142,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Down.clicked.connect(self.on_btn_Down)
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
+        self.Btn_Tracking_Balls.clicked.connect(self.Tracking_Balls)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
         
 
@@ -149,6 +156,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Window_Close.clicked.connect(self.close)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.time)
+
     def mousePressEvent(self, event):
         if event.button()==Qt.LeftButton:
             self.m_drag=True
@@ -184,6 +192,8 @@ class mywindow(QMainWindow,Ui_Client):
             elif self.Btn_Mode3.isChecked() == True:
                 self.Btn_Mode4.setChecked(True)
             elif self.Btn_Mode4.isChecked() == True:
+                self.Btn_Mode5.setChecked(True)
+            elif self.Btn_Mode5.isChecked() == True:
                 self.Btn_Mode1.setChecked(True)
 
         if(event.key() == Qt.Key_L):
@@ -485,8 +495,8 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
+        
 
- 
     def on_btn_Mode(self,Mode):
         if Mode.text() == "M-Free":
             if Mode.isChecked() == True:
@@ -504,6 +514,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "M-Boundary":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_BOUNDARY+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
@@ -603,11 +617,72 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Find Bottle":
+        if self.Btn_Tracking_Faces.text()=="Stop Looking":
+            self.find_face(self.TCP.face_x,self.TCP.face_y)
+            self.Btn_Tracking_Faces.setText("Find Face")
+        elif self.Btn_Tracking_Faces.text()=="Find Face":
+            self.find_face(0,0)
             self.Btn_Tracking_Faces.setText("Stop Looking")
-        else:
-            self.Btn_Tracking_Faces.setText("Find Bottle")
-    def find_bottle(self,face_x,face_y):
+    
+    def Tracking_Balls(self):
+        if self.Btn_Tracking_Balls.text()=="Stop Looking":
+            self.find_ball(self.TCP.ball_x,self.TCP.ball_y)
+            self.Btn_Tracking_Balls.setText("Find Ball")
+        elif self.Btn_Tracking_Balls.text()=="Find Ball":
+            self.find_ball(0,0)
+            self.Btn_Tracking_Balls.setText("Stop Looking")
+
+
+    def find_ball(self,ball_x,ball_y):
+        if ball_x!=0 and ball_y!=0:
+            offset_x=float(ball_x/400-0.5)*2
+            offset_y=float(ball_y/300-0.5)*2
+            delta_degree_x = 4* offset_x
+            delta_degree_y = -4 * offset_y
+
+            self.servo1=self.servo1+delta_degree_x
+            self.servo2=self.servo2+delta_degree_y
+
+            if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
+                pass
+            else:
+                # Turn head to object
+                self.HSlider_Servo1.setValue(self.servo1)
+                self.VSlider_Servo2.setValue(self.servo2)
+
+                # Set direction that wheels need to turn to face object
+                # turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                # print(turn_angle)
+                # if(math.fabs(turn_angle) >= 20):
+                #     # Object is on our left, turn left
+                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                # elif(math.fabs(turn_angle) < 20):
+                #     # Object is on our right, turn right
+                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
+
+        # if ball_x==0 and ball_y==0:
+        #     frame = self.label_Video.setPixmap(QPixmap('video.jpg'))
+        #     hsvframe = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
+        #     cx = int(ball_x)
+        #     cy = int(ball_y)
+        #     center = hsvframe[cy,cx]
+        #     hue_value = center[0]
+        #     ledDisplay = Led()
+                    
+        #     if hue_value < 22 or hue_value > 170:
+        #         ledDisplay.ledIndex(0x01,255,0,0)
+        #     elif hue_value < 33:
+        #         ledDisplay.ledIndex(0x40,255,255,0)
+        #     elif hue_value < 78:
+        #         ledDisplay.ledIndex(0x80,0,255,0)
+        #         ledDisplay.ledIndex(self,0x40,0,255,0)
+        #     elif hue_value < 131:
+        #         ledDisplay.ledIndex(0x10,0,255,255)
+        #     pixel_center_bgr = frame[cy, cx]
+        #     b, g, r = int(pixel_center_bgr[0]), int(pixel_center_bgr[1]), int(pixel_center_bgr[2])
+
+    def find_face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
             offset_y=float(face_y/300-0.5)*2
@@ -625,23 +700,26 @@ class mywindow(QMainWindow,Ui_Client):
                 self.VSlider_Servo2.setValue(self.servo2)
 
                 # Set direction that wheels need to turn to face object
-                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                print(turn_angle)
-                #if(math.fabs(turn_angle) >= 20):
-                #    # Object is on our left, turn left
-                #    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                #elif(math.fabs(turn_angle) < 20):
-                #    # Object is on our right, turn right
-                #    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                #self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                # turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                # print(turn_angle)
+                # if(math.fabs(turn_angle) >= 20):
+                #     # Object is on our left, turn left
+                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                # elif(math.fabs(turn_angle) < 20):
+                #     # Object is on our right, turn right
+                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
     def time(self):
         self.TCP.video_Flag=False
         try:
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
-                if self.Btn_Tracking_Faces.text()=="Stop Looking":
-                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Balls.text()=="Stop Looking":
+                        self.find_ball(self.TCP.ball_x,self.TCP.ball_y)
+                        ColorDisplay()
+                elif self.Btn_Tracking_Faces.text()=="Stop Looking":
+                        self.find_face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
         self.TCP.video_Flag=True

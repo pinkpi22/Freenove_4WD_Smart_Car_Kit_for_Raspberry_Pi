@@ -14,6 +14,7 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
+import ColorDisplay 
 
 class VideoStreaming:
     def __init__(self):
@@ -45,12 +46,30 @@ class VideoStreaming:
             except:  
                 bValid = False
         return bValid
-
-    def find_bottle(self,img):
+    def LedChange(self,b):
+        R= ColorDisplay.r
+        G= ColorDisplay.g
+        B= ColorDisplay.b
+        color=self.intervalChar+str(R)+self.intervalChar+str(G)+self.intervalChar+str(B)+self.endChar
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x02)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)              
+        self.led_Index=str(0x04)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x08)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x10)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x20)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x40)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x80)
+        self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        
+    def find_ball(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
-        #   gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-        #    faces = self.face_cascade.detectMultiScale(gray,1.3,5)
 
             MODEL_NAME = 'Sample_TFLite_model'
             GRAPH_NAME = 'detect.tflite'
@@ -133,34 +152,38 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'bottle') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
-                    # Get bounding box coordinates and draw box
-                    # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
-                    ymin = int(max(1,(boxes[i][0] * imH)))
-                    xmin = int(max(1,(boxes[i][1] * imW)))
-                    ymax = int(min(imH,(boxes[i][2] * imH)))
-                    xmax = int(min(imW,(boxes[i][3] * imW)))
+                if((labels[int(classes[i])] == 'sports ball') or (labels[int(classes[i])] == 'apple') or (labels[int(classes[i])] == 'frisbee')):
+                    if ((scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                        # Get bounding box coordinates and draw box
+                        # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
+                        ymin = int(max(1,(boxes[i][0] * imH)))
+                        xmin = int(max(1,(boxes[i][1] * imW)))
+                        ymax = int(min(imH,(boxes[i][2] * imH)))
+                        xmax = int(min(imW,(boxes[i][3] * imW)))
 
-                    # Draw label
-                    object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
-                    label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
-                    labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
-                    label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
-                    cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
-                    cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
-                    cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
+                        # Draw label
+                        object_name = "ball"
+                        findColor = True
+                        label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
+                        labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
+                        label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
+                        cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
+                        cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
+                        cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
 
-                    # Record current max
-                    max_score = scores[i]
-                    max_index = i
+                        # Record current max
+                        max_score = scores[i]
+                        max_index = i
+                else:
+                    findColor = False
 
             if (max_index != 0):
                 ymin = int(max(1,(boxes[max_index][0] * imH)))
                 xmin = int(max(1,(boxes[max_index][1] * imW)))
                 ymax = int(min(imH,(boxes[max_index][2] * imH)))
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
-                self.face_x = float(xmin+xmax/2)
-                self.face_y = float(ymin+ymax/2)
+                self.ball_x = float(xmin+xmax/2)
+                self.ball_y = float(ymin+ymax/2)
                 #ForWard = '#300#300#300#300\n'
                 #BackWard = '#-1500#-1500#-1500#-1500\n'
                 #Left = '#-1500#-1500#1500#1500\n'
@@ -168,8 +191,8 @@ class VideoStreaming:
 #                self.sendData(cmd.CMD_MOTOR+ForWard)
             else:
                 # If the desired object was not found, set face coords back to (0,0)
-                self.face_x = 0
-                self.face_y = 0
+                self.ball_x = 0
+                self.ball_y = 0
                 Stop = '#0#0#0#0\n'
                 #self.sendData(cmd.CMD_MOTOR+Stop)
 
@@ -179,16 +202,24 @@ class VideoStreaming:
 
         cv2.imwrite('video.jpg', frame)
 
-        # Face detection
-        #    if len(faces)>0 :
-        #        for (x,y,w,h) in faces:
-        #            self.face_x=float(x+w/2.0)
-        #            self.face_y=float(y+h/2.0)
-        #            img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
-        #    else:
-        #        self.face_x=0
-        #        self.face_y=0
-        #cv2.imwrite('video.jpg',img)
+
+
+    def find_face(self,img):
+        if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
+
+            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+
+            # Face detection
+        if len(faces)>0 :
+            for (x,y,w,h) in faces:
+                    self.face_x=float(x+w/2.0)
+                    self.face_y=float(y+h/2.0)
+                    img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+            else:
+                self.face_x=0
+                self.face_y=0
+        cv2.imwrite('video.jpg',img)
         
     def streaming(self,ip):
         stream_bytes = b' '
@@ -206,7 +237,8 @@ class VideoStreaming:
                 if self.IsValidImage4Bytes(jpg):
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
-                                self.find_bottle(image)
+                                self.find_face(image)
+                                self.find_ball(image)
                                 self.video_Flag=False
             except Exception as e:
                 print (e)
@@ -228,9 +260,9 @@ class VideoStreaming:
         try:
             self.client_socket1.connect((ip, 5000))
             self.connect_Flag=True
-            print ("Connecttion Successful !")
+            print ("Connection Successful !")
         except Exception as e:
-            print ("Connect to server Faild!: Server IP is right? Server is opend?")
+            print ("Connect to server Failed!: Server IP is right? Server is opened?")
             self.connect_Flag=False
 
 if __name__ == '__main__':
