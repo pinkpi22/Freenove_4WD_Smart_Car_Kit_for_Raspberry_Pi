@@ -15,7 +15,7 @@ from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
 from Client_Ui import Ui_Client
-from Video import *
+from Video import VideoStreaming
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -117,6 +117,10 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Boundary.setChecked(False)
         self.Btn_Boundary.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Boundary))
         self.Btn_Boundary.clicked.connect(self.on_btn_Boundary)
+        #Added Searching Changes
+        self.Btn_Searching.setChecked(False)
+        self.Btn_Searching.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Searching))
+        self.Btn_Searching.clicked.connect(self.on_btn_Searching)
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -141,6 +145,11 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
+        self.Btn_Tracking_Faces.clicked.connect(self.time)
+        self.Btn_Tracking_Ball.clicked.connect(self.Ball_Color)
+
+        #add button for ball to connect it to function
+        
         
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
@@ -304,7 +313,6 @@ class mywindow(QMainWindow,Ui_Client):
                 self.on_btn_Buzzer()
                 self.Key_Space=False
         
-
         
     def on_btn_ForWard(self):
         ForWard=self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
@@ -380,6 +388,14 @@ class mywindow(QMainWindow,Ui_Client):
         else:
             self.TCP.sendData(cmd.CMD_BOUNDARY+self.intervalChar+'0'+self.endChar)
             self.Btn_Boundary.setText("Boundary")
+    
+    #Searching Function
+    def on_btn_Searching(self):
+        if self.Btn_Searching.text()=="Searching":
+            self.TCP.sendData(cmd.CMD_BOUNDARY+self.intervalChar+'1'+self.endChar)
+        else:
+            self.TCP.sendData(cmd.CMD_BOUNDARY+self.intervalChar+'0'+self.endChar)
+            self.Btn_Searching.setText("Boundary")
  
     def on_btn_Light(self):
         if self.Light.text() == "Light":
@@ -521,6 +537,10 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
+        if Mode.text() == "Searching":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
          
                                   
     def on_btn_Connect(self):
@@ -620,10 +640,37 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Find Bottle":
+        if self.Btn_Tracking_Faces.text()=="Find Faces":
             self.Btn_Tracking_Faces.setText("Stop Looking")
+            self.Btn_Tracking_Ball.setText("Find Ball")
+            print(VideoStreaming.searchinglabel)
+            VideoStreaming.searchinglabel = ""
+            print(VideoStreaming.searchinglabel)
+            #change text on find ball
+            self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+
         else:
-            self.Btn_Tracking_Faces.setText("Find Bottle")
+            self.Btn_Tracking_Faces.setText("Find Faces")
+            VideoStreaming.searchinglabel = "ear"
+
+
+    #add method for tracking ball
+    def Ball_Color(self):
+        if self.Btn_Tracking_Ball.text()=="Find Ball":
+            self.Btn_Tracking_Ball.setText("Stop Looking")
+            self.Btn_Tracking_Faces.setText("Find Faces")
+            VideoStreaming.searchinglabel = "sports ball"
+            
+        else:
+            self.Btn_Tracking_Ball.setText("Find Ball")
+            VideoStreaming.searchinglabel = "ear"
+            
+
+            
+
+
+
+
     def find_bottle(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
@@ -642,15 +689,15 @@ class mywindow(QMainWindow,Ui_Client):
                 self.VSlider_Servo2.setValue(self.servo2)
 
                 # Set direction that wheels need to turn to face object
-                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                print(turn_angle)
-                if(math.fabs(turn_angle) >= 20):
-                    # Object is on our left, turn left
-                    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                elif(math.fabs(turn_angle) < 20):
-                    # Object is on our right, turn right
-                    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                # turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                # print(turn_angle)
+                # if(math.fabs(turn_angle) >= 20):
+                #     # Object is on our left, turn left
+                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                # elif(math.fabs(turn_angle) < 20):
+                #     # Object is on our right, turn right
+                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
     def time(self):
         self.TCP.video_Flag=False

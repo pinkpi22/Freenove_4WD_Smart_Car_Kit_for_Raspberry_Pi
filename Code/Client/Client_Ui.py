@@ -525,14 +525,34 @@ class Ui_Client(object):
         self.Btn_Boundary.setFont(font)
         self.Btn_Boundary.setObjectName("Btn_Boundary")
 
+        #Searching Button Setup
+        self.Btn_Searching = QtWidgets.QRadioButton(Client)
+        self.Btn_Searching.setGeometry(QtCore.QRect(10, 420, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Searching.setFont(font)
+        self.Btn_Searching.setObjectName("Btn_Searching")
+
         self.Btn_Tracking_Faces = QtWidgets.QPushButton(Client)
-        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 560, 90, 30))
+        self.Btn_Tracking_Faces.setGeometry(QtCore.QRect(230, 420, 90, 30))
         font = QtGui.QFont()
         font.setFamily("3ds")
         font.setPointSize(10)
         self.Btn_Tracking_Faces.setFont(font)
         self.Btn_Tracking_Faces.setStyleSheet("")
         self.Btn_Tracking_Faces.setObjectName("Btn_Tracking_Faces")
+
+        self.Btn_Tracking_Ball = QtWidgets.QPushButton(Client)
+        self.Btn_Tracking_Ball.setGeometry(QtCore.QRect(120, 420, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Btn_Tracking_Ball.setFont(font)
+        self.Btn_Tracking_Ball.setStyleSheet("")
+        self.Btn_Tracking_Ball.setObjectName("Btn_Tracking_Ball")
+
+
         self.Ultrasonic = QtWidgets.QPushButton(Client)
         self.Ultrasonic.setGeometry(QtCore.QRect(400, 41, 180, 30))
         font = QtGui.QFont()
@@ -561,6 +581,8 @@ class Ui_Client(object):
         self.Btn_Turn_Right.setText(_translate("Client", "Turn Right"))
         #Boundary Text
         self.Btn_Boundary.setText(_translate("Client", "Boundary"))
+        #Searching Text
+        self.Btn_Searching.setText(_translate("Client", "Searching"))
         self.Btn_Video.setText(_translate("Client", "Open Video"))
         self.Btn_Down.setText(_translate("Client", "Down"))
         self.Btn_Left.setText(_translate("Client", "Left"))
@@ -568,7 +590,7 @@ class Ui_Client(object):
         self.Btn_Up.setText(_translate("Client", "Up"))
         self.Btn_Right.setText(_translate("Client", "Right"))
         self.Window_Close.setText(_translate("Client", "×"))
-        self.IP.setText(_translate("Client", "IP Address"))
+        self.IP.setText(_translate("Client", "172.20.1.1"))
         self.Btn_Connect.setText(_translate("Client", "Connect"))
         self.checkBox_Led1.setText(_translate("Client", "Led1"))
         self.label_Servo2.setText(_translate("Client", "0"))
@@ -601,7 +623,8 @@ class Ui_Client(object):
         self.Btn_Mode2.setText(_translate("Client", "M-Light"))
         self.Btn_Mode3.setText(_translate("Client", "M-Sonic"))
         self.Btn_Mode4.setText(_translate("Client", "M-Line"))
-        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Bottle"))
+        self.Btn_Tracking_Faces.setText(_translate("Client", "Find Faces"))
+        self.Btn_Tracking_Ball.setText(_translate("Client", "Find Ball"))
         self.Ultrasonic.setText(_translate("Client", "Ultrasonic"))
         self.Light.setText(_translate("Client", "Light"))
 
