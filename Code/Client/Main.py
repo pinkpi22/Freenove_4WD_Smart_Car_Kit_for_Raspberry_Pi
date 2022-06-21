@@ -745,7 +745,7 @@ class mywindow(QMainWindow,Ui_Client):
 
 
 
-    def wingull(self)
+    #def wingull(self)
         #Track yellow ball
         #yellow LEDs
         #Track red ball
@@ -753,6 +753,7 @@ class mywindow(QMainWindow,Ui_Client):
         #Trask blue ball
         #blue LEDs
         #Track bottle
+
             
             
 
