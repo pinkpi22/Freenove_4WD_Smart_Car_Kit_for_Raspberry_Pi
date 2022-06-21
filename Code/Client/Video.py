@@ -184,9 +184,9 @@ class VideoStreaming:
                 #self.sendData(cmd.CMD_MOTOR+Stop)
 
 
-        # Draw framerate in corner of frame
-        cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
-        cv2.imwrite('video.jpg',frame)
+            # Draw framerate in corner of frame
+            cv2.putText(frame,'FPS: {0:.2f}'.format(frame_rate_calc),(30,50),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,0),2,cv2.LINE_AA)
+            cv2.imwrite('video.jpg',frame)
 
         # Frame in this case is just the image with the frame rate in the corner
         # cv2.imwrite('video.jpg', frame)
@@ -196,7 +196,7 @@ class VideoStreaming:
         if bo == True:
             whatFind = "bottle"
         elif f == True:
-            whatFind = "face"
+            whatFind = "person"
         elif ba == True:
             whatFind = "sports ball"
         else:
@@ -244,8 +244,9 @@ class VideoStreaming:
                                 #     self.find_face(image)
                                 # else:
                                 #     cv2.imwrite('video.jpg', image)
-                                self.find_face(image)
-                                self.video_Flag=False
+                                # self.find_face(image)
+                                # self.video_Flag=False
+                                self.find_bottle(image)
             except Exception as e:
                 print (e)
                 break
