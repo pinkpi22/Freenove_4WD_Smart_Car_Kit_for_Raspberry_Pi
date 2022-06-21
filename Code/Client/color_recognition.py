@@ -14,9 +14,9 @@ class colors:
         bSum = 0
         for i in range(cy):
             for j in range(cx):
-                rSum += img[cy-(cy/2)+i][cx-(cx/2)+j][0]
-                gSum += img[cy-(cy/2)+i][cx-(cx/2)+j][1]
-                bSum += img[cy-(cy/2)+i][cx-(cx/2)+j][2]
+                rSum += img[cy-int(cy/2)+i][cx-int(cx/2)+j][0]
+                gSum += img[cy-int(cy/2)+i][cx-int(cx/2)+j][1]
+                bSum += img[cy-int(cy/2)+i][cx-int(cx/2)+j][2]
 
         b, g, r = int(rSum/(cy*cx)), int(gSum/(cy*cx)), int(bSum/(cy*cx))
         colo = [r,g,b]
