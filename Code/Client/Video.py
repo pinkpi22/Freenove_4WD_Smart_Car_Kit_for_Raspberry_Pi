@@ -371,7 +371,7 @@ class VideoStreaming:
         cv2.imwrite('video.jpg', frame)
 
 
-     def maxRevive(self,img):
+    def maxRevive(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
