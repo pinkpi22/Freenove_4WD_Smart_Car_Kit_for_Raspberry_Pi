@@ -22,7 +22,13 @@
 import time
 from Motor import *
 import RPi.GPIO as GPIO
+from Ultrasonic import *
+
+global umbreon
+umbreon = Ultrasonic()
+
 class Wingull:
+    cp = -1
     def __init__(self):
         self.IR01 = 14
         self.IR02 = 15
@@ -31,7 +37,11 @@ class Wingull:
         GPIO.setup(self.IR01,GPIO.IN)
         GPIO.setup(self.IR02,GPIO.IN)
         GPIO.setup(self.IR03,GPIO.IN)
-    def run(self,cp):
+
+    def setCp(self,input):
+        self.cp = input
+
+    def run(self):
         while True:
             self.LMR=0x00
             if GPIO.input(self.IR01)==True:
@@ -43,7 +53,7 @@ class Wingull:
 
             
             if self.LMR==0:
-               #Sequence Logic
+               
                pass
             else:
                 
