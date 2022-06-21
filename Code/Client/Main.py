@@ -499,6 +499,8 @@ class mywindow(QMainWindow,Ui_Client):
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'4'+self.endChar)
            else:
                self.TCP.sendData(cmd.CMD_LED_MOD+self.intervalChar+'0'+self.endChar)
+
+
     def RGBChange(self,array):
         color=self.intervalChar+str(self.Color_R.text())+self.intervalChar+str(self.Color_G.text())+self.intervalChar+str(self.Color_B.text())+self.endChar
         self.led_Index=str(0x01)
@@ -710,12 +712,6 @@ class mywindow(QMainWindow,Ui_Client):
             meditite.setLabel("")
             self.RGBoff()
             
-            
-            
-            
-
-
-
 
     def find_bottle(self,face_x,face_y):
         if self.Btn_Tracking_Faces2 != "stop looking":
@@ -748,7 +744,21 @@ class mywindow(QMainWindow,Ui_Client):
             time.sleep(1)
 
 
-   
+
+    def wingull(self)
+        #Track yellow ball
+        #yellow LEDs
+        #Track red ball
+        #red LEDs
+        #Trask blue ball
+        #blue LEDs
+        #Track bottle
+            
+            
+
+
+
+
 
     def time(self):
         

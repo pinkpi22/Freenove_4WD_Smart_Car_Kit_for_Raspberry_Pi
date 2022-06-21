@@ -38,6 +38,7 @@ class mediator:
     label = ""
     colo = [255,0,0]
     rCenter = 0
+    pelipper = ""
 
     def setRc(self, input):
         self.rCenter = input
@@ -57,6 +58,9 @@ class mediator:
     def getLabel(self):
         
         return self.label
+    
+    #Wingull method is for the sequence- pelipper changes the label based on need
+
 
     
     

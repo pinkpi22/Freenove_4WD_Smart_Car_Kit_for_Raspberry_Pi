@@ -9,7 +9,7 @@ class colors:
         cx = int(xwid / 2)
         cy = int(ywid / 2)
         #pixel_center = img[cy, cx]
-        rSum = 0
+        rSum = 0 ####commented out 2
         gSum = 0
         bSum = 0
         for i in range(cy):
