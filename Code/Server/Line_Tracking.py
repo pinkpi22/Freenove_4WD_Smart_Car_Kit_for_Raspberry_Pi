@@ -20,22 +20,16 @@ class Line_Tracking:
             if GPIO.input(self.IR03)==True:
                 self.LMR=(self.LMR | 1)
             if self.LMR==2:
-                # print("LMR == 2")
                 PWM.setMotorModel(800,800,800,800)
             elif self.LMR==4:
-                # print("LMR == 4")
                 PWM.setMotorModel(-1500,-1500,2500,2500)
             elif self.LMR==6:
-                # print("LMR == 6")
                 PWM.setMotorModel(-2000,-2000,4000,4000)
             elif self.LMR==1:
-                # print("LMR == 1")
                 PWM.setMotorModel(2500,2500,-1500,-1500)
             elif self.LMR==3:
-                # print("LMR == 3")
                 PWM.setMotorModel(4000,4000,-2000,-2000)
             elif self.LMR==7:
-                # print("LMR == 7")
                 #pass
                 PWM.setMotorModel(0,0,0,0)
             

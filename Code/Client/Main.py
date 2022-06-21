@@ -416,9 +416,9 @@ class mywindow(QMainWindow,Ui_Client):
         self.showMinimized()
         
     def LedChange(self,b):
-        R=self.Color_R.text()
-        G=self.Color_G.text()
-        B=self.Color_B.text()
+        R=self.color_R.text()
+        G=self.color_G.text()
+        B=self.color_B.text()
         led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
         color=self.intervalChar+str(R)+self.intervalChar+str(G)+self.intervalChar+str(B)+self.endChar
         if b.text() == "Led1":
