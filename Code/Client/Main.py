@@ -727,8 +727,8 @@ class mywindow(QMainWindow,Ui_Client):
                         pass
                 else:
                     # Turn head to object
-                    self.HSlider_Servo1.setValue(self.servo1)
-                    self.VSlider_Servo2.setValue(self.servo2)
+                    self.HSlider_Servo1.setValue(self.servo1/2)
+                    self.VSlider_Servo2.setValue(self.servo2/2)
         else:
             ## FACE MODE 2
             if meditite.getRc() < 101:
