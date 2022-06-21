@@ -31,7 +31,7 @@ class Wingull:
         GPIO.setup(self.IR01,GPIO.IN)
         GPIO.setup(self.IR02,GPIO.IN)
         GPIO.setup(self.IR03,GPIO.IN)
-    def run(self):
+    def run(self,cp):
         while True:
             self.LMR=0x00
             if GPIO.input(self.IR01)==True:

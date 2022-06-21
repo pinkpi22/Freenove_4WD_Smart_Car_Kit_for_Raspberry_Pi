@@ -566,7 +566,7 @@ class mywindow(QMainWindow,Ui_Client):
         if Mode.text() == "M-Wingull":
             if Mode.isChecked() == True:
                 #self.timer.stop()
-                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'six'+self.endChar)
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'six'+self.intervalChar+"CENTER PIXEL X VALUE HERE"+self.endChar)
         
          
                                   

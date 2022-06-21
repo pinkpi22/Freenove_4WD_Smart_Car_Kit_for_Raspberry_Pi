@@ -202,7 +202,7 @@ class Server:
                         elif data[1]=='six' or data[1]=="2":
                             self.stopMode()
                             self.Mode='six'
-                            self.wingullRun=threading.Thread(target=self.wingull.run)
+                            self.wingullRun=threading.Thread(target=self.wingull.run(data[2]))
                             self.wingullRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
