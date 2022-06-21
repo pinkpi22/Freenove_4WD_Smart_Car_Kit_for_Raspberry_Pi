@@ -23,6 +23,7 @@ from Boundary import *
 from threading import Timer
 from threading import Thread
 from Command import COMMAND as cmd
+from Wingull import Wingull
 
 class Server:   
     def __init__(self):
@@ -38,6 +39,7 @@ class Server:
         self.tcp_Flag = True
         self.sonic=False
         self.Light=False
+        self.wingull = Wingull()
         self.Mode = 'one'
         self.endChar='\n'
         self.intervalChar='#'
@@ -197,6 +199,11 @@ class Server:
                             self.Mode='five'
                             self.boundRun=threading.Thread(target=self.bound.run)
                             self.boundRun.start()
+                        elif data[1]=='six' or data[1]=="2":
+                            self.stopMode()
+                            self.Mode='six'
+                            self.wingullRun=threading.Thread(target=self.wingull.run)
+                            self.wingullRun.start()
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:
@@ -273,6 +280,9 @@ class Server:
                             self.send(cmd.CMD_POWER+'#'+str(ADC_Power)+'\n')
                         except:
                             pass
+                    ##########################################################
+                    #elif cmd.CMD_WINGULL in data:
+                        ###### do stuff here
         except Exception as e: 
             print(e)
         self.StopTcpServer()    

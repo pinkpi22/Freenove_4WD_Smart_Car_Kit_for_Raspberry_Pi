@@ -567,7 +567,7 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'six'+self.endChar)
-         
+        
          
                                   
     def on_btn_Connect(self):
