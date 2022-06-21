@@ -1,5 +1,6 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from email.mime import image
 import numpy as np
 import cv2
 import socket
@@ -16,6 +17,9 @@ import time
 from mediator import mediator
 global searchType
 searchType = mediator()
+global seeType
+seetype = image()
+
 
 class VideoStreaming:
     bob = ""
@@ -69,6 +73,7 @@ class VideoStreaming:
             PATH_TO_LABELS = os.path.join(CWD_PATH,MODEL_NAME,LABELMAP_NAME)
 
             frame = img.copy()
+            seeType.setImage(frame)
 
             with open(PATH_TO_LABELS, 'r') as f:
                 labels = [line.strip() for line in f.readlines()]
