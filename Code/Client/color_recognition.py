@@ -12,11 +12,11 @@ class colors:
         rSum = 0
         gSum = 0
         bSum = 0
-        for i in range(20):
-            for j in range(20):
-                rSum += img[cy-10+i][cx-10+j][0]
-                gSum += img[cy-10+i][cx-10+j][1]
-                bSum += img[cy-10+i][cx-10+j][2]
+        for i in range(cy):
+            for j in range(cx):
+                rSum += img[cy-(cy/2)+i][cx-(cx/2)+j][0]
+                gSum += img[cy-(cy/2)+i][cx-(cx/2)+j][1]
+                bSum += img[cy-(cy/2)+i][cx-(cx/2)+j][2]
 
         b, g, r = int(rSum/400), int(gSum/400), int(bSum/400)
         colo = [r,g,b]
