@@ -116,6 +116,8 @@ class Led:
             elif self.mode=='4':
                 self.rainbowCycle(self.strip)
                 self.colorWipe(self.strip, Color(0,0,0),10)
+            elif self.mode=='5': # Try to move LedChanging function here
+                pass
             else:
                 self.colorWipe(self.strip, Color(0,0,0),10)
                 break
