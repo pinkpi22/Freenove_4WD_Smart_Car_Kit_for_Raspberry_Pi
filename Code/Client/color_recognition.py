@@ -20,7 +20,7 @@ class colors:
 
         b, g, r = int(rSum/(cy*cx)), int(gSum/(cy*cx)), int(bSum/(cy*cx))
         colo = [r,g,b]
-        print("r: " + str(r) + " | "+"g: " + str(g) + " | "+"b: " + str(b) + " | ")
+        #print("r: " + str(r) + " | "+"g: " + str(g) + " | "+"b: " + str(b) + " | ")
         color = ["R","G","B"]
         #hue testing
         for i in range(2):
@@ -44,23 +44,17 @@ class colors:
             hue = 2.0 + (B-R)/(max-min)
         else: #B
             hue = 4.0 + (R-G)/(max-min)
-        print(hue)
-        color = "Undefined"
-        if hue < 5:
-            color = "RED"
-        elif hue < 22:
-            color = "ORANGE"
-        elif hue < 33:
-            color = "YELLOW"
-        elif hue < 78:
-            color = "GREEN"
-        elif hue < 131:
-            color = "BLUE"
-        elif hue < 170:
-            color = "VIOLET"
+        
+        if hue < 0 and hue > -1:
+            return [255,0,0]
+        elif hue < 1 and hue > 0:
+            return [0,0,255]
+        elif hue < 3 and hue > 1:
+            return [0,255,0]
+        elif hue < 4.5 and hue > 3.5:
+            return [255,255,0]
         else:
-            color = "RED"
-
-        return colo
+            return [0,0,0]
+        
 
 
