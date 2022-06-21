@@ -124,6 +124,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
         self.Btn_Mode5.setChecked(False)
         self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
+        self.Btn_Mode6.setChecked(False)
+        self.Btn_Mode6.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode6))
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
         self.Light.clicked.connect(self.on_btn_Light)
@@ -561,6 +563,11 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
+        if Mode.text() == "M-Wingull":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'six'+self.endChar)
+         
          
                                   
     def on_btn_Connect(self):
@@ -727,8 +734,8 @@ class mywindow(QMainWindow,Ui_Client):
                         pass
                 else:
                     # Turn head to object
-                    self.HSlider_Servo1.setValue(self.servo1/2)
-                    self.VSlider_Servo2.setValue(self.servo2/2)
+                    self.HSlider_Servo1.setValue(self.servo1)
+                    self.VSlider_Servo2.setValue(self.servo2)
         else:
             ## FACE MODE 2
             if meditite.getRc() < 101:
