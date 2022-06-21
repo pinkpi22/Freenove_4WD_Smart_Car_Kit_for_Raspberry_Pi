@@ -9,5 +9,6 @@ class COMMAND:
     CMD_POWER = "CMD_POWER" 
     CMD_MODE ="CMD_MODE"
     CMD_BOUND = "CMD_BOUND"
+    CMD_WINGULL = "CMD_WINGULL"
     def __init__(self):
         pass
