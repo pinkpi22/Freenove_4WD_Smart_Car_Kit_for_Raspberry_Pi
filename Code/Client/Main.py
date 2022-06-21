@@ -15,7 +15,7 @@ from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
 from Client_Ui import Ui_Client
-from Video import VideoStreaming
+from Video import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -145,7 +145,6 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
-        self.Btn_Tracking_Faces.clicked.connect(self.time)
         self.Btn_Tracking_Ball.clicked.connect(self.Ball_Color)
 
         #add button for ball to connect it to function
@@ -647,8 +646,7 @@ class mywindow(QMainWindow,Ui_Client):
             VideoStreaming.searchinglabel = ""
             print(VideoStreaming.searchinglabel)
             #change text on find ball
-            self.find_bottle(self.TCP.face_x,self.TCP.face_y)
-
+            
         else:
             self.Btn_Tracking_Faces.setText("Find Faces")
             VideoStreaming.searchinglabel = "ear"
@@ -672,18 +670,22 @@ class mywindow(QMainWindow,Ui_Client):
 
 
     def find_bottle(self,face_x,face_y):
+        #print(str(face_x) + ", " + str(face_y))
+        
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
             offset_y=float(face_y/300-0.5)*2
-            delta_degree_x = 4* offset_x
-            delta_degree_y = -4 * offset_y
+            delta_degree_x = 2* offset_x
+            delta_degree_y = -2 * offset_y
 
             self.servo1=self.servo1+delta_degree_x
             self.servo2=self.servo2+delta_degree_y
-
+            
+            print("testin")
             if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
                 pass
             else:
+                print("testin good")
                 # Turn head to object
                 self.HSlider_Servo1.setValue(self.servo1)
                 self.VSlider_Servo2.setValue(self.servo2)
@@ -706,6 +708,8 @@ class mywindow(QMainWindow,Ui_Client):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Faces.text()=="Stop Looking":
                         self.find_bottle(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Ball.text()=="Stop Looking":
+                        self.find_bottle(self.TCP.face_x,self.TCP.face_y)        
         except Exception as e:
             print(e)
         self.TCP.video_Flag=True
