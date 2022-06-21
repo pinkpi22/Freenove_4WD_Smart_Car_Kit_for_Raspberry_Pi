@@ -14,7 +14,7 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
-import ColorDisplay 
+from ColorDisplay import *
 
 class VideoStreaming:
     def __init__(self):
@@ -47,9 +47,9 @@ class VideoStreaming:
                 bValid = False
         return bValid
     def LedChange(self,b):
-        R= ColorDisplay.r
-        G= ColorDisplay.g
-        B= ColorDisplay.b
+        R= ballColor.colorDisplay.r
+        G= ballColor.colorDisplay.g
+        B= ballColor.colorDisplay.b
         color=self.intervalChar+str(R)+self.intervalChar+str(G)+self.intervalChar+str(B)+self.endChar
         self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
         self.led_Index=str(0x02)
@@ -239,6 +239,7 @@ class VideoStreaming:
                             if self.video_Flag:
                                 self.find_face(image)
                                 self.find_ball(image)
+                                #ballColor.colorDisplay()
                                 self.video_Flag=False
             except Exception as e:
                 print (e)

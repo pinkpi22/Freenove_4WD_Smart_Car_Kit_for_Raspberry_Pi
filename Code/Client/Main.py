@@ -651,36 +651,15 @@ class mywindow(QMainWindow,Ui_Client):
                 self.VSlider_Servo2.setValue(self.servo2)
 
                 # Set direction that wheels need to turn to face object
-                # turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                # print(turn_angle)
-                # if(math.fabs(turn_angle) >= 20):
-                #     # Object is on our left, turn left
-                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                # elif(math.fabs(turn_angle) < 20):
-                #     # Object is on our right, turn right
-                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
-
-        # if ball_x==0 and ball_y==0:
-        #     frame = self.label_Video.setPixmap(QPixmap('video.jpg'))
-        #     hsvframe = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-        #     cx = int(ball_x)
-        #     cy = int(ball_y)
-        #     center = hsvframe[cy,cx]
-        #     hue_value = center[0]
-        #     ledDisplay = Led()
-                    
-        #     if hue_value < 22 or hue_value > 170:
-        #         ledDisplay.ledIndex(0x01,255,0,0)
-        #     elif hue_value < 33:
-        #         ledDisplay.ledIndex(0x40,255,255,0)
-        #     elif hue_value < 78:
-        #         ledDisplay.ledIndex(0x80,0,255,0)
-        #         ledDisplay.ledIndex(self,0x40,0,255,0)
-        #     elif hue_value < 131:
-        #         ledDisplay.ledIndex(0x10,0,255,255)
-        #     pixel_center_bgr = frame[cy, cx]
-        #     b, g, r = int(pixel_center_bgr[0]), int(pixel_center_bgr[1]), int(pixel_center_bgr[2])
+                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                print(turn_angle)
+                if(math.fabs(turn_angle) >= 20):
+                    # Object is on our left, turn left
+                    direction = self.intervalChar+str(-2500)+self.intervalChar+str(-2500)+self.intervalChar+str(2500)+self.intervalChar+str(2500)+self.endChar
+                elif(math.fabs(turn_angle) < 20):
+                    # Object is on our right, turn right
+                    direction = self.intervalChar+str(2500)+self.intervalChar+str(2500)+self.intervalChar+str(-2500)+self.intervalChar+str(-2500)+self.endChar
+                self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
     def find_face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
@@ -700,15 +679,15 @@ class mywindow(QMainWindow,Ui_Client):
                 self.VSlider_Servo2.setValue(self.servo2)
 
                 # Set direction that wheels need to turn to face object
-                # turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                # print(turn_angle)
-                # if(math.fabs(turn_angle) >= 20):
-                #     # Object is on our left, turn left
-                #     direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                # elif(math.fabs(turn_angle) < 20):
-                #     # Object is on our right, turn right
-                #     direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                # self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
+                print(turn_angle)
+                if(math.fabs(turn_angle) >= 20):
+                    # Object is on our left, turn left
+                    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
+                elif(math.fabs(turn_angle) < 20):
+                    # Object is on our right, turn right
+                    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
+                self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
     def time(self):
         self.TCP.video_Flag=False
@@ -717,7 +696,7 @@ class mywindow(QMainWindow,Ui_Client):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Balls.text()=="Stop Looking":
                         self.find_ball(self.TCP.ball_x,self.TCP.ball_y)
-                        ColorDisplay()
+                        #ballColor.colorDisplay()
                 elif self.Btn_Tracking_Faces.text()=="Stop Looking":
                         self.find_face(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:

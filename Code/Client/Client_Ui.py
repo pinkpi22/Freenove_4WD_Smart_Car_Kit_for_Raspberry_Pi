@@ -325,6 +325,8 @@ class Ui_Client(object):
         font = QtGui.QFont()
         font.setFamily("3ds")
         font.setPointSize(10)
+        self.HSlider_Servo1 = QtWidgets.QSlider(Client)
+        self.HSlider_Servo1.setGeometry(QtCore.QRect(470, 540, 160, 22))
         self.HSlider_Servo1.setFont(font)
         self.HSlider_Servo1.setStyleSheet("")
         self.HSlider_Servo1.setOrientation(QtCore.Qt.Horizontal)
