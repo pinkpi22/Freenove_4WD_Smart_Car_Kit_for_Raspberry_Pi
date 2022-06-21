@@ -8,7 +8,7 @@ class colors:
     def run(img,xwid,ywid):
         cx = int(xwid / 2)
         cy = int(ywid / 2)
-        pixel_center = img[cy, cx]
+        #pixel_center = img[cy, cx]
         rSum = 0
         gSum = 0
         bSum = 0
@@ -18,7 +18,7 @@ class colors:
                 gSum += img[cy-(cy/2)+i][cx-(cx/2)+j][1]
                 bSum += img[cy-(cy/2)+i][cx-(cx/2)+j][2]
 
-        b, g, r = int(rSum/400), int(gSum/400), int(bSum/400)
+        b, g, r = int(rSum/((cy/2)(cx/2))), int(gSum/((cy/2)(cx/2))), int(bSum/((cy/2)(cx/2)))
         colo = [r,g,b]
         print("r: " + str(r) + " | "+"g: " + str(g) + " | "+"b: " + str(b) + " | ")
         
