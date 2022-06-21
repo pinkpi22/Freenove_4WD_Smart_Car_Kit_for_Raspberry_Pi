@@ -42,9 +42,24 @@ class colors:
             hue = (G-B)/(max-min)
         elif color[0] == "G":
             hue = 2.0 + (B-R)/(max-min)
-        else:
+        else: #B
             hue = 4.0 + (R-G)/(max-min)
-
+        print(hue)
+        color = "Undefined"
+        if hue < 5:
+            color = "RED"
+        elif hue < 22:
+            color = "ORANGE"
+        elif hue < 33:
+            color = "YELLOW"
+        elif hue < 78:
+            color = "GREEN"
+        elif hue < 131:
+            color = "BLUE"
+        elif hue < 170:
+            color = "VIOLET"
+        else:
+            color = "RED"
 
         return colo
 
