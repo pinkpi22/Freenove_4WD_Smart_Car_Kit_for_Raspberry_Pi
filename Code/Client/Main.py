@@ -655,10 +655,12 @@ class mywindow(QMainWindow,Ui_Client):
                 print(turn_angle)
                 if(math.fabs(turn_angle) >= 20):
                     # Object is on our left, turn left
-                    direction = self.intervalChar+str(-2500)+self.intervalChar+str(-2500)+self.intervalChar+str(2500)+self.intervalChar+str(2500)+self.endChar
+                    direction = self.intervalChar+str(-500)+self.intervalChar+str(-500)+self.intervalChar+str(500)+self.intervalChar+str(500)+self.endChar
+                    #time.sleep(5)
                 elif(math.fabs(turn_angle) < 20):
                     # Object is on our right, turn right
-                    direction = self.intervalChar+str(2500)+self.intervalChar+str(2500)+self.intervalChar+str(-2500)+self.intervalChar+str(-2500)+self.endChar
+                    direction = self.intervalChar+str(500)+self.intervalChar+str(500)+self.intervalChar+str(-500)+self.intervalChar+str(-500)+self.endChar
+                    #time.sleep(5)
                 self.TCP.sendData(cmd.CMD_MOTOR+direction)
 
     def find_face(self,face_x,face_y):
