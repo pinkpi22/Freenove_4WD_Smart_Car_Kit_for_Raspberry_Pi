@@ -155,6 +155,7 @@ class Ui_Client(object):
         self.Btn_ForWard.setFont(font)
         self.Btn_ForWard.setStyleSheet("")
         self.Btn_ForWard.setObjectName("Btn_ForWard")
+
         self.name = QtWidgets.QLabel(Client)
         self.name.setGeometry(QtCore.QRect(0, 1, 660, 40))
         font = QtGui.QFont()
@@ -165,6 +166,7 @@ class Ui_Client(object):
         self.name.setFont(font)
         self.name.setStyleSheet("")
         self.name.setObjectName("name")
+
         self.Btn_Turn_Left = QtWidgets.QPushButton(Client)
         self.Btn_Turn_Left.setGeometry(QtCore.QRect(10, 510, 90, 30))
         font = QtGui.QFont()
@@ -173,6 +175,7 @@ class Ui_Client(object):
         self.Btn_Turn_Left.setFont(font)
         self.Btn_Turn_Left.setStyleSheet("")
         self.Btn_Turn_Left.setObjectName("Btn_Turn_Left")
+
         self.Btn_BackWard = QtWidgets.QPushButton(Client)
         self.Btn_BackWard.setGeometry(QtCore.QRect(120, 560, 90, 30))
         font = QtGui.QFont()
@@ -181,6 +184,7 @@ class Ui_Client(object):
         self.Btn_BackWard.setFont(font)
         self.Btn_BackWard.setStyleSheet("")
         self.Btn_BackWard.setObjectName("Btn_BackWard")
+
         self.Btn_Turn_Right = QtWidgets.QPushButton(Client)
         self.Btn_Turn_Right.setGeometry(QtCore.QRect(230, 510, 90, 30))
         font = QtGui.QFont()
@@ -189,6 +193,17 @@ class Ui_Client(object):
         self.Btn_Turn_Right.setFont(font)
         self.Btn_Turn_Right.setStyleSheet("")
         self.Btn_Turn_Right.setObjectName("Btn_Turn_Right")
+
+# NEW BUTTON 2
+        self.Seek_BB = QtWidgets.QPushButton(Client)
+        self.Seek_BB.setGeometry(QtCore.QRect(230, 420, 90, 30))
+        font = QtGui.QFont()
+        font.setFamily("3ds")
+        font.setPointSize(10)
+        self.Seek_BB.setFont(font)
+        self.Seek_BB.setStyleSheet("")
+        self.Seek_BB.setObjectName("Seek")
+
         self.Btn_Video = QtWidgets.QPushButton(Client)
         self.Btn_Video.setGeometry(QtCore.QRect(230, 380, 90, 30))
         font = QtGui.QFont()
@@ -197,10 +212,12 @@ class Ui_Client(object):
         self.Btn_Video.setFont(font)
         self.Btn_Video.setStyleSheet("")
         self.Btn_Video.setObjectName("Btn_Video")
+
         self.label_Video = QtWidgets.QLabel(Client)
         self.label_Video.setGeometry(QtCore.QRect(1, 42, 400, 300))
         self.label_Video.setText("")
         self.label_Video.setObjectName("label_Video")
+
         self.Btn_Down = QtWidgets.QPushButton(Client)
         self.Btn_Down.setGeometry(QtCore.QRect(510, 490, 75, 30))
         font = QtGui.QFont()
@@ -209,6 +226,7 @@ class Ui_Client(object):
         self.Btn_Down.setFont(font)
         self.Btn_Down.setStyleSheet("")
         self.Btn_Down.setObjectName("Btn_Down")
+
         self.Btn_Left = QtWidgets.QPushButton(Client)
         self.Btn_Left.setGeometry(QtCore.QRect(440, 460, 75, 30))
         font = QtGui.QFont()
@@ -217,6 +235,7 @@ class Ui_Client(object):
         self.Btn_Left.setFont(font)
         self.Btn_Left.setStyleSheet("")
         self.Btn_Left.setObjectName("Btn_Left")
+
         self.Btn_Home = QtWidgets.QPushButton(Client)
         self.Btn_Home.setGeometry(QtCore.QRect(510, 460, 75, 30))
         font = QtGui.QFont()
@@ -225,6 +244,7 @@ class Ui_Client(object):
         self.Btn_Home.setFont(font)
         self.Btn_Home.setStyleSheet("")
         self.Btn_Home.setObjectName("Btn_Home")
+
         self.Btn_Up = QtWidgets.QPushButton(Client)
         self.Btn_Up.setGeometry(QtCore.QRect(510, 430, 75, 30))
         font = QtGui.QFont()
@@ -233,6 +253,7 @@ class Ui_Client(object):
         self.Btn_Up.setFont(font)
         self.Btn_Up.setStyleSheet("")
         self.Btn_Up.setObjectName("Btn_Up")
+
         self.Btn_Right = QtWidgets.QPushButton(Client)
         self.Btn_Right.setGeometry(QtCore.QRect(580, 460, 75, 30))
         font = QtGui.QFont()
@@ -241,9 +262,11 @@ class Ui_Client(object):
         self.Btn_Right.setFont(font)
         self.Btn_Right.setStyleSheet("")
         self.Btn_Right.setObjectName("Btn_Right")
+
         self.Window_Close = QtWidgets.QPushButton(Client)
         self.Window_Close.setGeometry(QtCore.QRect(710, 1, 50, 40))
         self.Window_Close.setObjectName("Window_Close")
+
         self.IP = QtWidgets.QLineEdit(Client)
         self.IP.setGeometry(QtCore.QRect(10, 380, 101, 30))
         font = QtGui.QFont()
@@ -252,6 +275,7 @@ class Ui_Client(object):
         self.IP.setFont(font)
         self.IP.setStyleSheet("")
         self.IP.setObjectName("IP")
+
         self.Btn_Connect = QtWidgets.QPushButton(Client)
         self.Btn_Connect.setGeometry(QtCore.QRect(120, 380, 90, 30))
         font = QtGui.QFont()
@@ -259,6 +283,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Btn_Connect.setFont(font)
         self.Btn_Connect.setObjectName("Btn_Connect")
+
         self.checkBox_Led1 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led1.setGeometry(QtCore.QRect(420, 120, 91, 31))
         font = QtGui.QFont()
@@ -266,6 +291,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led1.setFont(font)
         self.checkBox_Led1.setObjectName("checkBox_Led1")
+
         self.label_Servo2 = QtWidgets.QLabel(Client)
         self.label_Servo2.setGeometry(QtCore.QRect(710, 470, 41, 31))
         font = QtGui.QFont()
@@ -273,6 +299,7 @@ class Ui_Client(object):
         font.setPointSize(14)
         self.label_Servo2.setFont(font)
         self.label_Servo2.setObjectName("label_Servo2")
+
         self.checkBox_Led2 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led2.setGeometry(QtCore.QRect(420, 170, 91, 31))
         font = QtGui.QFont()
@@ -280,6 +307,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led2.setFont(font)
         self.checkBox_Led2.setObjectName("checkBox_Led2")
+
         self.checkBox_Led3 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led3.setGeometry(QtCore.QRect(420, 220, 91, 31))
         font = QtGui.QFont()
@@ -287,6 +315,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led3.setFont(font)
         self.checkBox_Led3.setObjectName("checkBox_Led3")
+
         self.checkBox_Led4 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led4.setGeometry(QtCore.QRect(420, 270, 91, 31))
         font = QtGui.QFont()
@@ -294,6 +323,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led4.setFont(font)
         self.checkBox_Led4.setObjectName("checkBox_Led4")
+
         self.checkBox_Led5 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led5.setGeometry(QtCore.QRect(530, 120, 91, 31))
         font = QtGui.QFont()
@@ -301,6 +331,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led5.setFont(font)
         self.checkBox_Led5.setObjectName("checkBox_Led5")
+
         self.checkBox_Led6 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led6.setGeometry(QtCore.QRect(530, 170, 91, 31))
         font = QtGui.QFont()
@@ -308,6 +339,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led6.setFont(font)
         self.checkBox_Led6.setObjectName("checkBox_Led6")
+
         self.checkBox_Led7 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led7.setGeometry(QtCore.QRect(530, 220, 91, 31))
         font = QtGui.QFont()
@@ -315,6 +347,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led7.setFont(font)
         self.checkBox_Led7.setObjectName("checkBox_Led7")
+
         self.checkBox_Led8 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led8.setGeometry(QtCore.QRect(530, 270, 91, 31))
         font = QtGui.QFont()
@@ -322,6 +355,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led8.setFont(font)
         self.checkBox_Led8.setObjectName("checkBox_Led8")
+
         self.HSlider_Servo1 = QtWidgets.QSlider(Client)
         self.HSlider_Servo1.setGeometry(QtCore.QRect(470, 540, 160, 22))
         font = QtGui.QFont()
@@ -331,11 +365,13 @@ class Ui_Client(object):
         self.HSlider_Servo1.setStyleSheet("")
         self.HSlider_Servo1.setOrientation(QtCore.Qt.Horizontal)
         self.HSlider_Servo1.setObjectName("HSlider_Servo1")
+
         self.VSlider_Servo2 = QtWidgets.QSlider(Client)
         self.VSlider_Servo2.setGeometry(QtCore.QRect(680, 410, 22, 160))
         self.VSlider_Servo2.setStyleSheet("")
         self.VSlider_Servo2.setOrientation(QtCore.Qt.Vertical)
         self.VSlider_Servo2.setObjectName("VSlider_Servo2")
+
         self.label_Servo1 = QtWidgets.QLabel(Client)
         self.label_Servo1.setGeometry(QtCore.QRect(530, 570, 41, 31))
         font = QtGui.QFont()
@@ -343,6 +379,7 @@ class Ui_Client(object):
         font.setPointSize(14)
         self.label_Servo1.setFont(font)
         self.label_Servo1.setObjectName("label_Servo1")
+
         self.checkBox_Led_Mode2 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led_Mode2.setGeometry(QtCore.QRect(640, 170, 91, 31))
         font = QtGui.QFont()
@@ -350,6 +387,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led_Mode2.setFont(font)
         self.checkBox_Led_Mode2.setObjectName("checkBox_Led_Mode2")
+
         #################
         self.checkBox_Led_Ball = QtWidgets.QPushButton(Client)
         self.checkBox_Led_Ball.setGeometry(QtCore.QRect(10, 460, 90, 30))
@@ -358,6 +396,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led_Ball.setFont(font)
         self.checkBox_Led_Ball.setObjectName("checkBox_Led_Ball")
+
         #################
         self.checkBox_Led_Mode3 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led_Mode3.setGeometry(QtCore.QRect(640, 220, 91, 31))
@@ -366,6 +405,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led_Mode3.setFont(font)
         self.checkBox_Led_Mode3.setObjectName("checkBox_Led_Mode3")
+
         self.checkBox_Led_Mode4 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led_Mode4.setGeometry(QtCore.QRect(640, 270, 91, 31))
         font = QtGui.QFont()
@@ -373,6 +413,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led_Mode4.setFont(font)
         self.checkBox_Led_Mode4.setObjectName("checkBox_Led_Mode4")
+
         self.checkBox_Led_Mode1 = QtWidgets.QCheckBox(Client)
         self.checkBox_Led_Mode1.setGeometry(QtCore.QRect(640, 120, 91, 31))
         font = QtGui.QFont()
@@ -380,6 +421,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.checkBox_Led_Mode1.setFont(font)
         self.checkBox_Led_Mode1.setObjectName("checkBox_Led_Mode1")
+
         self.Color_R = QtWidgets.QLineEdit(Client)
         self.Color_R.setGeometry(QtCore.QRect(560, 90, 30, 20))
         font = QtGui.QFont()
@@ -387,6 +429,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Color_R.setFont(font)
         self.Color_R.setObjectName("Color_R")
+
         self.Color_G = QtWidgets.QLineEdit(Client)
         self.Color_G.setGeometry(QtCore.QRect(630, 90, 30, 20))
         font = QtGui.QFont()
@@ -394,6 +437,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Color_G.setFont(font)
         self.Color_G.setObjectName("Color_G")
+
         self.Color_B = QtWidgets.QLineEdit(Client)
         self.Color_B.setGeometry(QtCore.QRect(700, 90, 30, 20))
         font = QtGui.QFont()
@@ -401,14 +445,17 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Color_B.setFont(font)
         self.Color_B.setObjectName("Color_B")
+
         self.HSlider_FineServo2 = QtWidgets.QSlider(Client)
         self.HSlider_FineServo2.setGeometry(QtCore.QRect(480, 380, 160, 22))
         self.HSlider_FineServo2.setOrientation(QtCore.Qt.Horizontal)
         self.HSlider_FineServo2.setObjectName("HSlider_FineServo2")
+
         self.HSlider_FineServo1 = QtWidgets.QSlider(Client)
         self.HSlider_FineServo1.setGeometry(QtCore.QRect(480, 330, 160, 22))
         self.HSlider_FineServo1.setOrientation(QtCore.Qt.Horizontal)
         self.HSlider_FineServo1.setObjectName("HSlider_FineServo1")
+
         self.label_FineServo1 = QtWidgets.QLabel(Client)
         self.label_FineServo1.setGeometry(QtCore.QRect(650, 330, 41, 31))
         font = QtGui.QFont()
@@ -416,6 +463,7 @@ class Ui_Client(object):
         font.setPointSize(14)
         self.label_FineServo1.setFont(font)
         self.label_FineServo1.setObjectName("label_FineServo1")
+
         self.label_FineServo2 = QtWidgets.QLabel(Client)
         self.label_FineServo2.setGeometry(QtCore.QRect(650, 370, 41, 31))
         font = QtGui.QFont()
@@ -423,9 +471,11 @@ class Ui_Client(object):
         font.setPointSize(14)
         self.label_FineServo2.setFont(font)
         self.label_FineServo2.setObjectName("label_FineServo2")
+
         self.Window_Min = QtWidgets.QPushButton(Client)
         self.Window_Min.setGeometry(QtCore.QRect(660, 1, 50, 40))
         self.Window_Min.setObjectName("Window_Min")
+
         self.R = QtWidgets.QLabel(Client)
         self.R.setGeometry(QtCore.QRect(530, 90, 16, 20))
         font = QtGui.QFont()
@@ -433,6 +483,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.R.setFont(font)
         self.R.setObjectName("R")
+
         self.G = QtWidgets.QLabel(Client)
         self.G.setGeometry(QtCore.QRect(600, 90, 16, 20))
         font = QtGui.QFont()
@@ -440,6 +491,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.G.setFont(font)
         self.G.setObjectName("G")
+
         self.B = QtWidgets.QLabel(Client)
         self.B.setGeometry(QtCore.QRect(670, 90, 16, 20))
         font = QtGui.QFont()
@@ -447,6 +499,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.B.setFont(font)
         self.B.setObjectName("B")
+
         self.Led_Module = QtWidgets.QLabel(Client)
         self.Led_Module.setGeometry(QtCore.QRect(410, 90, 111, 25))
         font = QtGui.QFont()
@@ -454,9 +507,11 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Led_Module.setFont(font)
         self.Led_Module.setObjectName("Led_Module")
+
         self.Servo1 = QtWidgets.QLabel(Client)
         self.Servo1.setGeometry(QtCore.QRect(420, 330, 54, 20))
         self.Servo1.setObjectName("Servo1")
+
         self.Servo2 = QtWidgets.QLabel(Client)
         self.Servo2.setGeometry(QtCore.QRect(420, 380, 54, 20))
         font = QtGui.QFont()
@@ -464,6 +519,7 @@ class Ui_Client(object):
         font.setPointSize(10)
         self.Servo2.setFont(font)
         self.Servo2.setObjectName("Servo2")
+
         self.progress_Power = QtWidgets.QProgressBar(Client)
         self.progress_Power.setGeometry(QtCore.QRect(20, 560, 70, 30))
         font = QtGui.QFont()
@@ -568,6 +624,7 @@ class Ui_Client(object):
         self.Btn_Turn_Left.setText(_translate("Client", "Turn Left"))
         self.Btn_BackWard.setText(_translate("Client", "BackWard"))
         self.Btn_Turn_Right.setText(_translate("Client", "Turn Right"))
+        self.Seek_BB.setText(_translate("Client", "Seek"))
         self.Btn_Video.setText(_translate("Client", "Open Video"))
         self.Btn_Down.setText(_translate("Client", "Down"))
         self.Btn_Left.setText(_translate("Client", "Left"))
