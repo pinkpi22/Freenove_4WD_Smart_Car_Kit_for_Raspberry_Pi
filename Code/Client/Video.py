@@ -163,15 +163,78 @@ class VideoStreaming:
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
                 self.face_x = float(xmin+xmax/2)
                 self.face_y = float(ymin+ymax/2)
+                if searchType.getType() == "sports ball":
+                    croppedImage = frame[ymin:ymax, xmin:xmax]
+                    ccx = int((xmax - xmin)/2)
+                    ccy = int((ymax - ymin)/2)
+                    #print(frame[cx, cy])
+                    
+                    pixel = croppedImage[ccx,ccy]
+                    hsv_pixel = cv2.cvtColor(croppedImage, cv2.COLOR_BGR2HSV)
+                    pixel_center = hsv_pixel[ccy,ccx]
+                    hue_value = pixel_center[0]
+
+                    if hue_value < 10 or hue_value > 170:
+                        #red
+                        R = 255
+                        G = 0
+                        B = 0
+                    elif hue_value < 22:
+                        #orange
+                        R = 255
+                        G = 165
+                        B = 0
+
+                    elif hue_value < 33:
+                        #yellow
+                        R = 255
+                        G = 230
+                        B = 0
+                    elif hue_value < 90:
+                        #green
+                        R = 0
+                        G = 130
+                        B = 0
+                    elif hue_value < 140:
+                        #blue
+                        R = 0
+                        G = 0
+                        B = 255
+                    elif hue_value <= 170:
+                        #violet
+                        R = 155
+                        G = 38
+                        B = 182
+                    
+
+
+                    #R=pixel[2]
+                    #G=pixel[1]
+                    #B=pixel[0]
+                    #print(R, G, B)
+                    self.led_Index=str(0x01)
+                    led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+                    color=self.intervalChar+str(R)+self.intervalChar+str(G)+self.intervalChar+str(B)+self.endChar
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x02)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x04)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x08)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x10)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x20)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x40)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+                    self.led_Index=str(0x80)
+                    self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
                 #ForWard = '#300#300#300#300\n'
                 #BackWard = '#-1500#-1500#-1500#-1500\n'
                 #Left = '#-1500#-1500#1500#1500\n'
                 #Right = '#1500#1500#-1500#-1500\n'
 #                self.sendData(cmd.CMD_MOTOR+ForWard)
-                #crop_img = img[ymin:ymax, xmin:xmax]
-                #if meditite.getLabel() == "sports ball":
-                #    xwid = xmax - xmin
-               #     ywid = ymax - ymin
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
