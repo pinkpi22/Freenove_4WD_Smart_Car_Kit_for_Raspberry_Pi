@@ -200,10 +200,13 @@ class Server:
                             self.boundRun=threading.Thread(target=self.bound.run)
                             self.boundRun.start()
                         elif data[1]=='six' or data[1]=="2":
-                            self.stopMode()
-                            self.Mode='six'
-                            self.wingullRun=threading.Thread(target=self.wingull.run)
-                            self.wingullRun.start()
+                            if data[2]=='-1':
+                                self.stopMode()
+                                self.Mode='six'
+                                self.wingullRun=threading.Thread(target=self.wingull.run)
+                                self.wingullRun.start()
+                            else:
+                                self.wingull.setCp(data[2])
                             
                     elif (cmd.CMD_MOTOR in data) and self.Mode=='one':
                         try:
