@@ -1,5 +1,8 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+from encodings import search_function
+from operator import le
+from pip import main
 import numpy as np
 import cv2
 import socket
@@ -14,14 +17,25 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
+import Client_Ui 
+from Client_Ui import Ui_Client
+
+
+
+
 
 class VideoStreaming:
+    searchinglabel ="ear"
+    ballColor = ""
+    k=0
+
     def __init__(self):
         self.face_cascade = cv2.CascadeClassifier(r'haarcascade_frontalface_default.xml')
         self.video_Flag=True
         self.connect_Flag=False
         self.face_x=0
         self.face_y=0
+        
     def StartTcpClient(self,IP):
         self.client_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -110,6 +124,7 @@ class VideoStreaming:
             freq = cv2.getTickFrequency()
 
             frame_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            
 
             frame_resized = cv2.resize(frame_rgb, (width, height))
             input_data = np.expand_dims(frame_resized, axis=0)
@@ -127,19 +142,113 @@ class VideoStreaming:
             classes = interpreter.get_tensor(output_details[classes_idx]['index'])[0] # Class index of detected objects
             scores = interpreter.get_tensor(output_details[scores_idx]['index'])[0] # Confidence of detected objects
 
+            #print(boxes)
+
             max_score = 0
             max_index = 0
 
             # Loop over all detections and draw detection box if confidence is above minimum threshold
+            
             for i in range(len(scores)):
+                
+
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'bottle') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == self.searchinglabel) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
                     xmin = int(max(1,(boxes[i][1] * imW)))
                     ymax = int(min(imH,(boxes[i][2] * imH)))
                     xmax = int(min(imW,(boxes[i][3] * imW)))
+                    self.face_x = float(xmin+xmax/2)
+                    self.face_y = float(ymin+ymax/2)
+
+                    
+
+                    if (max_index != 0):
+                        ymin = int(max(1,(boxes[max_index][0] * imH)))
+                        xmin = int(max(1,(boxes[max_index][1] * imW)))
+                        ymax = int(min(imH,(boxes[max_index][2] * imH)))
+                        xmax = int(min(imW,(boxes[max_index][3] * imW)))
+                        self.face_x = float(xmin+xmax/2)
+                        self.face_y = float(ymin+ymax/2)
+                        self.sendData(cmd.CMD_SERVO)
+                        ForWard = '#300#300#300#300\n'
+                        BackWard = '#-1500#-1500#-1500#-1500\n'
+                        Left = '#-1500#-1500#1500#1500\n'
+                        Right = '#1500#1500#-1500#-1500\n'
+                        self.sendData(cmd.CMD_MOTOR+ForWard)
+                    else:
+                        # If the desired object was not found, set face coords back to (0,0)
+                        self.face_x = 0
+                        self.face_y = 0
+                        Stop = '#0#0#0#0\n'
+                        self.sendData(cmd.CMD_MOTOR+Stop)
+
+
+                    if self.searchinglabel == "sports ball":
+                        
+                        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+                        
+                        R=0
+                        G=0
+                        B=0
+
+
+                        cx = int((xmin+xmax) / 2)
+                        cy = int((ymin+ymax) / 2)
+
+                        # Pick pixel value
+                        pixel_center = hsv_frame[cy, cx]
+                        hue_value = pixel_center[0]
+
+                        color = "Undefined"
+                        # elif hue_value < 22:
+                        #     color = "ORANGE"
+                        #     R=255
+                        #     G=128
+                        #     B=0
+                        if hue_value < 33:
+                            color = "YELLOW"
+                            R=255
+                            G=255
+                            B=0
+                        elif hue_value < 89:
+                            color = "GREEN"
+                            R=0
+                            G=255
+                            B=0
+                        elif hue_value < 140:
+                            color = "BLUE"
+                            R=0
+                            G=0
+                            B=255
+
+                        elif hue_value < 170:
+                            color = "VIOLET"
+                            R=127
+                            G=0
+                            B=255
+                        else:
+                            R=255
+                            color = "RED"
+                            print(color)
+                            
+                        
+                        endChar='\n'
+                        intervalChar='#'
+                        
+                        colors=intervalChar+str(R)+intervalChar+str(G)+intervalChar+str(B)+endChar
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x01)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x02)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x04)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x08)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x10)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x20)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x40)+colors)
+                        self.sendData(cmd.CMD_LED+intervalChar+str(0x80)+colors)
+                    
+                    
 
                     # Draw label
                     object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
@@ -161,11 +270,11 @@ class VideoStreaming:
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
                 self.face_x = float(xmin+xmax/2)
                 self.face_y = float(ymin+ymax/2)
-                ForWard = '#300#300#300#300\n'
-                BackWard = '#-1500#-1500#-1500#-1500\n'
-                Left = '#-1500#-1500#1500#1500\n'
-                Right = '#1500#1500#-1500#-1500\n'
-                self.sendData(cmd.CMD_MOTOR+ForWard)
+                #ForWard = '#300#300#300#300\n'
+                #BackWard = '#-1500#-1500#-1500#-1500\n'
+                #Left = '#-1500#-1500#1500#1500\n'
+                #Right = '#1500#1500#-1500#-1500\n'
+                #self.sendData(cmd.CMD_MOTOR+ForWard)
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
@@ -179,16 +288,20 @@ class VideoStreaming:
 
         cv2.imwrite('video.jpg', frame)
 
-         #Face detection
-            if len(faces)>0 :
-                for (x,y,w,h) in faces:
+            #Face detection
+        if len(faces)>0 and self.searchinglabel == "":
+            for (x,y,w,h) in faces:
                     self.face_x=float(x+w/2.0)
                     self.face_y=float(y+h/2.0)
                     img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
             else:
                 self.face_x=0
                 self.face_y=0
-        cv2.imwrite('video.jpg',img)
+
+
+            cv2.imwrite('video.jpg',img)
+
+        
         
     def streaming(self,ip):
         stream_bytes = b' '
@@ -233,6 +346,7 @@ class VideoStreaming:
             print ("Connect to server Faild!: Server IP is right? Server is opend?")
             self.connect_Flag=False
 
+    
+
 if __name__ == '__main__':
     pass
-

@@ -4,7 +4,7 @@ import io
 import socket
 import struct
 import time
-import picamera
+
 import fcntl
 import  sys
 import threading
