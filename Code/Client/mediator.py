@@ -40,6 +40,10 @@ class mediator:
     rCenter = 0
     pelipper = ""
 
+    def setPelipper(self,input):
+        self.pelipper = input
+    def getPelipper(self):
+        return self.pelipper
     def setRc(self, input):
         self.rCenter = input
 
