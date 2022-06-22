@@ -1,6 +1,8 @@
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
+import sys
 from email.mime import image
+from imageview import imageview
 import numpy as np
 import cv2
 import socket
@@ -18,7 +20,7 @@ from mediator import mediator
 global searchType
 searchType = mediator()
 global seeType
-seetype = image()
+seeType = imageview()
 
 
 class VideoStreaming:
