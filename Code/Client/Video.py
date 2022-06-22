@@ -314,7 +314,7 @@ class VideoStreaming:
             for i in range(len(scores)):
                 crop_img = img
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == "sports ball") and  (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == "sports ball") and  (scores[i] > min_conf_threshold) and (scores[i] <= 1.0) and):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -344,11 +344,10 @@ class VideoStreaming:
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
                 meditite.setRc(xmin + ((xmax-xmin)/2))
                 crop_img = img[ymin:ymax, xmin:xmax]
-                if meditite.getLabel() == "sports ball":
-                    xwid = xmax - xmin
-                    ywid = ymax - ymin
-                    #meditite.colo = colors.run(crop_img,xwid,ywid)
-                    self.RGBChange(colors.run(crop_img,xwid,ywid))   
+                xwid = xmax - xmin
+                ywid = ymax - ymin
+                #meditite.colo = colors.run(crop_img,xwid,ywid)
+                self.RGBChange(colors.run(crop_img,xwid,ywid))   
                 
                 self.face_x = float(xmin+xmax/2)
                 self.face_y = float(ymin+ymax/2)
@@ -371,7 +370,7 @@ class VideoStreaming:
         cv2.imwrite('video.jpg', frame)
 
 
-     def maxRevive(self,img):
+    def maxRevive(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
 
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -458,7 +457,7 @@ class VideoStreaming:
             for i in range(len(scores)):
                 crop_img = img
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == meditite.getLabel()) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == "bottle") and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -535,9 +534,9 @@ class VideoStreaming:
                             image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                             if self.video_Flag:
                                 
-                                self.find_person(image)
-                               
-                                
+                                #self.find_person(image)
+                                self.pokeball(image)
+                                self.maxRevive(image)
                                 
                                 self.video_Flag=False
             except Exception as e:
