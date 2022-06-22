@@ -46,12 +46,16 @@ class colors:
             hue = 4.0 + (R-G)/(max-min)
         
         if hue < 0 and hue > -1:
+            meditite.setPelipper("GREEN")
             return [0,255,0]
         elif hue < 1 and hue > 0:
+            meditite.setPelipper("BLUE")
             return [0,0,255]
         elif hue < 3 and hue > 1:
+            meditite.setPelipper("RED")
             return [255,0,0]
         elif hue < 4.5 and hue > 3.5:
+            meditite.setPelipper("YELLOW")
             return [255,255,0]
         else:
             return [0,0,0]
