@@ -712,13 +712,11 @@ class mywindow(QMainWindow,Ui_Client):
             self.Btn_Tracking_Faces.setText("Find Face")
             self.Btn_Tracking_Sodas.setText("Find Bottle")
             self.Btn_Tracking_Faces2.setText("Find Face 2")
-            
-
         else:
             self.Btn_Tracking_Ball.setText("Find Ball")
             meditite.setLabel("")
             self.RGBoff()
-            
+        
 
     def find_bottle(self,face_x,face_y):
         if self.Btn_Tracking_Faces2 != "stop looking":
