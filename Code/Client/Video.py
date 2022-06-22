@@ -213,9 +213,9 @@ class VideoStreaming:
                     
 
 
-                    #R=pixel[2]
-                    #G=pixel[1]
-                    #B=pixel[0]
+                    R=pixel[2]
+                    G=pixel[1]
+                    B=pixel[0]
                     #print(R, G, B)
                     self.led_Index=str(0x01)
                     led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar

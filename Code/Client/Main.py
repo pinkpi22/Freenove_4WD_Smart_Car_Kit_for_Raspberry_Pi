@@ -14,6 +14,7 @@ from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
 from Client_Ui import Ui_Client
+from image import imageview
 from Video import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
@@ -22,6 +23,7 @@ from PyQt5.QtGui import *
 
 from Video import *
 from mediator import mediator
+ledType = VideoStreaming()
 
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
@@ -42,7 +44,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Key_W=False
         self.Key_A=False
         self.Key_S=False
-        self.Key_D=False
+        self.Key_D=False    
         self.Key_Space=False
         self.setFocusPolicy(Qt.StrongFocus)
         self.progress_Power.setMinimum(0)
@@ -141,8 +143,7 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
-        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball)
-        
+        self.Btn_Tracking_Ball.clicked.connect(self.Tracking_Ball)        
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
         self.Btn_Buzzer.released.connect(self.on_btn_Buzzer)
@@ -640,7 +641,7 @@ class mywindow(QMainWindow,Ui_Client):
         else:
             self.Btn_Tracking_Ball.setText("Ball-On")
             searchType.setType("")
-    def find_Ball(self,Ball_x,Ball_y):
+    def find_ball(self,Ball_x,Ball_y):
         if Ball_x!=0 and Ball_y!=0:
             offset_x=float(Ball_x/400-0.5)*2
             offset_y=float(Ball_y/300-0.5)*2
@@ -661,6 +662,8 @@ class mywindow(QMainWindow,Ui_Client):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Faces.text()=="Face-On":
                         self.find_Face(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Ball.text()=="Stop Looking":
+                        self.find_ball(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
         self.TCP.video_Flag=True
@@ -670,7 +673,7 @@ class mywindow(QMainWindow,Ui_Client):
             if  self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Ball.text()=="Ball-On":
-                        self.find_Ball(self.TCP.face_x,self.TCP.face_y)
+                        self.find_ball(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
         self.TCP.video_Flag=True

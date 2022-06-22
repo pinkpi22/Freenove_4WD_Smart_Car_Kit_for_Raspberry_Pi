@@ -1,4 +1,4 @@
-class image:
+class imageview:
     image = None
     cx = None
     cy = None
