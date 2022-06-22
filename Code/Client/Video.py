@@ -70,7 +70,7 @@ class VideoStreaming:
             GRAPH_NAME = 'detect.tflite'
             LABELMAP_NAME = 'labelmap.txt'
 
-            min_conf_threshold = 0.3
+            min_conf_threshold = 0.2
             resW, resH = 400, 300
             imW, imH = int(400), int(300)
 
@@ -289,14 +289,15 @@ class VideoStreaming:
         cv2.imwrite('video.jpg', frame)
 
             #Face detection
-        if len(faces)>0 and self.searchinglabel == "":
-            for (x,y,w,h) in faces:
-                    self.face_x=float(x+w/2.0)
-                    self.face_y=float(y+h/2.0)
-                    img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
-            else:
-                self.face_x=0
-                self.face_y=0
+        if self.searchinglabel == "":
+            if len(faces)>0:
+                for (x,y,w,h) in faces:
+                        self.face_x=float(x+w/2.0)
+                        self.face_y=float(y+h/2.0)
+                        img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
+                else:
+                    self.face_x=0
+                    self.face_y=0
 
 
             cv2.imwrite('video.jpg',img)
