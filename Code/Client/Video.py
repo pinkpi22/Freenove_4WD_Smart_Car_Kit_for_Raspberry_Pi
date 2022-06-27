@@ -9,19 +9,27 @@ import struct
 from PIL import Image
 from multiprocessing import Process
 from Command import COMMAND as cmd
+from Client_Ui import Ui_Client
 import os
 #from tflite_runtime.interpreter import Interpreter
 import tensorflow as tf
 import importlib.util
 import time
-
-class VideoStreaming:
+from CameraType import CameraType
+from imageGetter import imageGetter
+global cType
+cType = CameraType()
+global yesType
+yesType = imageGetter()
+class VideoStreaming():
     def __init__(self):
         self.face_cascade = cv2.CascadeClassifier(r'haarcascade_frontalface_default.xml')
         self.video_Flag=True
         self.connect_Flag=False
+        self.intervalChar='#'
         self.face_x=0
         self.face_y=0
+        self.endChar='\n'
     def StartTcpClient(self,IP):
         self.client_socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -48,9 +56,8 @@ class VideoStreaming:
 
     def find_bottle(self,img):
         if sys.platform.startswith('win') or sys.platform.startswith('darwin'):
-
-        #   gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-        #    faces = self.face_cascade.detectMultiScale(gray,1.3,5)
+            gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(gray,1.3,5)
 
             MODEL_NAME = 'Sample_TFLite_model'
             GRAPH_NAME = 'detect.tflite'
@@ -67,6 +74,7 @@ class VideoStreaming:
             PATH_TO_LABELS = os.path.join(CWD_PATH,MODEL_NAME,LABELMAP_NAME)
 
             frame = img.copy()
+            yesType.setImage(frame)
 
             with open(PATH_TO_LABELS, 'r') as f:
                 labels = [line.strip() for line in f.readlines()]
@@ -77,7 +85,11 @@ class VideoStreaming:
             if labels[0] == '???':
                 del(labels[0])
 
+            # Use tensorflow library
             interpreter = tf.lite.Interpreter(model_path=PATH_TO_CKPT)
+
+            # Uncomment to use tflite library
+            #interpreter = Interpreter(model_path=PATH_TO_CKPT)
 
             interpreter.allocate_tensors()
 
@@ -129,7 +141,7 @@ class VideoStreaming:
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == 'bottle') and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == cType.getType()) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -137,6 +149,17 @@ class VideoStreaming:
                     ymax = int(min(imH,(boxes[i][2] * imH)))
                     xmax = int(min(imW,(boxes[i][3] * imW)))
 
+                    #find bounding box center
+                    cx = (xmax + xmin)/ 2 
+                    cy = (ymax + ymin)/ 2 
+
+                    #frame = yesType.getImage()
+                    #find bounding box center
+                    #next change color of LEDs using pixel_center
+                        
+                    #find center color
+                    
+                    
                     # Draw label
                     object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
                     label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
@@ -145,6 +168,8 @@ class VideoStreaming:
                     cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
                     cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
                     cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
+                    #if cType.getType() == "ball":
+                        
 
                     # Record current max
                     max_score = scores[i]
@@ -157,17 +182,109 @@ class VideoStreaming:
                 xmax = int(min(imW,(boxes[max_index][3] * imW)))
                 self.face_x = float(xmin+xmax/2)
                 self.face_y = float(ymin+ymax/2)
-                ForWard = '#300#300#300#300\n'
-                BackWard = '#-1500#-1500#-1500#-1500\n'
-                Left = '#-1500#-1500#1500#1500\n'
-                Right = '#1500#1500#-1500#-1500\n'
-                self.sendData(cmd.CMD_MOTOR+ForWard)
+                #print(cx,cy)asd
+                if cType.getType() == "bottle" and cType.getColor() == "clear":
+                    R = 255
+                    G = 255
+                    B = 255
+                    self.lightingCar(R,G,B)
+                if cType.getType() == "sports ball":
+                    croppedImage = frame[ymin:ymax, xmin:xmax]
+                    ccx = int((xmax - xmin)/2)
+                    ccy = int((ymax - ymin)/2)
+                    #print(frame[cx, cy])
+                    
+                    pixel = croppedImage[ccx,ccy]
+                    hsv_pixel = cv2.cvtColor(croppedImage, cv2.COLOR_BGR2HSV)
+                    pixel_center = hsv_pixel[ccy,ccx]
+                    hue_value = pixel_center[0]
+                    calculation = 0
+                    if cType.getColor() != "":
+                        #while calculation < 3:
+                            if cType.getColor() == "blue":
+                                if hue_value < 140 and hue_value > 90:
+                                    print("working")
+                                    #blue
+                                    R = 0
+                                    G = 0
+                                    B = 255
+                                    self.lightingCar(R,G,B)
+                                    direction = self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+                                    self.sendData(cmd.CMD_MOTOR+direction)
+                                    calculation += 1
+                                    cType.setColor("yellow")
+
+                            elif cType.getColor() == "red":
+                                if hue_value < 10 or hue_value > 170:
+                                    #red
+                                    R = 255
+                                    G = 0
+                                    B = 0
+                                    self.lightingCar(R,G,B)
+                                    direction = self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+                                    self.sendData(cmd.CMD_MOTOR+direction)
+                                    calculation += 1
+                                    cType.setType("bottle")
+                                    cType.setColor("clear")
+                            elif cType.getColor() == "yellow":
+                                if hue_value < 33:
+                                    print("working")
+                                    #yellow
+                                    R = 255
+                                    G = 230
+                                    B = 0
+                                    self.lightingCar(R,G,B)
+                                    direction = self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+                                    self.sendData(cmd.CMD_MOTOR+direction)
+                                    cType.setColor("red")
+                                    calculation += 1
+                            
+                    elif hue_value < 10 or hue_value > 170:
+                        #red
+                        R = 255
+                        G = 0
+                        B = 0
+                        self.lightingCar(R,G,B)
+                    elif hue_value < 22:
+                        #orange
+                        R = 255
+                        G = 165
+                        B = 0
+                        self.lightingCar(R,G,B)
+
+                    elif hue_value < 33:
+                        #yellow
+                        R = 255
+                        G = 230
+                        B = 0
+                        self.lightingCar(R,G,B)
+                    elif hue_value < 90:
+                        #green
+                        R = 0
+                        G = 130
+                        B = 0
+                        self.lightingCar(R,G,B)
+                    elif hue_value < 140:
+                        #blue
+                        R = 0
+                        G = 0
+                        B = 255
+                        self.lightingCar(R,G,B)
+                    elif hue_value <= 170:
+                        #violet
+                        R = 155
+                        G = 38
+                        B = 182
+                        self.lightingCar(R,G,B)
+                
+
+
             else:
                 # If the desired object was not found, set face coords back to (0,0)
                 self.face_x = 0
                 self.face_y = 0
                 Stop = '#0#0#0#0\n'
-                self.sendData(cmd.CMD_MOTOR+Stop)
+                #self.sendData(cmd.CMD_MOTOR+Stop)
 
 
             # Draw framerate in corner of frame
@@ -175,16 +292,29 @@ class VideoStreaming:
 
         cv2.imwrite('video.jpg', frame)
 
-        #    if len(faces)>0 :
-        #        for (x,y,w,h) in faces:
-        #            self.face_x=float(x+w/2.0)
-        #            self.face_y=float(y+h/2.0)
-        #            img= cv2.circle(img, (int(self.face_x),int(self.face_y)), int((w+h)/4), (0, 255, 0), 2)
-        #    else:
-        #        self.face_x=0
-        #        self.face_y=0
-        #cv2.imwrite('video.jpg',img)
-        
+    def lightingCar(self,r,g,b):
+        R = r
+        G = g
+        B = b
+        self.led_Index=str(0x01)
+        led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+        color=self.intervalChar+str(R)+self.intervalChar+str(G)+self.intervalChar+str(B)+self.endChar
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x02)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x04)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x08)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x10)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x20)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x40)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)
+        self.led_Index=str(0x80)
+        self.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+color)   
+
     def streaming(self,ip):
         stream_bytes = b' '
         try:
@@ -199,8 +329,10 @@ class VideoStreaming:
                 leng=struct.unpack('<L', stream_bytes[:4])
                 jpg=self.connection.read(leng[0])
                 if self.IsValidImage4Bytes(jpg):
-                            image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
-                            if self.video_Flag:
+                    image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+
+                    if self.video_Flag:
+                        if self.video_Flag:
                                 self.find_bottle(image)
                                 self.video_Flag=False
             except Exception as e:

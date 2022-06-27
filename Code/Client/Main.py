@@ -15,11 +15,14 @@ from PIL import Image
 from Command import COMMAND as cmd
 from Thread import *
 from Client_Ui import Ui_Client
+from CameraType import CameraType
 from Video import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+global ledType
+ledType = VideoStreaming()
 
 class mywindow(QMainWindow,Ui_Client):
     def __init__(self):
@@ -112,9 +115,16 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Mode3.setChecked(False)
         self.Btn_Mode3.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode3))
         self.Btn_Mode4.setChecked(False)
+        self.Btn_Mode5.setChecked(False)
+        self.Btn_Mode6.setChecked(False)
         self.Btn_Mode4.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode4))
+        self.Btn_Mode5.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode5))
+        self.Btn_Mode6.toggled.connect(lambda:self.on_btn_Mode(self.Btn_Mode6))
+        self.Btn_Tracking_Balls.setChecked(False)
+        self.Btn_Tracking_Bottle.setChecked(False)
         
         self.Ultrasonic.clicked.connect(self.on_btn_Ultrasonic)
+        self.Btn_Avoiding_Line.clicked.connect(self.on_btn_Avoid)
         self.Light.clicked.connect(self.on_btn_Light)
         
         self.Btn_ForWard.pressed.connect(self.on_btn_ForWard)
@@ -137,6 +147,8 @@ class mywindow(QMainWindow,Ui_Client):
         self.Btn_Home.clicked.connect(self.on_btn_Home)
         self.Btn_Right.clicked.connect(self.on_btn_Right)
         self.Btn_Tracking_Faces.clicked.connect(self.Tracking_Face)
+        self.Btn_Tracking_Balls.clicked.connect(self.Tracking_Ball)
+        self.Btn_Tracking_Bottle.clicked.connect(self.Tracking_Bottle)
         
 
         self.Btn_Buzzer.pressed.connect(self.on_btn_Buzzer)
@@ -367,6 +379,19 @@ class mywindow(QMainWindow,Ui_Client):
         else:
             self.TCP.sendData(cmd.CMD_SONIC+self.intervalChar+'0'+self.endChar)
             self.Ultrasonic.setText("Ultrasonic")
+    def on_btn_Avoid(self):
+        if self.Btn_Avoiding_Line.text()=="Avoid":
+            self.TCP.sendData(cmd.CMD_AVOID+self.intervalChar+'1'+self.endChar)
+        else:
+            self.TCP.sendData(cmd.CMD_AVOID+self.intervalChar+'0'+self.endChar)
+            self.Btn_Avoiding_Line.setText("Avoid")
+    def on_btn_Find(self):
+        if self.Btn_Avoiding_Line.text()=="Find":
+            self.TCP.sendData(cmd.CMD_FIND+self.intervalChar+'1'+self.endChar)
+        else:
+            self.TCP.sendData(cmd.CMD_FIND+self.intervalChar+'0'+self.endChar)
+            cType.setFound(False)
+            self.Btn_Avoiding_Line.setText("Find")
  
     def on_btn_Light(self):
         if self.Light.text() == "Light":
@@ -504,6 +529,20 @@ class mywindow(QMainWindow,Ui_Client):
             if Mode.isChecked() == True:
                 #self.timer.stop()
                 self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'four'+self.endChar)
+        if Mode.text() == "M-Avoid":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'five'+self.endChar)
+        if Mode.text() == "M-Find":
+            if Mode.isChecked() == True:
+                #self.timer.stop()
+                cType.setColor("blue")
+                cType.setType("sports ball")
+                cType.setFound(True)
+                self.find_ball(self.TCP.face_x,self.TCP.face_y)
+                self.TCP.sendData(cmd.CMD_MODE+self.intervalChar+'six'+self.endChar)
+                
+         
          
                                   
     def on_btn_Connect(self):
@@ -603,11 +642,48 @@ class mywindow(QMainWindow,Ui_Client):
         return bValid
 
     def Tracking_Face(self):
-        if self.Btn_Tracking_Faces.text()=="Find Bottle":
+        if self.Btn_Tracking_Faces.text()=="Find Face":
             self.Btn_Tracking_Faces.setText("Stop Looking")
+            cType.setType("person")
         else:
-            self.Btn_Tracking_Faces.setText("Find Bottle")
-    def find_bottle(self,face_x,face_y):
+            self.Btn_Tracking_Faces.setText("Find Face")
+            cType.setType("")
+
+    def Tracking_Ball(self):
+        if self.Btn_Tracking_Balls.text()=="Find Ball":
+            self.Btn_Tracking_Balls.setText("Stop Looking")
+            cType.setType("sports ball")
+        else:
+            self.Btn_Tracking_Balls.setText("Find Ball")
+            self.led_Index=str(0x01)
+            led_Off=self.intervalChar+str(0)+self.intervalChar+str(0)+self.intervalChar+str(0)+self.endChar
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x02)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x04)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x08)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x10)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x20)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x40)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            self.led_Index=str(0x80)
+            self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            #self.TCP.sendData(cmd.CMD_LED+self.intervalChar+ self.led_Index+led_Off)
+            cType.setType("")
+    
+    def Tracking_Bottle(self):
+        if self.Btn_Tracking_Bottle.text()=="Find Bottle":
+            self.Btn_Tracking_Bottle.setText("Stop Looking")
+            cType.setType("bottle")
+        else:
+            self.Btn_Tracking_Bottle.setText("Find Bottle")
+            cType.setType("")
+
+    def find_face(self,face_x,face_y):
         if face_x!=0 and face_y!=0:
             offset_x=float(face_x/400-0.5)*2
             offset_y=float(face_y/300-0.5)*2
@@ -624,16 +700,39 @@ class mywindow(QMainWindow,Ui_Client):
                 self.HSlider_Servo1.setValue(self.servo1)
                 self.VSlider_Servo2.setValue(self.servo2)
 
-                # Set direction that wheels need to turn to face object
-                turn_angle = math.degrees(math.atan2(delta_degree_y, delta_degree_x))
-                print(turn_angle)
-                #if(math.fabs(turn_angle) >= 20):
-                #    # Object is on our left, turn left
-                #    direction = self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.endChar
-                #elif(math.fabs(turn_angle) < 20):
-                #    # Object is on our right, turn right
-                #    direction = self.intervalChar+str(1500)+self.intervalChar+str(1500)+self.intervalChar+str(-1500)+self.intervalChar+str(-1500)+self.endChar
-                #self.TCP.sendData(cmd.CMD_MOTOR+direction)
+
+    
+    def find_bottle(self,face_x,face_y):
+        if face_x!=0 and face_y!=0:
+            offset_x=float(face_x/400-0.5)*2
+            offset_y=float(face_y/300-0.5)*2
+            delta_degree_x = 4* offset_x
+            delta_degree_y = -4 * offset_y
+
+            self.servo1=self.servo1+delta_degree_x
+            self.servo2=self.servo2+delta_degree_y
+
+            if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
+                pass
+
+    def find_ball(self,face_x,face_y):
+        if face_x!=0 and face_y!=0:
+            offset_x=float(face_x/400-0.5)*2
+            offset_y=float(face_y/300-0.5)*2
+            delta_degree_x = 2* offset_x
+            delta_degree_y = -2 * offset_y
+
+            self.servo1=self.servo1+delta_degree_x
+            self.servo2=self.servo2+delta_degree_y
+
+            if offset_x > -0.15 and offset_y >-0.15 and offset_x < 0.15 and offset_y <0.15:
+                direction = self.intervalChar+str(600)+self.intervalChar+str(600)+self.intervalChar+str(600)+self.intervalChar+str(600)+self.endChar
+                self.TCP.sendData(cmd.CMD_MOTOR+direction)
+                pass
+            else:
+                # Turn head to object
+                self.HSlider_Servo1.setValue(self.servo1)
+                self.VSlider_Servo2.setValue(self.servo2)
 
     def time(self):
         self.TCP.video_Flag=False
@@ -641,6 +740,10 @@ class mywindow(QMainWindow,Ui_Client):
             if self.is_valid_jpg('video.jpg'):
                 self.label_Video.setPixmap(QPixmap('video.jpg'))
                 if self.Btn_Tracking_Faces.text()=="Stop Looking":
+                        self.find_face(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Balls.text()=="Stop Looking" or cType.getType() == "sports ball":
+                        self.find_ball(self.TCP.face_x,self.TCP.face_y)
+                if self.Btn_Tracking_Bottle.text()=="Stop Looking":
                         self.find_bottle(self.TCP.face_x,self.TCP.face_y)
         except Exception as e:
             print(e)
