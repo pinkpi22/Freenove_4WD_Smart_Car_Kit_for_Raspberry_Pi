@@ -3,7 +3,9 @@
 ## Pre-req Instructions
 
 > git checkout yolo
+
 > cd Code/Client
+
 > pip install -r requirements.txt
 
 ## Instructions 
