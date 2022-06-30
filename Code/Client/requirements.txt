@@ -1,1 +1,4 @@
+Pillow
+pyqt5
+tensorflow
 yolov5
