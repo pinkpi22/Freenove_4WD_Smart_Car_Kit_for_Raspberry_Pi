@@ -15,6 +15,7 @@ import os
 import tensorflow as tf
 import importlib.util
 import time
+import yolov5
 from CameraType import CameraType
 from imageGetter import imageGetter
 global cType
@@ -60,22 +61,20 @@ class VideoStreaming():
             faces = self.face_cascade.detectMultiScale(gray,1.3,5)
 
             MODEL_NAME = 'Sample_TFLite_model'
-            GRAPH_NAME = 'detect.tflite'
-            LABELMAP_NAME = 'labelmap.txt'
+            LABELMAP_NAME = 'gum-map.txt'
+            YOLOV5_GRAPH_NAME = 'best.pt'
 
-            min_conf_threshold = 0.3
+            min_conf_threshold = 0.2
             resW, resH = 400, 300
             imW, imH = int(400), int(300)
 
             CWD_PATH = os.getcwd()
 
-            PATH_TO_CKPT = os.path.join(CWD_PATH,MODEL_NAME,GRAPH_NAME)
-
             PATH_TO_LABELS = os.path.join(CWD_PATH,MODEL_NAME,LABELMAP_NAME)
 
-            frame = img.copy()
-            yesType.setImage(frame)
+            PATH_TO_YOLOV5_GRAPH = os.path.join(CWD_PATH,MODEL_NAME,YOLOV5_GRAPH_NAME)
 
+            frame = img.copy()
             with open(PATH_TO_LABELS, 'r') as f:
                 labels = [line.strip() for line in f.readlines()]
 
@@ -85,33 +84,22 @@ class VideoStreaming():
             if labels[0] == '???':
                 del(labels[0])
 
-            # Use tensorflow library
-            interpreter = tf.lite.Interpreter(model_path=PATH_TO_CKPT)
+            # Use yolov5
+            model = yolov5.load(PATH_TO_YOLOV5_GRAPH)
 
-            # Uncomment to use tflite library
-            #interpreter = Interpreter(model_path=PATH_TO_CKPT)
+            # set model parameters
+            model.conf = 0.25  # NMS confidence threshold
+            model.iou = 0.45  # NMS IoU threshold
+            model.agnostic = False  # NMS class-agnostic
+            model.multi_label = True # NMS multiple labels per box
+            model.max_det = 1000  # maximum number of detections per image
 
-            interpreter.allocate_tensors()
-
-            # Get model details
-            input_details = interpreter.get_input_details()
-            output_details = interpreter.get_output_details()
-            height = input_details[0]['shape'][1]
-            width = input_details[0]['shape'][2]
-
-            floating_model = (input_details[0]['dtype'] == np.float32)
-
-            input_mean = 127.5
-            input_std = 127.5
-
-            # Check output layer name to determine if this model was created with TF2 or TF1,
-            # because outputs are ordered differently for TF2 and TF1 models
-            outname = output_details[0]['name']
-
-            if ('StatefulPartitionedCall' in outname): # This is a TF2 model
-                boxes_idx, classes_idx, scores_idx = 1, 3, 0
-            else: # This is a TF1 model
-                boxes_idx, classes_idx, scores_idx = 0, 1, 2
+            results = model(frame) 
+            predictions = results.pred[0]
+            boxes = predictions[:, :4]
+            scores = predictions[:, 4]
+            classes = predictions[:, 5]
+            results.render() 
 
             # Initialize frame rate calculation
             frame_rate_calc = 30
@@ -119,21 +107,8 @@ class VideoStreaming():
 
             frame_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            frame_resized = cv2.resize(frame_rgb, (width, height))
+            frame_resized = cv2.resize(frame_rgb, (imW, imH))
             input_data = np.expand_dims(frame_resized, axis=0)
-
-            # Normalize pixel values if using a floating model (i.e. if model is non-quantized)
-            if floating_model:
-                input_data = (np.float32(input_data) - input_mean) / input_std
-
-            # Perform the actual detection by running the model with the image as input
-            interpreter.set_tensor(input_details[0]['index'],input_data)
-            interpreter.invoke()
-
-            # Retrieve detection results
-            boxes = interpreter.get_tensor(output_details[boxes_idx]['index'])[0] # Bounding box coordinates of detected objects
-            classes = interpreter.get_tensor(output_details[classes_idx]['index'])[0] # Class index of detected objects
-            scores = interpreter.get_tensor(output_details[scores_idx]['index'])[0] # Confidence of detected objects
 
             max_score = 0
             max_index = 0
