@@ -115,8 +115,9 @@ class VideoStreaming():
 
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
+                curr_score = scores[i].numpy()
                 # Found desired object with decent confidence
-                if ((labels[int(classes[i])] == cType.getType()) and (scores[i] > max_score) and (scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
+                if ((labels[int(classes[i])] == cType.getType()) and (curr_score > max_score) and (curr_score > min_conf_threshold) and (curr_score <= 1.0)):
                     # Get bounding box coordinates and draw box
                     # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
                     ymin = int(max(1,(boxes[i][0] * imH)))
@@ -137,7 +138,7 @@ class VideoStreaming():
                     
                     # Draw label
                     object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
-                    label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
+                    label = '%s: %d%%' % (object_name, int(curr_score*100)) # Example: 'person: 72%'
                     labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
                     label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
                     cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
@@ -147,7 +148,7 @@ class VideoStreaming():
                         
 
                     # Record current max
-                    max_score = scores[i]
+                    max_score = curr_score 
                     max_index = i
 
             if (max_index != 0):
