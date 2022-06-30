@@ -6,6 +6,8 @@
 
 > cd Code/Client
 
+> conda deactivate
+
 > pip install -r requirements.txt
 
 ## Instructions 
