@@ -1,10 +1,10 @@
-Gum
+Searching-for-Object
 ???
 person
-car
+comb
 motorcycle
 airplane
-bus
+stapler
 train
 truck
 boat

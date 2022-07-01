@@ -1,0 +1,7 @@
+names:
+- Searching-for-Object
+- comb
+- stapler
+nc: 3
+train: Hair-Come-Machine-Learning-3/train/images
+val: Hair-Come-Machine-Learning-3/valid/images
